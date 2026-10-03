@@ -471,18 +471,6 @@
     .mock-btn { margin-left: 0; }
   }
 
-  /* ---------- 規格表收合（蘭瑞）---------- */
-  .spec-summary { max-width: 760px; margin-bottom: 16px; font-size: 0.98rem; line-height: 1.75; color: var(--text-body); }
-  .spec-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--white); color: var(--accent-dark); font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
-  .spec-toggle:hover { background: var(--accent); color: #fff; }
-  .spec-close { display: block; margin: 14px auto 0; min-height: 44px; padding: 10px 20px; border: none; border-radius: 999px; background: rgba(82, 107, 107, 0.12); color: var(--accent-dark); font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
-  .spec-close:hover { background: rgba(82, 107, 107, 0.2); }
-  .spec-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .spec-toggle svg { width: 16px; height: 16px; flex: none; transition: transform 0.3s ease; }
-  .spec-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-  .js .spec-collapse { display: none; }
-  .js .spec-collapse.open { display: block; margin-top: 18px; animation: specIn 0.35s ease; }
-  @keyframes specIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
   /* ---------- 回到案例列表 ---------- */
   .case-back-wrap { display: flex; justify-content: center; margin-top: 48px; }
@@ -659,7 +647,7 @@
     .spec-note, .showcase-hint, .flow-note, .mock-title, .phone-caption, .challenge-phones .phone-caption, .lightbox-caption, .contact-note { font-size: 0.875rem; }
     .spec-note { color: var(--text-body); }
     .case-tag, .sum-result .sum-label { color: #C9D9D6; }
-    .about-text p, .exp-list li, .case-body .case-problem, .sum-item p, .challenge-text > p, .challenge-list li, .spec-table td, .spec-summary,
+    .about-text p, .exp-list li, .case-body .case-problem, .sum-item p, .challenge-text > p, .challenge-list li, .spec-table td,
     .issue-q, .issue-a, .mini-card p, .flow-rules li, .side-list li, .side-main .side-lede { font-size: 1rem; line-height: 1.7; }
     .back-to-top { width: 44px; height: 44px; right: calc(12px + env(safe-area-inset-right)); bottom: calc(14px + env(safe-area-inset-bottom)); }
     .lightbox-close { top: calc(14px + env(safe-area-inset-top)); right: calc(14px + env(safe-area-inset-right)); width: 48px; height: 48px; }
@@ -1203,22 +1191,15 @@
 
     <div class="spec-block reveal">
       <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">立即預約：欄位、資料來源與例外處理</span></div>
-      <p class="spec-summary">整合診所的排班與預約資料，依就診類型、診間與人員篩選可預約的日期及時段，並定義未指定人員、查無所選醫師、時段已被預約等例外處理。</p>
-      <button type="button" class="spec-toggle" aria-expanded="false" aria-controls="lanrui-spec" data-open="收合預約規格" data-closed="查看預約規格範例"><span>查看預約規格範例</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-      <div class="spec-collapse" id="lanrui-spec">
       <table class="spec-table">
         <thead><tr><th>欄位</th><th>資料來源</th><th>規則</th><th>查無資料時</th></tr></thead>
         <tbody>
-          <tr><td data-label="欄位"><strong>就診類型</strong></td><td data-label="資料來源">固定選項</td><td data-label="規則">諮詢（預設）或美療。</td><td data-label="查無資料時">—</td></tr>
-          <tr><td data-label="欄位"><strong>診間</strong></td><td data-label="資料來源">診所系統</td><td data-label="規則">列出該診所的治療房間與手術房間。</td><td data-label="查無資料時">—</td></tr>
           <tr><td data-label="欄位"><strong>人員</strong></td><td data-label="資料來源">診所系統的排班</td><td data-label="規則">諮詢列出醫師，美療列出美容師；預設帶入前一頁選的醫師。</td><td data-label="查無資料時">查無所選醫師時，改為「不指定」。</td></tr>
           <tr><td data-label="欄位"><strong>日期</strong></td><td data-label="資料來源">診所系統的預約資料</td><td data-label="規則">列出所選人員有排班的日期，沒有排班的日期反灰；可預約兩個月內的日期。</td><td data-label="查無資料時">未指定人員時，顯示可預約範圍內的所有日期。</td></tr>
           <tr><td data-label="欄位"><strong>時段</strong></td><td data-label="資料來源">診所系統的班表</td><td data-label="規則">醫師依診間設定的時間為單位，美容師依後台設定的療程時間為單位。</td><td data-label="查無資料時">沒有可預約時段時，提示改選其他日期。</td></tr>
           <tr><td data-label="欄位"><strong>送出預約</strong></td><td data-label="資料來源">—</td><td data-label="規則">寫入前再確認一次所選時段是否已被預約。</td><td data-label="查無資料時">已被預約時提示重新選擇。</td></tr>
         </tbody>
       </table>
-      <button type="button" class="spec-close" data-for="lanrui-spec">收合預約規格</button>
-      </div>
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
@@ -1661,33 +1642,6 @@
     const onMqChange = () => { setActive(0); strip.scrollTo({ left: 0 }); start(); };
     if (mq.addEventListener) mq.addEventListener('change', onMqChange); else mq.addListener(onMqChange);
     start();
-  });
-
-  // 蘭瑞：預約規格表收合（獨立於案例本身）
-  document.querySelectorAll('.spec-toggle').forEach(btn => {
-    const panel = document.getElementById(btn.getAttribute('aria-controls'));
-    if (!panel) return;
-    const label = btn.querySelector('span');
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', String(open));
-      panel.classList.toggle('open', open);
-      label.textContent = open ? btn.dataset.open : btn.dataset.closed;
-      if (!open) {
-        const top = btn.getBoundingClientRect().top;
-        if (top < 80 || top > window.innerHeight - 60) btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      }
-    });
-  });
-
-  // 表格底部的「收合預約規格」：觸發上方按鈕，收合後捲回上方按鈕
-  document.querySelectorAll('.spec-close').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const toggle = document.querySelector('.spec-toggle[aria-controls="' + btn.dataset.for + '"]');
-      if (toggle && toggle.getAttribute('aria-expanded') === 'true') toggle.click();
-    });
   });
 
   // 案例底部「回到案例列表」：捲回對應的案例卡片
