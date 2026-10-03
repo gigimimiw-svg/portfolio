@@ -217,9 +217,9 @@
   }
   .case-card:hover .case-cover::after { transform: translateX(130%); }
   .case-cover-phones { display: flex; align-items: flex-start; justify-content: center; gap: 16px; padding-top: 28px; background: var(--cream-deep); }
-  .mini-phone { width: 84px; flex: none; aspect-ratio: 9 / 19.5; background: #0b0b0d; border-radius: 16px; padding: 4px; box-shadow: 0 10px 22px rgba(40, 52, 53, 0.22); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1); }
+  .mini-phone { width: 84px; flex: none; background: #0b0b0d; border-radius: 16px; padding: 4px; box-shadow: 0 10px 22px rgba(40, 52, 53, 0.22); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1); }
   .mini-phone.mid { margin-top: -12px; }
-  .mini-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 12px; display: block; background: #fff; }
+  .mini-phone img { width: 100%; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 12px; display: block; background: #fff; }
   .case-card:hover .mini-phone { transform: translateY(-4px); }
   .case-card:hover .mini-phone.mid { transform: translateY(-8px); }
   .case-body { flex: 1; background: linear-gradient(165deg, #3E5454 0%, #344444 100%); padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 12px; }
@@ -280,41 +280,24 @@
     .side-shots .phone-screen { border-radius: 25px; }
   }
 
-  /* ---------- Operation flow (雄獅) ---------- */
-  .flow { margin: 34px 0 8px; display: flex; flex-direction: column; gap: 26px; }
+  /* ---------- 小標與條列 ---------- */
   .flow-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 12px; }
   .flow-label { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; color: #fff; background: var(--accent); padding: 4px 12px; border-radius: 999px; }
-  .flow-label-soft { color: var(--accent-dark); background: var(--cream-deep); }
   .flow-note { font-size: 0.9rem; color: var(--text-muted); }
-  .flow-steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
-  .flow-step { position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--cream); border: 1px solid var(--border); border-radius: 16px; padding: 18px 16px 16px; }
-  .flow-num { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
-  .flow-step h4 { font-size: 1rem; }
-  .flow-step p { font-size: 0.86rem; line-height: 1.6; color: var(--text-body); }
-  .flow-role { margin-top: auto; padding-top: 6px; font-size: 0.74rem; font-weight: 600; color: var(--accent-dark); }
-  .flow-step:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: -12px; width: 7px; height: 7px; border-top: 2px solid var(--accent-2); border-right: 2px solid var(--accent-2); transform: translate(-1px, -50%) rotate(45deg); }
-  .flow-extra .tags { margin-bottom: 14px; }
   .flow-rules { list-style: none; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
   .flow-rules li { position: relative; padding-left: 18px; font-size: 0.9rem; line-height: 1.6; color: var(--text-body); }
   .flow-rules li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); }
-  @media (max-width: 960px) {
-    .flow-steps { grid-template-columns: 1fr; gap: 14px; }
-    .flow-step:not(:last-child)::after { top: auto; bottom: -11px; right: auto; left: 26px; transform: rotate(135deg); }
-  }
 
   /* ---------- Showcase ---------- */
   .showcase { background: var(--cream-deep); }
-  .case-block-head { max-width: 620px; margin-bottom: 8px; }
-  .case-block-head p { color: var(--text-body); font-size: 1.02rem; }
-  .case-block-head p + p { margin-top: 10px; }
   .brand-title { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .brand-mark { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 14px; border-radius: 11px; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; flex: none; }
   .phone-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 80px; padding: 24px 4px 30px; }
   .phone-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .phone-dots { display: none; }
-  .phone-frame { position: relative; width: 260px; aspect-ratio: 9 / 19.5; background: #0b0b0d; border-radius: 40px; padding: 11px; box-shadow: var(--shadow-lg); }
+  .phone-frame { position: relative; width: 260px; background: #0b0b0d; border-radius: 40px; padding: 11px; box-shadow: var(--shadow-lg); }
   .phone-frame::before { content: ""; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 82px; height: 24px; background: #0b0b0d; border-radius: 13px; z-index: 3; }
-  .phone-screen { position: relative; width: 100%; height: 100%; border-radius: 29px; overflow: hidden; background: #fff; }
+  .phone-screen { position: relative; width: 100%; aspect-ratio: 390 / 844; border-radius: 29px; overflow: hidden; background: #fff; }
   .phone-screen img { width: 100%; display: block; }
   .phone-screen.fit img { height: 100%; object-fit: cover; object-position: top; }
   .phone-screen.fit.top-only img { height: auto; }
@@ -443,9 +426,6 @@
   @media (min-width: 721px) { .spec-compare th:not(:first-child), .spec-compare td:not(:first-child) { width: 42%; } }
   @media (min-width: 721px) { .spec-table td[data-label="誰送出"], .spec-table td[data-label="誰審核"], .spec-table td[data-label="資料來源"] { white-space: nowrap; } }
   .spec-note { margin-top: 12px; font-size: 0.8rem; line-height: 1.6; color: var(--text-muted); }
-  .flow.spec-block { margin-bottom: 0; }
-  .flow-steps.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  @media (max-width: 960px) { .flow-steps.cols-4 { grid-template-columns: 1fr; } }
   @media (max-width: 720px) {
     .spec-table thead { display: none; }
     .spec-table, .spec-table tbody, .spec-table tr, .spec-table td { display: block; width: 100%; }
@@ -878,9 +858,9 @@
 
       <a class="case-card reveal" href="#case-lion">
         <div class="case-cover case-cover-phones">
-          <div class="mini-phone"><img decoding="async" src="img/ls_seatstaff.jpg" alt=""></div>
-          <div class="mini-phone mid"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅旅遊大團 APP 畫面：桌次分派、主頁、單一車次逐桌分派"></div>
           <div class="mini-phone"><img decoding="async" src="img/ls_seatone.jpg" alt=""></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅旅遊大團 APP 畫面：逐桌分派、主頁、每桌餐食統計"></div>
+          <div class="mini-phone"><img decoding="async" src="img/ls_mealstat.jpg" alt=""></div>
         </div>
         <div class="case-body">
           <div class="case-tag">旅遊團務 APP ＋ 後台</div>
@@ -942,12 +922,13 @@
     <div class="challenge reveal">
       <div class="challenge-text">
         <span class="flow-label">最難的設計</span>
-        <h3>工作人員的餐廳座位流程</h3>
-        <p>大團用餐時，工作人員要在 APP 上依車次把旅客分到各桌，到了現場還要帶位、確認餐點。這是整個專案最複雜的一段流程。</p>
+        <h3>工作人員與領隊的餐廳座位流程</h3>
+        <p>大團用餐的座位由工作人員和領隊分工完成：工作人員決定各車次坐哪幾桌，領隊再把自己車上的旅客排進這些桌。這是整個專案最複雜的一段流程。</p>
         <ul class="challenge-list">
-          <li><strong>以車次為單位分派</strong>同一車的旅客可以分到不同桌，素食旅客可以集中到素食桌。</li>
-          <li><strong>即時檢查座位</strong>用＋／－調整每桌人數，畫面即時顯示剩餘座位；超過上限會提醒，分錯可以取消重來。</li>
-          <li><strong>現場帶位與確認餐點</strong>可以依車次查看各桌名單，方便帶位；也可以依桌次查看特殊飲食狀況，方便確認餐點。</li>
+          <li><strong>設定餐廳</strong>工作人員依餐期設定餐廳資料：這個時段有哪些桌型、各有幾桌、每桌幾個座位，也可以設定素食桌和主桌。</li>
+          <li><strong>分派車次到各桌</strong>以車次為單位，用＋／－調整這台車在每桌分到的座位，畫面即時顯示剩餘座位，超過上限會提醒。同一車可以分到不同桌；素食桌依該車次的素食旅客人數分派，主桌也是同樣做法。</li>
+          <li><strong>通知領隊排座</strong>分派完成後推播通知該車次的領隊，領隊依旅客名單把人排進被指派的各桌：素食旅客排入素食桌，主管級旅客排入主桌。</li>
+          <li><strong>現場帶位與確認餐點</strong>工作人員可以依車次查看各桌名單，方便帶位；也可以依桌次查看特殊飲食狀況，方便確認餐點。</li>
           <li><strong>資料隨時會變</strong>一般車次和自選行程車次都要分派，餐食或行程變更後也可能要重排，所以分派結果必須能隨時修改。</li>
         </ul>
       </div>
@@ -955,66 +936,22 @@
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatstaff.jpg" alt="雄獅大團 APP 桌次分派（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>上方顯示餐廳、用餐時間、座位總數與已分派座位；下方依車次列出人數與分派進度，點進車次即可逐桌分派。</p></div></div>
-            </div>
-          </div>
-          <span class="phone-caption">桌次分派：車次列表</span>
-        </div>
-        <div class="phone-item reveal">
-          <div class="phone-with-anno">
-            <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatone.jpg" alt="雄獅大團 APP 單一車次逐桌分派"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>依桌型切換，用＋／－調整每桌分到的人數，即時顯示剩餘座位；超過上限會提醒，「清空設定」可重新分派。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatone.jpg" alt="雄獅大團 APP 單一車次逐桌分派"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>工作人員為單一車次分配座位：依桌型切換，用＋／－調整這台車在每桌分到的座位數，即時顯示剩餘座位；超過上限會提醒，「清空設定」可以重新分派。</p></div></div>
             </div>
           </div>
           <span class="phone-caption">單一車次逐桌分派</span>
         </div>
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_mealstat.jpg" alt="雄獅大團 APP 餐期詳情：每桌餐食統計"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>領隊排好座位後，工作人員可依桌次查看特殊飲食統計，展開後列出每位旅客的車次、座號與忌口，方便現場確認餐點。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">每桌餐食統計</span>
+        </div>
       </div>
     </div>
 
-    <div class="case-block-head block-gap reveal">
-      <h3 class="block-title">操作流程</h3>
-      <p>大團 APP 的運作分成兩段：出發前，後台依序建立出團、匯入梯次與旅客、綁定車次與領隊；出發後，旅客在 APP 上報到、點餐並申請變更，由工作人員或領隊審核，結果再以推播通知。</p>
-      <p>梯次、旅客與自選名單都用 Excel 範本匯入。這是刻意的設計：客戶原本就用 Excel 整理資料，沿用同樣的作業習慣，導入時不用改變做法。</p>
-    </div>
-    <div class="flow reveal">
-      <div class="flow-head"><span class="flow-label">出發前・後台建置</span><span class="flow-note">核心資料依序完成，APP 才能正常運作</span></div>
-      <ol class="flow-steps">
-        <li class="flow-step">
-          <span class="flow-num">01</span>
-          <h4>建立出團</h4>
-          <p>輸入專案代碼與 APP 主標。</p>
-          <span class="flow-role">管理者</span>
-        </li>
-        <li class="flow-step">
-          <span class="flow-num">02</span>
-          <h4>匯入梯次與旅客</h4>
-          <p>用 Excel 範本匯入梯次，同步旅客與一般車次。</p>
-          <span class="flow-role">管理者</span>
-        </li>
-        <li class="flow-step">
-          <span class="flow-num">03</span>
-          <h4>車次綁定梯次</h4>
-          <p>一般車次綁定梯次，自選車次可以跨梯次。</p>
-          <span class="flow-role">管理者・工作人員</span>
-        </li>
-        <li class="flow-step">
-          <span class="flow-num">04</span>
-          <h4>設定領隊</h4>
-          <p>替領隊綁定負責的梯次與車次。</p>
-          <span class="flow-role">管理者・工作人員</span>
-        </li>
-        <li class="flow-step">
-          <span class="flow-num">05</span>
-          <h4>匯入自選名單</h4>
-          <p>依梯次用 Excel 範本上傳自選行程名單。</p>
-          <span class="flow-role">管理者・工作人員</span>
-        </li>
-      </ol>
-      <div class="flow-extra">
-        <div class="flow-head"><span class="flow-label flow-label-soft">附屬資料</span><span class="flow-note">可以晚點建置；沒有資料時，APP 上就不會出現對應功能</span></div>
-        <div class="tags"><span class="tag">設定人員</span><span class="tag">餐廳設定</span><span class="tag">餐點管理</span><span class="tag">特殊餐食</span><span class="tag">住宿管理</span><span class="tag">報到時段</span><span class="tag">變更開關</span><span class="tag">帳號管理</span></div>
-      </div>
-    </div>
     <div class="spec-block reveal">
       <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">旅客申請與審核</span></div>
       <table class="spec-table">
@@ -1022,12 +959,13 @@
         <tbody>
           <tr><td data-label="申請項目"><strong>同行旅客</strong></td><td data-label="誰送出">旅客</td><td data-label="誰審核">領隊</td><td data-label="規則與通過後的影響">讓一家人可以一起報到。旅客在報到頁新增同行旅客，審核結果以推播通知。</td></tr>
           <tr><td data-label="申請項目"><strong>特殊餐食</strong></td><td data-label="誰送出">旅客或領隊</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">選項與忌口清單由後台維護，匯入特殊餐食名單後才開放申請。審核通過才生效；素食等變更可能要重排桌次，工作人員可依桌次確認特殊飲食。</td></tr>
+          <tr><td data-label="申請項目"><strong>自選行程</strong></td><td data-label="誰送出">領隊代旅客送出</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">旅客出團前已選好，工作人員先在後台匯入各自選車次的名單。後台開啟變更開關後，領隊才能在 APP 上從名單選取旅客送出變更；通過後自動解除原行程的同行旅客，車次與桌次可能要重排。</td></tr>
         </tbody>
       </table>
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
-    <div class="flow-head block-gap reveal"><span class="flow-label">出發後・APP 端</span><span class="flow-note">旅客、領隊與工作人員依身分看到不同功能</span></div>
+    <div class="flow-head block-gap reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">旅客、領隊與工作人員依身分看到不同功能</span></div>
     <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
     <div class="phone-strip">
       <div class="phone-item reveal">
@@ -1058,7 +996,7 @@
     <div class="section-head reveal">
       <div class="section-tag">Admin Panel</div>
       <h2 class="section-title">雄獅大團 管理後台</h2>
-      <p>操作流程的每一步都有對應的後台功能：出團管理負責建團與匯入，行程管理處理車次、領隊、餐食、住宿與報到。以下以報到管理為例。</p>
+      <p>後台分成出團管理與行程管理：出團管理負責建團與匯入，行程管理處理車次、領隊、餐食、住宿與報到。梯次、旅客與自選名單都用 Excel 範本匯入，這是刻意的設計：客戶原本就用 Excel 整理資料，沿用同樣的作業習慣，導入時不用改變做法。以下以報到管理為例。</p>
     </div>
     <div class="mock-wrap reveal">
       <div class="mock-admin" role="img" aria-label="報到管理後台示意：依日期列出報到項目、時段、車次、啟用狀態與報到結果下載">
