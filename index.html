@@ -639,11 +639,13 @@
     :root { --text-muted: #5B6769; }
     section { padding: 60px 0; }
     section[id] { scroll-margin-top: 24px; }
-    #about { scroll-margin-top: 56px; }
-    .about { padding-top: 30px; }
-    .hero { padding: 110px 0 44px; }
+    #about { scroll-margin-top: 62px; }  /* 關於我上方留白 30→24，補回 6px，從選單跳過來的位置不變 */
+    .about { padding-top: 24px; }
+    .hero { padding: 110px 0 36px; }
     .wave-divider { height: 44px; }
-    .wave-divider.hero-wave { height: 112px; }
+    /* 首頁→關於我：波浪高度減半（波峰約 86→43px），曲線跟著變平緩；路徑與電腦版共用，只改容器高度，不裁切 SVG */
+    .wave-divider.hero-wave { height: 56px; }
+    .wave-divider.hero-wave svg { height: calc(100% + 2px); }  /* 白色底邊多延伸 2px 藏在容器外，避免模糊邊緣在 2x 螢幕透出一條淡線 */
     .section-head { margin-bottom: 36px; }
     .block-gap { margin-top: 48px; }
     .spec-block, .cb { margin-top: 44px; }
