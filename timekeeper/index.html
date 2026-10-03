@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="時光守護者">
+<title>時光守護者</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;}
+body{font-family:'PingFang TC','Noto Sans TC',sans-serif;background:#f7faf9;min-height:100dvh;display:flex;align-items:flex-start;justify-content:center;overflow-x:hidden;}
+:root{--mint:#78C2AD;--mint-dark:#5aa898;--mint-light:#e8f5f1;}
+
+/* 頁面 */
+.page{width:100%;max-width:430px;min-height:100dvh;background:#f7faf9;position:relative;display:flex;flex-direction:column;overflow:hidden;}
+.page.hidden{display:none!important;}
+
+/* Header */
+.header{background:var(--mint);display:flex;flex-direction:column;transition:padding 0.3s ease;}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;}
+.header-left h1{color:white;font-size:28px;font-weight:500;letter-spacing:-0.3px;margin-top:16px;}
+.header-left p{color:rgba(255,255,255,0.75);font-size:13px;margin-top:2px;}
+.header-icons{display:flex;align-items:center;gap:2px;}
+.hbtn{background:none;border:none;cursor:pointer;color:white;padding:8px;display:flex;align-items:center;justify-content:center;opacity:0.9;-webkit-tap-highlight-color:transparent;}
+
+/* 搜尋列 */
+.search-bar{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);border-radius:12px;padding:9px 12px;max-height:0;opacity:0;overflow:hidden;transition:max-height 0.3s ease,opacity 0.25s ease,margin 0.3s ease;margin:0 20px 12px 20px!important;}
+.search-bar.open{max-height:60px;opacity:1;margin-top:8px!important;margin-bottom:8px!important;}
+.page.search-open .header{padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important;padding-bottom:32px!important;}
+.page.search-open .summary-row{margin-top:-12px!important;transition:margin-top 0.3s ease;}
+.search-bar input{border:none;outline:none;font-size:14px;color:white;background:transparent;flex:1;font-family:inherit;}
+.search-bar input::placeholder{color:rgba(255,255,255,0.55);}
+.search-x{background:rgba(255,255,255,0.25);border:none;color:white;font-size:14px;font-weight:500;width:22px;height:22px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hbtn.search-active{opacity:0.45;}
+
+/* Summary */
+.summary-row{display:flex;gap:10px;padding:0 20px;margin-top:-24px;margin-bottom:16px;position:relative;z-index:2;transition:all 0.3s ease;}
+.summary-card{flex:1;background:white;border-radius:14px;border:0.5px solid rgba(0,0,0,0.07);padding:10px 8px;text-align:center;cursor:pointer;transition:all 0.2s ease;-webkit-tap-highlight-color:transparent;}
+.summary-card:active{transform:scale(0.96);}
+.summary-card.selected{border:3px solid #78C2AD!important;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05),inset 0 0 0 2px rgba(120,194,173,0.1);transform:scale(1.08);background:#ffffff!important;z-index:10;transition:all 0.2s cubic-bezier(0.175,0.885,0.32,1.275);}
+.summary-card.selected .num{opacity:1!important;filter:brightness(0.85);}
+.summary-card.selected .num::after{content:'';display:block;width:20px;height:2px;background:currentColor;opacity:0.3;margin:4px auto 0;border-radius:1px;}
+.summary-card.selected .lbl{color:#374151;font-weight:600;}
+.summary-card .num{font-size:20px;font-weight:800;}
+.summary-card .lbl{font-size:11px;color:#4b5563;margin-top:1px;font-weight:500;}
+
+/* Filter */
+.filter-row{padding:0;margin-bottom:12px;position:relative;flex-shrink:0;max-height:52px;overflow:hidden;transition:max-height 0.3s ease;}
+.filter-row.is-expanded{max-height:600px;overflow:visible;}
+.filter-inner{display:flex;flex-wrap:nowrap;white-space:nowrap;gap:8px;overflow-x:auto;padding:4px 40px 4px 16px;-webkit-overflow-scrolling:touch;touch-action:pan-x;scrollbar-width:none;min-height:44px;}
+.filter-inner::-webkit-scrollbar{display:none;}
+.filter-row.is-expanded .filter-inner{flex-wrap:wrap;white-space:normal;overflow-x:visible;padding-right:16px;}
+.filter-expand{position:absolute;right:0;top:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;background:linear-gradient(to right,transparent 0%,#f7faf9 50%);border:none;color:#9ca3af;-webkit-tap-highlight-color:transparent;pointer-events:auto;}
+.filter-expand svg{transition:transform 0.2s;}
+.filter-expand.rotated svg{transform:rotate(180deg);}
+.filter-btn{display:flex;align-items:center;justify-content:center;padding:7px 16px;border-radius:20px;border:1.5px solid transparent;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;-webkit-tap-highlight-color:transparent;font-size:13px;font-weight:600;}
+
+/* Section label */
+.section-lbl{padding:16px 24px 8px;font-size:12px;font-weight:500;color:#4b5563;letter-spacing:0.5px;text-transform:uppercase;}
+
+/* List */
+.list{flex:1;padding:0 16px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.card-wrap{position:relative;border-radius:16px;overflow:hidden;background:white;border:0.5px solid rgba(0,0,0,0.07);}
+.card-actions{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:stretch;pointer-events:auto;}
+.card-action-edit{width:64px;background:#78C2AD;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;color:white;flex-direction:column;gap:3px;font-size:10px;}
+.card-action-del{width:64px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;color:#C41A1A;flex-direction:column;gap:3px;font-size:10px;}
+.card{background:white;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;touch-action:pan-y;}
+.card::after{content:'';position:absolute;right:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:linear-gradient(to bottom,transparent,rgba(120,194,173,0.5),transparent);pointer-events:none;}
+.swipe-chevron{position:absolute;right:8px;top:50%;transform:translateY(-50%);color:rgba(120,194,173,0.6);font-size:16px;font-weight:300;pointer-events:none;opacity:0;animation:chevronPulse 2s ease 1s 2 forwards;}
+@keyframes chevronPulse{0%{opacity:0;transform:translateY(-50%) translateX(0);}30%{opacity:0.8;transform:translateY(-50%) translateX(-3px);}60%{opacity:0.8;transform:translateY(-50%) translateX(-3px);}100%{opacity:0;transform:translateY(-50%) translateX(0);}}
+@keyframes bounceLeft{0%{transform:translateX(0);}20%{transform:translateX(-40px);}50%{transform:translateX(-40px);}75%{transform:translateX(-8px);}90%{transform:translateX(-2px);}100%{transform:translateX(0);}}
+.card.bounce-hint{animation:bounceLeft 1.0s cubic-bezier(0.34,1.56,0.64,1) 0.8s 1 both;}
+.item-info{flex:1;min-width:0;}
+.item-name{font-size:15px;font-weight:500;color:#1a1a1a;line-height:1.6;}
+.item-name .nm{word-break:break-word;}
+.item-name .cat-tag{display:inline;vertical-align:middle;margin-left:4px;}
+.item-name .loc-tag{display:inline;vertical-align:middle;margin-left:4px;}
+.cat-tag{font-size:10px;padding:1px 7px;border-radius:6px;white-space:nowrap;display:inline-block;vertical-align:middle;line-height:1.6;font-weight:600;}
+.loc-tag{font-size:10px;padding:1px 7px;border-radius:6px;white-space:nowrap;display:inline-block;vertical-align:middle;line-height:1.6;background:#F0F9FF;color:#0369A1;border:1px solid #BAE6FD;}
+.item-meta{font-size:12px;color:#9ca3af;margin-top:2px;}
+.item-days{font-size:12px;font-weight:600;margin-top:2px;}
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;white-space:nowrap;border:1.5px solid;background:white;flex-shrink:0;}
+.icon-btn{display:none;}
+.kw-highlight{background:#FEF9C3;border-radius:2px;}
+.qty-pill{display:inline-flex;align-items:center;background:#f3f4f6;border-radius:6px;overflow:hidden;vertical-align:middle;margin-left:4px;height:22px;flex-shrink:0;border:1px solid #e5e7eb;}
+.qty-pill .qv{font-size:11px;font-weight:500;color:#374151;padding:0 7px;white-space:nowrap;line-height:22px;}
+.qty-pill .qs{width:1px;height:14px;background:#d1d5db;flex-shrink:0;}
+.qty-pill .qm{display:flex;align-items:center;justify-content:center;width:26px;height:22px;cursor:pointer;border:none;background:transparent;color:#6b7280;padding:0;-webkit-tap-highlight-color:transparent;transition:all 0.12s;}
+.qty-pill .qm:active{background:rgba(120,194,173,0.2);color:var(--mint);}
+.card-wrap.qty-zero .item-name,.card-wrap.qty-zero .item-meta,.card-wrap.qty-zero .qty-pill{opacity:0.35;}
+.tg-section{padding:8px 0;}
+.tg-card{background:white;border-radius:14px;border:0.5px solid rgba(0,0,0,0.07);padding:20px;text-align:center;}
+.tg-icon{width:56px;height:56px;border-radius:50%;background:#0088cc;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.tg-title{font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:4px;}
+.tg-desc{font-size:12px;color:#9ca3af;line-height:1.6;margin-bottom:18px;}
+.tg-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;border:none;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s;-webkit-tap-highlight-color:transparent;text-decoration:none;}
+.tg-btn-primary{background:#0088cc;color:white;}
+.tg-btn-primary:active{background:#006da3;}
+.tg-btn-bound{background:#e8f5e9;color:#2e7d32;border:1.5px solid rgba(46,125,50,0.2);}
+.tg-btn-bound:active{background:#c8e6c9;}
+.tg-btn-off{background:#fef2f2;color:#991b1b;border:1.5px solid rgba(153,27,27,0.2);}
+.tg-btn-off:active{background:#fee2e2;}
+.tg-status{font-size:11px;color:#9ca3af;margin-top:12px;}
+.tg-dl{margin-top:16px;padding-top:16px;border-top:0.5px solid rgba(0,0,0,0.07);text-align:center;}
+.tg-dl-title{font-size:11px;color:#9ca3af;margin-bottom:10px;}
+.tg-dl-links{display:flex;gap:10px;justify-content:center;}
+.tg-dl-link{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;border:0.5px solid rgba(0,0,0,0.1);background:#f7faf9;font-size:12px;font-weight:500;color:#1a1a1a;text-decoration:none;transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
+.tg-dl-link:active{background:rgba(0,0,0,0.05);}
+.tg-refresh-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:12px;padding:12px;border-radius:12px;border:1.5px dashed rgba(0,0,0,0.12);background:none;font-size:13px;color:#9ca3af;cursor:pointer;font-family:inherit;transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
+.tg-refresh-btn:active{background:rgba(120,194,173,0.08);color:var(--mint);border-color:var(--mint);}
+.qty-stepper{display:flex;align-items:center;gap:0;max-width:140px;}
+.qty-stepper .qbtn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(0,0,0,0.1);background:#f7faf9;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--mint);font-weight:500;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.qty-stepper .qbtn:active{background:rgba(120,194,173,0.15);}
+.qty-stepper .qinput{width:48px;text-align:center;border:none;background:transparent;font-size:18px;font-weight:500;color:#1a1a1a;outline:none;font-family:inherit;-moz-appearance:textfield;}
+.qty-stepper .qinput::-webkit-outer-spin-button,.qty-stepper .qinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+
+/* Empty / Search empty */
+.empty{text-align:center;padding:48px 20px;color:#9ca3af;}
+.empty .icon{font-size:40px;margin-bottom:8px;opacity:0.4;}
+.empty p{font-size:14px;line-height:1.8;}
+.search-empty{text-align:center;padding:40px 20px;}
+.search-empty p{font-size:14px;color:#6b7280;line-height:1.8;}
+.search-empty a{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:14px;color:var(--mint);font-weight:500;cursor:pointer;}
+
+/* FAB */
+.fab{position:fixed!important;bottom:calc(env(safe-area-inset-bottom) + 32px);right:max(20px,calc(50% - 215px + 20px));width:56px;height:56px;border-radius:50%;background:var(--mint);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(120,194,173,0.5);z-index:1000;transition:background 0.15s;}
+.fab:hover{background:var(--mint-dark);}
+
+/* Modal / Sheet */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:flex-end;z-index:1100;}
+.overlay.hidden{display:none!important;}
+.sheet{background:white;width:100%;max-width:430px;margin:0 auto;border-radius:24px 24px 0 0;max-height:90dvh;overflow-y:auto;}
+.handle{width:36px;height:4px;background:rgba(0,0,0,0.1);border-radius:2px;margin:0 auto 20px;}
+.sheet-title{font-size:18px;font-weight:500;color:#1a1a1a;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:12px;font-weight:500;color:#9ca3af;margin-bottom:6px;display:block;}
+.form-input{width:100%;padding:10px 14px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);font-size:15px;color:#1a1a1a;background:#f7faf9;outline:none;font-family:inherit;}
+.form-input:focus{border-color:var(--mint);box-shadow:0 0 0 3px rgba(120,194,173,0.18);}
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s;-webkit-tap-highlight-color:transparent;font-weight:600;}
+.btn-row{display:flex;gap:10px;margin-top:20px;}
+.btn-cancel{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);background:none;font-size:15px;cursor:pointer;color:#9ca3af;font-family:inherit;}
+.btn-save{flex:2;padding:12px;border-radius:12px;border:none;background:var(--mint);color:white;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-save:hover{background:var(--mint-dark);}
+.btn-save:disabled{opacity:0.75;cursor:not-allowed;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.save-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;}
+
+/* 設定頁 Tabs */
+.settings-page-header{background:var(--mint);padding:calc(env(safe-area-inset-top,0px)+24px) 24px 16px;display:flex;flex-direction:column;min-height:64px;}
+.settings-page-header .top-row{display:flex;align-items:center;gap:8px;padding-bottom:12px;}
+.settings-page-header h2{color:white;font-size:18px;font-weight:500;flex:1;}
+.back-btn{background:none;border:none;cursor:pointer;color:white;padding:10px;display:flex;align-items:center;border-radius:12px;-webkit-tap-highlight-color:transparent;}
+.settings-tabs{display:flex;gap:0;margin:0;padding:4px;background:#5faa95;border-radius:12px;}
+.settings-tab{flex:1;padding:9px 0;text-align:center;font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);cursor:pointer;border:none;border-radius:10px;background:transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent;font-family:inherit;letter-spacing:0.2px;box-shadow:none;}
+.settings-tab.active{color:#78C2AD;font-weight:600;background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.settings-content{flex:1;overflow-y:auto;}
+.settings-panel{display:none;padding:20px 16px;flex-direction:column;gap:8px;}
+.settings-panel.active{display:flex;}
+
+/* 類別管理 */
+.cat-list{flex:1;padding:14px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+.cat-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;width:100%!important;padding:0!important;box-sizing:border-box!important;}
+.settings-pair-row{display:flex;gap:10px;margin-bottom:10px;align-items:stretch;}
+.settings-pair-row>.card-wrap{flex:1;min-width:0;border-radius:12px;overflow:hidden;background:#FEE2E2;border:0.5px solid rgba(0,0,0,0.07);position:relative;display:flex;flex-direction:column;}
+.settings-pair-row>.card-wrap .card-actions{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:stretch;z-index:1;}
+.settings-pair-row>.card-wrap .card-action-del{width:60px;min-width:60px;}
+.settings-pair-row>.card-wrap .card{padding:12px 10px;gap:8px;border-radius:12px;background:white;display:flex;align-items:flex-start;position:relative;z-index:2;transition:transform 0.25s ease;will-change:transform;touch-action:pan-y;flex:1;box-sizing:border-box;}
+.settings-pair-row>.card-wrap .card::after{display:none;}
+.settings-pair-row .spacer{flex:1;min-width:0;visibility:hidden;}
+.cat-item{display:flex!important;align-items:flex-start!important;gap:8px!important;background:white!important;padding:12px 10px!important;border-radius:12px!important;height:auto!important;min-width:0!important;box-sizing:border-box!important;border:0.5px solid rgba(0,0,0,0.07);transition:background 0.15s;}
+.cat-item.cat-system{background:#f9fafb!important;position:relative;padding:12px 10px!important;border:1.5px solid #D1D5DB;}
+.cat-system-lock{position:absolute;top:6px;right:8px;color:#9ca3af;opacity:0.7;}
+.cat-item-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px!important;}
+.cat-item-info{flex:1;min-width:0!important;}
+.cat-item-name{font-size:14px!important;font-weight:500!important;color:#1a1a1a!important;line-height:1.4!important;white-space:normal!important;word-break:break-all!important;overflow-wrap:anywhere!important;}
+.cat-item-count{font-size:11px;color:#b0b5bd;margin-top:2px;line-height:1.3;}
+.cat-lock{font-size:10px;color:#b0b5bd;background:#f5f5f5;padding:2px 8px;border-radius:8px;display:flex;align-items:center;gap:3px;white-space:nowrap;font-weight:400;}
+.cat-edit-btn{background:none;border:none;cursor:pointer;color:#9ca3af;padding:8px;display:flex;align-items:center;transition:color 0.15s;border-radius:8px;-webkit-tap-highlight-color:transparent;}
+.cat-edit-btn:hover{color:var(--mint);background:rgba(120,194,173,0.08);}
+.cat-section-lbl{padding:8px 4px 8px;font-size:12px;font-weight:700;color:#374151;letter-spacing:0.3px;}
+.cat-section-lbl.cat-divider{margin-top:40px;padding-top:0;}
+.cat-empty{text-align:center;padding:24px 16px;color:#9ca3af;font-size:13px;line-height:1.8;}
+.cat-add-btn{width:100%;padding:12px;border-radius:12px;border:2px dashed rgba(0,0,0,0.1);background:none;font-size:14px;cursor:pointer;color:#9ca3af;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s;-webkit-tap-highlight-color:transparent;margin-bottom:12px;}
+.cat-add-btn:hover{border-color:var(--mint);color:var(--mint);}
+
+/* 位置管理 */
+.loc-chip{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit;transition:all 0.15s;-webkit-tap-highlight-color:transparent;font-weight:600;background:#F0F9FF;color:#0369A1;border:1.5px solid transparent;display:inline-block;}
+.loc-chip:hover{opacity:0.85;}
+.loc-chip.selected{background:#0369A1;color:white;border-color:#0369A1;}
+.loc-add-btn{width:100%;padding:12px;border-radius:12px;border:2px dashed rgba(0,0,0,0.1);background:none;font-size:14px;cursor:pointer;color:#9ca3af;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s;-webkit-tap-highlight-color:transparent;margin-top:4px;}
+.loc-add-btn:hover{border-color:var(--mint);color:var(--mint);}
+
+/* 確認對話框 */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:1200;padding:20px;}
+.confirm-overlay.hidden{display:none!important;}
+.confirm-box{background:white;border-radius:20px;padding:24px;width:100%;max-width:320px;text-align:center;}
+.confirm-box p{font-size:15px;color:#1a1a1a;line-height:1.6;margin-bottom:8px;}
+.confirm-box .sub{font-size:12px;color:#9ca3af;margin-bottom:20px;}
+.confirm-actions{display:flex;gap:10px;}
+.confirm-cancel{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);background:none;font-size:14px;cursor:pointer;color:#9ca3af;font-family:inherit;}
+.confirm-del{flex:1;padding:10px;border-radius:12px;border:none;background:#E24B4A;color:white;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;}
+
+/* 編輯 Modal (Category/Location) */
+.edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:1150;padding:20px;}
+.edit-overlay.hidden{display:none!important;}
+.edit-box{background:white;border-radius:20px;padding:24px;width:100%;max-width:340px;}
+.edit-box h3{font-size:17px;font-weight:500;margin-bottom:16px;color:#1a1a1a;}
+.edit-error{font-size:12px;color:#E24B4A;margin-top:6px;min-height:0;line-height:1.4;transition:all 0.2s;}
+.edit-error:empty{display:none;}
+.edit-actions{display:flex;gap:10px;margin-top:20px;}
+
+/* Toast */
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom)+80px);left:50%;transform:translateX(-50%);background:rgba(30,30,30,0.88);color:white;font-size:13px;padding:8px 18px;border-radius:20px;z-index:9999;white-space:nowrap;opacity:0;transition:opacity 0.25s;pointer-events:none;}
+.toast.show{opacity:1;}
+
+
+/* 驗證失敗頁 */
+.block-page{width:100%;max-width:430px;min-height:100dvh;background:#f7faf9;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;}
+.block-page.hidden{display:none!important;}
+.block-logo{width:80px;height:80px;border-radius:20px;background:var(--mint);display:flex;align-items:center;justify-content:center;margin-bottom:28px;}
+.block-title{font-size:24px;font-weight:500;color:#1a1a1a;margin-bottom:6px;letter-spacing:-0.3px;}
+.block-sub{font-size:14px;color:#9ca3af;text-align:center;line-height:1.8;}
+</style>
+<script>
+(function(){
+  var c=document.createElement('canvas');c.width=c.height=180;
+  var ctx=c.getContext('2d'),r=36;
+  ctx.beginPath();ctx.moveTo(r,0);ctx.lineTo(180-r,0);ctx.quadraticCurveTo(180,0,180,r);ctx.lineTo(180,180-r);ctx.quadraticCurveTo(180,180,180-r,180);ctx.lineTo(r,180);ctx.quadraticCurveTo(0,180,0,180-r);ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();
+  ctx.fillStyle='#78C2AD';ctx.fill();
+  ctx.beginPath();ctx.arc(90,85,44,0,Math.PI*2);ctx.strokeStyle='white';ctx.lineWidth=9;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(90,85);ctx.lineTo(90,52);ctx.strokeStyle='white';ctx.lineWidth=9;ctx.lineCap='round';ctx.stroke();
+  ctx.beginPath();ctx.moveTo(90,85);ctx.lineTo(118,96);ctx.lineWidth=7;ctx.stroke();
+  ctx.beginPath();ctx.arc(90,85,5,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  ctx.beginPath();ctx.roundRect(44,141,92,22,11);ctx.fillStyle='rgba(255,255,255,0.28)';ctx.fill();
+  ctx.font='600 12px "PingFang TC",sans-serif';ctx.fillStyle='white';ctx.textAlign='center';ctx.fillText('時光守護者',90,157);
+  var url=c.toDataURL('image/png');
+  var l=document.createElement('link');l.rel='apple-touch-icon';l.href=url;document.head.appendChild(l);
+  var f=document.createElement('link');f.rel='icon';f.type='image/png';f.href=url;document.head.appendChild(f);
+})();
+</script>
+</head>
+<body>
+
+<!-- 驗證失敗 / 無權限頁面 -->
+<div class="block-page" id="pageBlock">
+  <div class="block-logo">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  </div>
+  <p class="block-title" id="blockTitle">驗證中...</p>
+  <p class="block-sub" id="blockSub">正在確認您的身份，請稍候</p>
+</div>
+
+<!-- 主頁面 -->
+<div class="page hidden" id="pageMain">
+  <div class="header" style="padding:calc(env(safe-area-inset-top,0px) + 12px) 24px 16px 24px;">
+    <div class="header-top">
+      <div class="header-left">
+        <h1>時光守護者</h1>
+        <p>管理你的效期，守護每一天</p>
+      </div>
+      <div class="header-icons">
+        <button class="hbtn" id="searchToggleBtn" onclick="toggleSearch()" title="搜尋">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="hbtn" onclick="openSettingsPage()" title="設定">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="搜尋品名、備註、位置..." oninput="onSearchInput()" onblur="setTimeout(()=>window.scrollTo(0,0),200)">
+      <button class="search-x" onclick="closeSearch()">✕</button>
+    </div>
+  </div>
+  <div class="summary-row" id="summaryRow"></div>
+  <div class="filter-row" id="filterRowWrap">
+    <div class="filter-inner" id="filterRow"></div>
+    <button class="filter-expand" id="filterExpandBtn" onclick="toggleFilterExpand()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+  <div class="section-lbl" id="sectionLbl">全部品項 (0)</div>
+  <div class="list" id="listArea"></div>
+
+  <!-- 新增/編輯品項 Modal -->
+  <div class="overlay hidden" id="overlay" onclick="handleOverlay(event)">
+    <div class="sheet" style="padding:24px 24px 24px 24px;">
+      <div class="handle"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <p class="sheet-title" id="modalTitle" style="margin:0;">新增品項</p>
+        <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;padding:8px;color:#9ca3af;display:flex;align-items:center;border-radius:50%;-webkit-tap-highlight-color:transparent;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">品名</label>
+        <input class="form-input" id="iName" placeholder="例：燕麥奶、維他命C...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">類別</label>
+        <div class="chips" id="chipsSystem"></div>
+        <div id="customChipsToggleWrap" style="display:none;">
+          <button id="customChipsToggle" onclick="toggleModalCustomCats()" style="display:flex;align-items:center;gap:5px;margin-top:10px;padding:4px 0;cursor:pointer;font-size:12px;color:#9ca3af;font-weight:500;border:none;background:none;font-family:inherit;-webkit-tap-highlight-color:transparent;">
+            <svg id="customChipsArrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="customChipsLabel">更多類別</span>
+          </button>
+          <div id="customChipsArea" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;">
+            <div id="chipsCustomGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:8px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">到期日</label>
+        <input class="form-input" type="date" id="iDate" style="max-width:200px;">
+      </div>
+      <div class="form-group">
+        <label class="form-label">庫存數量</label>
+        <div class="qty-stepper">
+          <button type="button" class="qbtn" onclick="adjQty(-1)">−</button>
+          <input class="qinput" id="iQty" type="number" value="1" min="1">
+          <button type="button" class="qbtn" onclick="adjQty(1)">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">存放位置</label>
+        <div class="chips" id="locChipsTop"></div>
+        <div id="locChipsToggleWrap" style="display:none;">
+          <button id="locChipsToggle" onclick="toggleModalLocExpand()" style="display:flex;align-items:center;gap:5px;margin-top:8px;padding:4px 0;cursor:pointer;font-size:12px;color:#9ca3af;font-weight:500;border:none;background:none;font-family:inherit;-webkit-tap-highlight-color:transparent;">
+            <svg id="locChipsArrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="locChipsLabel">更多位置</span>
+          </button>
+          <div id="locChipsRest" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;">
+            <div class="chips" id="locChipsBottom" style="padding-top:6px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">備註</label>
+        <textarea class="form-input" id="iNote" placeholder="選填，例：放冰箱第二層..." rows="2" style="resize:none;font-family:inherit;"></textarea>
+      </div>
+      <button class="btn-save" id="saveBtn" onclick="handleSave()" style="width:100%;">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 設定頁面 (Tabs: 類別 + 位置) -->
+<div class="page hidden" id="pageSettings">
+  <div class="settings-page-header">
+    <div class="top-row">
+      <button class="back-btn" onclick="closeSettingsPage()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h2>設定</h2>
+    </div>
+    <div class="settings-tabs">
+      <button class="settings-tab active" id="tabCat" onclick="switchSettingsTab('cat')">類別管理</button>
+      <button class="settings-tab" id="tabLoc" onclick="switchSettingsTab('loc')">存放位置</button>
+      <button class="settings-tab" id="tabTg" onclick="switchSettingsTab('tg')">通知設定</button>
+    </div>
+  </div>
+  <div class="settings-content">
+    <div class="settings-panel active" id="panelCat"></div>
+    <div class="settings-panel" id="panelLoc"></div>
+    <div class="settings-panel" id="panelTg"></div>
+  </div>
+</div>
+
+<!-- 編輯類別 Modal -->
+<div class="edit-overlay hidden" id="catEditOverlay">
+  <div class="edit-box">
+    <h3 id="catEditTitle">編輯類別</h3>
+    <div class="form-group">
+      <label class="form-label">類別名稱</label>
+      <input class="form-input" id="iCatEditName" placeholder="類別名稱" oninput="clearEditError('catEditError')">
+      <p class="edit-error" id="catEditError"></p>
+    </div>
+    <div class="form-group">
+      <label class="form-label">排序權重 <span style="font-weight:400;color:#b0b5bd;">(數字越小排越前)</span></label>
+      <input class="form-input" id="iCatEditWeight" type="number" placeholder="例：10" style="max-width:120px;">
+    </div>
+    <div class="form-group">
+      <label class="form-label">代表色</label>
+      <input class="form-input" id="iCatEditColor" type="color" value="#374151" style="max-width:80px;height:40px;padding:4px;cursor:pointer;">
+    </div>
+    <div class="edit-actions">
+      <button class="btn-cancel" onclick="closeCatEdit()" style="flex:1;">取消</button>
+      <button class="btn-save" onclick="saveCatEdit()" style="flex:2;">確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- 編輯位置 Modal -->
+<div class="edit-overlay hidden" id="locEditOverlay">
+  <div class="edit-box">
+    <h3 id="locEditTitle">新增位置</h3>
+    <div class="form-group">
+      <label class="form-label">位置名稱</label>
+      <input class="form-input" id="iLocEditName" placeholder="例：冰箱上層" oninput="clearEditError('locEditError')">
+      <p class="edit-error" id="locEditError"></p>
+    </div>
+    <div class="edit-actions">
+      <button class="btn-cancel" onclick="closeLocEdit()" style="flex:1;">取消</button>
+      <button class="btn-save" onclick="saveLocEdit()" style="flex:2;">確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- 通用確認對話框 -->
+<div class="confirm-overlay hidden" id="confirmOverlay">
+  <div class="confirm-box" id="confirmBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<button class="fab" id="fabBtn" onclick="openModal()" style="display:none;">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<script>
+// =============================================
+// 時光守護者 V3.0 — JavaScript
+// =============================================
+
+const GAS = "https://script.google.com/macros/s/AKfycbx3uW-QYWYMsaQCcyWNP2uV9eQ2stU9jQ4osU-CGBCV_rEpXF7YK5_670aXgpVR4oL0/exec";
+const MINT = "#78C2AD", MINT_TEXT = "#2d7a6a";
+
+// === 六級色譜 ===
+const STATUS = {
+  expired:  { badgeColor:"#991B1B", badgeBg:"#FEE2E2", label:()=>"已過期", bold:true, icon:"" },
+  urgent:   { badgeColor:"#C2410C", badgeBg:"#FFF4E6", label:(d)=>"剩 "+daysLeft(d)+" 天", bold:true, icon:"⚠ " },
+  soon:     { badgeColor:"#92400E", badgeBg:"#FFFBEB", label:(d)=>"剩 "+daysLeft(d)+" 天", bold:false, icon:"" },
+  caution:  { badgeColor:"#4D7C0F", badgeBg:"#F7FEE7", label:(d)=>"剩 "+daysLeft(d)+" 天", bold:false, icon:"" },
+  safe:     { badgeColor:"#15803D", badgeBg:"#F0FDF4", label:(d)=>"剩 "+daysLeft(d)+" 天", bold:false, icon:"" },
+  longterm: { badgeColor:"#166534", badgeBg:"#F0FDF4", label:()=>"1年+", bold:false, noBorder:true, icon:"" }
+};
+
+function daysLeft(d){ return Math.ceil((new Date(d).setHours(0,0,0,0)-new Date().setHours(0,0,0,0))/86400000); }
+function getStatus(expiry){
+  const diff=daysLeft(expiry);
+  if(diff<=0) return {type:"expired",days:diff};
+  if(diff<=30) return {type:"urgent",days:diff};
+  if(diff<=90) return {type:"soon",days:diff};
+  if(diff<=180) return {type:"caution",days:diff};
+  if(diff<=365) return {type:"safe",days:diff};
+  return {type:"longterm",days:diff};
+}
+function toYMD(val){
+  if(!val) return "";
+  const d=new Date(val);
+  if(isNaN(d)) return String(val).trim();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function fmt(d){ if(!d) return ""; const [y,m,day]=d.split("-"); return y+"/"+m+"/"+day; }
+function offsetDate(days){ const d=new Date(); d.setDate(d.getDate()+days); return d.toISOString().split("T")[0]; }
+
+// === 狀態 ===
+let items=[], categories=[], locations=[];
+let nextId=1, selectedCats=[], currentFilter="全部", editingId=null;
+let searchQuery="", searchOpen=false, statusFilter=null;
+let filterExpanded=false;
+
+// === 類別工具 ===
+const SYSTEM_ORDER=["使用中","食品","美妝","藥品"];
+function getSystemCats(){ return categories.filter(c=>c.type==="系統"); }
+function getCustomCats(){ return categories.filter(c=>c.type!=="系統"); }
+function allCatsSorted(){
+  const sys=categories.filter(c=>c.type==="系統").sort((a,b)=>{
+    const ai=SYSTEM_ORDER.indexOf(a.name), bi=SYSTEM_ORDER.indexOf(b.name);
+    return (ai===-1?999:ai)-(bi===-1?999:bi);
+  });
+  const custom=categories.filter(c=>c.type!=="系統").sort((a,b)=>(a.weight||999)-(b.weight||999));
+  return [...sys,...custom];
+}
+function allCatsForSettingsDisplay(){
+  // 權重為0的系統類別不顯示在設定頁
+  return allCatsSorted().filter(c=>!(c.type==="系統"&&c.weight===0));
+}
+function getContrastYIQ(hex){
+  if(!hex||hex.length<7) return "#000000";
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  const yiq=(r*299+g*587+b*114)/1000;
+  return yiq>128?"#000000":"#FFFFFF";
+}
+function catStyle(name){
+  const cat=categories.find(c=>c.name===name);
+  if(cat&&cat.color){
+    const c=cat.color;
+    return {bg:hexToLightBg(c), color:c, text:getContrastYIQ(c), border:c==='#D1D5DB'?c:undefined};
+  }
+  return {bg:"#E5E7EB",color:"#374151",text:"#FFFFFF"};
+}
+function hexToLightBg(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},0.12)`;
+}
+
+// === 載入指示器 ===
+function showLoading(msg){
+  let el=document.getElementById("loadingOverlay");
+  if(!el){ el=document.createElement("div"); el.id="loadingOverlay"; el.style.cssText="position:fixed;inset:0;background:rgba(255,255,255,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;"; el.innerHTML='<div style="width:36px;height:36px;border:3px solid #e5e7eb;border-top-color:#78C2AD;border-radius:50%;animation:spin 0.7s linear infinite;"></div><p style="margin-top:12px;font-size:14px;color:#6b7280;">'+msg+"</p>"; document.body.appendChild(el); }
+}
+function hideLoading(){ const el=document.getElementById("loadingOverlay"); if(el) el.remove(); }
+
+// === GAS 通訊 ===
+function gasRequest(params,cb,timeoutMs){
+  if(URL_USER) params.user=URL_USER;
+  const url=GAS+"?"+new URLSearchParams(params).toString();
+  const name="_cb_"+Date.now()+"_"+Math.random().toString(36).slice(2,6);
+  const s=document.createElement("script");
+  let done=false;
+  const timer=setTimeout(()=>{ if(!done){done=true;delete window[name];s.remove();cb("timeout");} },timeoutMs||15000);
+  window[name]=(data)=>{ if(done)return; done=true; clearTimeout(timer); delete window[name]; s.remove(); cb(null,data); };
+  s.onerror=()=>{ if(done)return; done=true; clearTimeout(timer); delete window[name]; s.remove(); cb("error"); };
+  s.src=url+"&callback="+name;
+  document.head.appendChild(s);
+}
+function sanitizeForSheet(val){
+  if(!val) return val;
+  const s=String(val);
+  if(s.charAt(0)==='+'||s.charAt(0)==='-'||s.charAt(0)==='='||s.charAt(0)==='@') return "'"+s;
+  return s;
+}
+
+// === 載入資料 (getInitialData) ===
+function loadFromSheet(tries){
+  tries = tries || 1;
+  showLoading("載入資料中...");
+  gasRequest({action:"getInitialData"},(err,data)=>{
+    // 網路慢或伺服器剛啟動時自動重試，最多 3 次
+    if(err && tries < 3){ setTimeout(()=>loadFromSheet(tries+1), 800); return; }
+    hideLoading();
+    if(err){ showToast("⚠️ 網路較慢，資料暫時載入失敗，請重新整理"); render(); return; }
+    if(!data||!data.ok){ showToast("⚠️ 無法讀取資料"); render(); return; }
+    try{
+      // Categories: [weight, name, type, colorCode, date]
+      categories=(data.categories||[]).map(r=>({
+        weight:parseInt(r[0])||999,
+        name:String(r[1]||"").trim(),
+        type:String(r[2]||"自訂").trim(),
+        color:String(r[3]||"#374151").trim()
+      })).filter(c=>c.name);
+
+      // Locations: [name, date]
+      locations=(data.locations||[]).map(r=>String(r[0]||"").trim()).filter(Boolean);
+
+      // Items: [name, category, expiry, status, location, note, qty, date]
+      items=(data.items||[]).filter(r=>r[0]&&r[2]).map((r,idx)=>({
+        id:idx+1,
+        name:String(r[0]).replace(/^'/,"").trim(),
+        category:String(r[1]||"其他").trim(),
+        expiry:toYMD(r[2]),
+        status:String(r[3]||"").trim(),
+        location:String(r[4]||"").trim(),
+        note:String(r[5]||"").replace(/^'/,"").trim(),
+        qty:r[6]!==undefined&&r[6]!==""?parseInt(r[6]):1
+      }));
+      nextId=items.length+1;
+      render();
+    }catch(e){ console.error("Parse error:",e); showToast("⚠️ 資料解析錯誤"); }
+  },25000);
+}
+
+// === 主頁渲染 ===
+function render(){
+  const freq={};
+  items.forEach(i=>{ i.category.split(",").map(s=>s.trim()).forEach(c=>{ freq[c]=(freq[c]||0)+1; }); });
+  const counts={danger:0,warn:0,safe:0};
+  items.forEach(i=>{
+    const t=getStatus(i.expiry).type;
+    if(t==="expired") counts.danger++;
+    else if(t==="urgent"||t==="soon") counts.warn++;
+    else counts.safe++;
+  });
+
+  // Summary
+  const sr=document.getElementById("summaryRow");
+  if(sr) sr.innerHTML=[
+    {type:"danger",num:counts.danger,color:"#991B1B",label:"已過期"},
+    {type:"warn",num:counts.warn,color:"#C2410C",label:"即將到期"},
+    {type:"safe",num:counts.safe,color:"#15803D",label:"安全"}
+  ].map(s=>{
+    const sel=statusFilter===s.type?"selected":"";
+    return `<div class="summary-card ${sel}" onclick="toggleStatus('${s.type}')"><div class="num" style="color:${s.color}">${s.num}</div><div class="lbl">${s.label}</div></div>`;
+  }).join("");
+
+  // Filter — sorted by weight
+  const sorted=allCatsSorted();
+  const fr=document.getElementById("filterRow");
+  if(fr){
+    let btns=`<button class="filter-btn" onclick="setFilter('全部')" style="background:${currentFilter==='全部'?MINT:'rgba(120,194,173,0.12)'};color:${currentFilter==='全部'?'white':MINT_TEXT};border-color:${currentFilter==='全部'?MINT:'transparent'};font-weight:${currentFilter==='全部'?600:400}">全部</button>`;
+    sorted.forEach(cat=>{
+      const cs=catStyle(cat.name);
+      const isA=currentFilter===cat.name;
+      btns+=`<button class="filter-btn" onclick="setFilter('${esc(cat.name)}')" style="background:${isA?cs.color:cs.bg};color:${isA?cs.text:cs.color};border-color:${isA?cs.color:'transparent'};font-weight:${isA?600:400}">${cat.name}</button>`;
+    });
+    fr.innerHTML=btns;
+  }
+
+  // Filtered items
+  const filtered=items.filter(i=>{
+    const cats=i.category.split(",").map(s=>s.trim());
+    const catMatch=currentFilter==="全部"||cats.includes(currentFilter);
+    const q=searchQuery;
+    const nameMatch=!q||i.name.toLowerCase().includes(q)||(i.note||'').toLowerCase().includes(q)||(i.location||'').toLowerCase().includes(q);
+    const statusMatch=matchesStatusFilter(getStatus(i.expiry).type,statusFilter);
+    return catMatch&&nameMatch&&statusMatch;
+  });
+  const sortedItems=[...filtered].sort((a,b)=>{
+    const aq=a.qty>0?0:1, bq=b.qty>0?0:1;
+    if(aq!==bq) return aq-bq;
+    return a.expiry.localeCompare(b.expiry);
+  });
+  const statusNames={danger:"已過期",warn:"即將到期",safe:"安全"};
+  const lbl=statusFilter?statusNames[statusFilter]:(searchQuery?"搜尋結果":(currentFilter==="全部"?"全部品項":currentFilter));
+  const sl=document.getElementById("sectionLbl");
+  if(sl) sl.textContent=lbl+" ("+sortedItems.length+")";
+
+  // List
+  const la=document.getElementById("listArea");
+  if(!la) return;
+  if(sortedItems.length===0){
+    if(searchQuery){
+      la.innerHTML=`<div class="search-empty"><p>找不到符合「${searchQuery}」的項目<br>要新增一個嗎？</p><a onclick="openModalWithName('${esc(searchQuery)}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>立即新增「${esc(searchQuery)}」</a></div>`;
+    } else {
+      la.innerHTML='<div class="empty"><div class="icon">📦</div><p>尚無品項<br>點擊 + 開始新增</p></div>';
+    }
+    return;
+  }
+  closeAllSwipe();
+  la.innerHTML=sortedItems.map((item,idx)=>{
+    const s=getStatus(item.expiry); const st=STATUS[s.type];
+    const label=st.label(item.expiry);
+    const name=highlightKW(item.name);
+    const isZero=item.qty<=0;
+    return `<div class="card-wrap${isZero?' qty-zero':''}" data-id="${item.id}">
+      <div class="card-actions">
+        <button class="card-action-edit" onclick="openEdit(${item.id});closeAllSwipe()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          編輯
+        </button>
+        <button class="card-action-del" onclick="deleteItem(${item.id});closeAllSwipe()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          刪除
+        </button>
+      </div>
+      <div class="card" id="card-${item.id}">
+        <div class="item-info">
+          <div class="item-name"><span class="nm">${name}</span><span class="qty-pill" onclick="event.stopPropagation()"><span class="qv">x${item.qty}</span><span class="qs"></span><button class="qm" onclick="quickMinus(${item.id})"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></button></span></div>
+          ${isZero?'<div class="item-meta" style="color:#d1d5db;">已用完</div>':'<div class="item-meta">'+fmt(item.expiry)+'</div>'}
+        </div>
+        ${isZero?'':'<span class="badge" style="color:'+st.badgeColor+';border-color:'+(st.noBorder?'transparent':st.badgeColor+'4d')+';background:'+(st.badgeBg||'white')+';'+(st.bold?'font-weight:700;':'')+'">'+( st.icon||'')+label+'</span>'}
+        ${idx===0?'<span class="swipe-chevron">‹</span>':''}
+      </div>
+    </div>`;
+  }).join("");
+  la.querySelectorAll(".card-wrap").forEach(initSwipe);
+  applyFilterExpand();
+  if(!sessionStorage.getItem("swipeHinted")){
+    const firstCard=la.querySelector(".card");
+    if(firstCard){
+      firstCard.classList.add("bounce-hint");
+      firstCard.addEventListener("animationend",()=>firstCard.classList.remove("bounce-hint"),{once:true});
+      sessionStorage.setItem("swipeHinted","1");
+    }
+  }
+}
+
+function esc(s){ return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function truncate(s,n){ return s.length>n?s.slice(0,n)+'…':s; }
+function highlightKW(text){
+  if(!searchQuery||!text) return text;
+  return text.replace(new RegExp("("+searchQuery.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+")","gi"),'<span class="kw-highlight">$1</span>');
+}
+
+// === Chips (類別選擇 — 系統+可展開自訂) ===
+let modalCustomExpanded=false;
+function renderChips(){
+  const sorted=allCatsSorted();
+  const sys=sorted.filter(c=>c.type==="系統");
+  const custom=sorted.filter(c=>c.type!=="系統");
+
+  // System chips — inline flow
+  const elSys=document.getElementById("chipsSystem");
+  if(elSys) elSys.innerHTML=sys.map(cat=>{
+    const cs=catStyle(cat.name);
+    const isSel=selectedCats.includes(cat.name);
+    const bg=isSel?cs.color:cs.bg;
+    const color=isSel?cs.text:cs.color;
+    return `<button class="chip" onclick="toggleCat('${esc(cat.name)}')" style="background:${bg};color:${color};border:1.5px solid ${isSel?cs.color:'transparent'};opacity:${isSel?1:0.55};font-weight:600">${cat.name}</button>`;
+  }).join("");
+
+  // Custom chips — two-column grid
+  const wrap=document.getElementById("customChipsToggleWrap");
+  const grid=document.getElementById("chipsCustomGrid");
+  if(wrap) wrap.style.display=custom.length>0?'block':'none';
+  if(grid) grid.innerHTML=custom.map(cat=>{
+    const cs=catStyle(cat.name);
+    const isSel=selectedCats.includes(cat.name);
+    const bg=isSel?cs.color:cs.bg;
+    const color=isSel?cs.text:cs.color;
+    return `<button class="chip" onclick="toggleCat('${esc(cat.name)}')" style="background:${bg};color:${color};border:1.5px solid ${isSel?cs.color:'transparent'};opacity:${isSel?1:0.55};font-weight:600;text-align:center;margin:0;">${cat.name}</button>`;
+  }).join("");
+
+  const label=document.getElementById("customChipsLabel");
+  if(label) label.textContent=`更多類別 (${custom.length})`;
+}
+function toggleModalCustomCats(){
+  modalCustomExpanded=!modalCustomExpanded;
+  const area=document.getElementById("customChipsArea");
+  const arrow=document.getElementById("customChipsArrow");
+  if(area) area.style.maxHeight=modalCustomExpanded?'500px':'0';
+  if(arrow) arrow.style.transform=modalCustomExpanded?'rotate(180deg)':'';
+}
+
+function toggleCat(cat){
+  // 複選模式
+  if(selectedCats.includes(cat)){
+    selectedCats=selectedCats.filter(c=>c!==cat);
+  } else {
+    selectedCats.push(cat);
+  }
+  renderChips();
+}
+
+// === 位置標籤雲 ===
+let selectedLoc="";
+let modalLocExpanded=false;
+function renderLocChips(){
+  const elTop=document.getElementById("locChipsTop");
+  const elBottom=document.getElementById("locChipsBottom");
+  const wrap=document.getElementById("locChipsToggleWrap");
+  if(!elTop) return;
+  if(locations.length===0){
+    elTop.innerHTML='<span style="font-size:13px;color:#9ca3af;">尚無位置，請至設定頁新增</span>';
+    if(wrap) wrap.style.display='none';
+    return;
+  }
+  // Sort by item count desc
+  const freq={};
+  items.forEach(i=>{ if(i.location) freq[i.location]=(freq[i.location]||0)+1; });
+  const sorted=[...locations].sort((a,b)=>(freq[b]||0)-(freq[a]||0));
+  const top=sorted.slice(0,4);
+  const rest=sorted.slice(4);
+  const chipHTML=(loc)=>{
+    const isSel=selectedLoc===loc;
+    return `<button class="loc-chip${isSel?' selected':''}" onclick="toggleLoc('${esc(loc)}')">${loc}</button>`;
+  };
+  elTop.innerHTML=top.map(chipHTML).join("");
+  if(rest.length>0&&wrap){
+    wrap.style.display='block';
+    document.getElementById("locChipsLabel").textContent=`更多位置 (${rest.length})`;
+    if(elBottom) elBottom.innerHTML=rest.map(chipHTML).join("");
+  } else if(wrap){
+    wrap.style.display='none';
+  }
+}
+function toggleModalLocExpand(){
+  modalLocExpanded=!modalLocExpanded;
+  const area=document.getElementById("locChipsRest");
+  const arrow=document.getElementById("locChipsArrow");
+  if(area) area.style.maxHeight=modalLocExpanded?'500px':'0';
+  if(arrow) arrow.style.transform=modalLocExpanded?'rotate(180deg)':'';
+}
+function toggleLoc(loc){
+  selectedLoc=selectedLoc===loc?"":loc;
+  renderLocChips();
+}
+
+// === 搜尋 ===
+function toggleSearch(){
+  searchOpen=!searchOpen;
+  const bar=document.getElementById("searchBar");
+  const btn=document.getElementById("searchToggleBtn");
+  const page=document.getElementById("pageMain");
+  if(searchOpen){
+    bar.classList.add("open");
+    btn.classList.add("search-active");
+    page.classList.add("search-open");
+    setTimeout(()=>document.getElementById("searchInput").focus(),200);
+  } else closeSearch();
+}
+function closeSearch(){
+  searchOpen=false; searchQuery="";
+  const i=document.getElementById("searchInput"); if(i) i.value="";
+  document.getElementById("searchBar").classList.remove("open");
+  document.getElementById("searchToggleBtn").classList.remove("search-active");
+  document.getElementById("pageMain").classList.remove("search-open");
+  resetFilterExpand();
+  render();
+}
+function onSearchInput(){ searchQuery=(document.getElementById("searchInput").value||"").trim().toLowerCase(); render(); }
+function toggleStatus(type){ statusFilter=statusFilter===type?null:type; render(); }
+function matchesStatusFilter(itemType, filter){
+  if(!filter) return true;
+  if(filter==="danger") return itemType==="expired";
+  if(filter==="warn") return itemType==="urgent"||itemType==="soon";
+  if(filter==="safe") return itemType==="caution"||itemType==="safe"||itemType==="longterm";
+  return false;
+}
+function toggleFilterExpand(){ filterExpanded=!filterExpanded; applyFilterExpand(); }
+function resetFilterExpand(){ filterExpanded=false; applyFilterExpand(); }
+function applyFilterExpand(){
+  const wrap=document.getElementById("filterRowWrap");
+  const btn=document.getElementById("filterExpandBtn");
+  if(!wrap||!btn) return;
+  wrap.classList.toggle("is-expanded",filterExpanded);
+  btn.classList.toggle("rotated",filterExpanded);
+  // Force layout recalc after transition
+  setTimeout(()=>{ window.scrollTo(0,0); },320);
+}
+function setFilter(f){ currentFilter=f; statusFilter=null; render(); }
+
+// === Modal (新增/編輯品項) ===
+function adjQty(d){ const el=document.getElementById("iQty"); let v=parseInt(el.value)||1; el.value=Math.max(1,v+d); }
+function openModal(){
+  editingId=null;
+  document.getElementById("modalTitle").textContent="新增品項";
+  document.getElementById("saveBtn").textContent="儲存";
+  document.getElementById("iName").value="";
+  document.getElementById("iDate").value=offsetDate(7);
+  document.getElementById("iNote").value="";
+  document.getElementById("iQty").value=1;
+  selectedLoc="";
+  modalLocExpanded=false;
+  var lra=document.getElementById("locChipsRest"); if(lra) lra.style.maxHeight='0';
+  var lcaa=document.getElementById("locChipsArrow"); if(lcaa) lcaa.style.transform='';
+  selectedCats=[];
+  modalCustomExpanded=false;
+  const area=document.getElementById("customChipsArea");
+  const arrow=document.getElementById("customChipsArrow");
+  if(area) area.style.maxHeight='0';
+  if(arrow) arrow.style.transform='';
+  renderChips();
+  renderLocChips();
+  document.getElementById("overlay").classList.remove("hidden");
+  document.body.style.overflow="hidden"; document.body.style.position="fixed"; document.body.style.width="100%";
+  setTimeout(()=>document.getElementById("iName").focus(),100);
+}
+function openModalWithName(name){ openModal(); document.getElementById("iName").value=name; }
+function openEdit(id){
+  const item=items.find(i=>i.id===id); if(!item) return;
+  editingId=id;
+  document.getElementById("modalTitle").textContent="編輯品項";
+  document.getElementById("saveBtn").textContent="更新";
+  document.getElementById("iName").value=item.name;
+  document.getElementById("iDate").value=item.expiry;
+  document.getElementById("iNote").value=item.note||"";
+  document.getElementById("iQty").value=item.qty||1;
+  selectedLoc=item.location||"";
+  selectedCats=item.category.split(",").map(s=>s.trim()).filter(Boolean);
+  // Auto-expand custom area if any selected category is custom
+  const isCustom=selectedCats.some(c=>!getSystemCats().find(sc=>sc.name===c));
+  modalCustomExpanded=isCustom;
+  const area=document.getElementById("customChipsArea");
+  const arrow=document.getElementById("customChipsArrow");
+  if(area) area.style.maxHeight=isCustom?'500px':'0';
+  if(arrow) arrow.style.transform=isCustom?'rotate(180deg)':'';
+  renderChips();
+  renderLocChips();
+  document.getElementById("overlay").classList.remove("hidden");
+  document.body.style.overflow="hidden"; document.body.style.position="fixed"; document.body.style.width="100%";
+}
+function closeModal(){ document.getElementById("overlay").classList.add("hidden"); editingId=null; document.body.style.overflow=""; document.body.style.position=""; document.body.style.width=""; }
+function handleOverlay(e){ if(e.target===document.getElementById("overlay")) closeModal(); }
+
+function handleSave(){
+  const name=document.getElementById("iName").value.trim();
+  const expiry=document.getElementById("iDate").value;
+  if(!name){ showToast("請輸入品名"); return; }
+  if(!expiry){ showToast("請選擇到期日"); return; }
+  if(selectedCats.length===0){ showToast("請至少選擇一個類別"); return; }
+  const note=document.getElementById("iNote").value.trim();
+  const qty=Math.max(1,parseInt(document.getElementById("iQty").value)||1);
+  const location=selectedLoc;
+  const cat=selectedCats.join(",");
+  const s=getStatus(expiry);
+  const status=s.type==="expired"?"已過期":(s.type==="urgent"||s.type==="soon")?"即將到期":"安全";
+
+  const btn=document.getElementById("saveBtn");
+  btn.disabled=true;
+  btn.innerHTML='<span class="save-spinner"></span>'+(editingId?"更新中...":"儲存中...");
+  showLoading(editingId?"更新中...":"儲存中...");
+
+  const params=editingId!==null
+    ? {action:"updateItem",rowIndex:items.find(i=>i.id===editingId)._rowIndex||"",oldName:items.find(i=>i.id===editingId).name,oldDate:items.find(i=>i.id===editingId).expiry,name:sanitizeForSheet(name),category:cat,date:expiry,status,location,note:sanitizeForSheet(note),qty}
+    : {action:"addItem",name:sanitizeForSheet(name),category:cat,date:expiry,status,location,note:sanitizeForSheet(note),qty};
+
+  gasRequest(params,(err,data)=>{
+    hideLoading();
+    btn.disabled=false;
+    btn.textContent=editingId?"更新":"儲存";
+    if(err||!data||!data.ok){
+      showToast("⚠️ 儲存失敗，請檢查網路後重試");
+      return;
+    }
+    if(editingId!==null){
+      items=items.map(i=>i.id===editingId?{...i,name,category:cat,expiry,note,location,qty}:i);
+      showToast("已更新："+name);
+    } else {
+      items.push({id:nextId++,name,category:cat,expiry,note,location,status,qty});
+      showToast("已新增："+name);
+    }
+    closeModal();
+    render();
+  });
+}
+
+function quickMinus(id){
+  const item=items.find(i=>i.id===id); if(!item||item.qty<=0) return;
+  const newQty=item.qty-1;
+  if(newQty===0){
+    showConfirmQtyZero(item);
+    return;
+  }
+  // 即時更新 DOM
+  item.qty=newQty;
+  const wrap=document.querySelector('.card-wrap[data-id="'+id+'"]');
+  if(wrap){
+    const qv=wrap.querySelector('.qv');
+    if(qv) qv.textContent='x'+newQty;
+  }
+  showToast("庫存 -1 → 剩餘 "+newQty);
+  // 背景靜默同步 GAS
+  gasRequest({action:"updateItem",oldName:item.name,oldDate:item.expiry,name:item.name,category:item.category,date:item.expiry,status:item.status||"",location:item.location||"",note:item.note||"",qty:newQty},(err,data)=>{
+    if(err||!data||!data.ok) showToast("⚠️ 同步失敗，請重新整理");
+  });
+}
+function showConfirmQtyZero(item){
+  confirmCallback=null;
+  const box=document.getElementById("confirmBox");
+  box.innerHTML=`<p>「${item.name}」庫存歸零</p><div class="sub">要刪除這個品項嗎？</div>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" onclick="doKeepZero(${item.id})">保留（標示已用完）</button>
+      <button class="confirm-del" onclick="doDeleteZero(${item.id})">刪除</button>
+    </div>`;
+  document.getElementById("confirmOverlay").classList.remove("hidden");
+}
+function doKeepZero(id){
+  closeConfirm();
+  const item=items.find(i=>i.id===id); if(!item) return;
+  item.qty=0;
+  render();
+  showToast("已標示為用完："+item.name);
+  gasRequest({action:"updateItem",oldName:item.name,oldDate:item.expiry,name:item.name,category:item.category,date:item.expiry,status:item.status||"",location:item.location||"",note:item.note||"",qty:0},(err,data)=>{
+    if(err||!data||!data.ok) showToast("⚠️ 同步失敗，請重新整理");
+  });
+}
+function doDeleteZero(id){
+  closeConfirm();
+  const item=items.find(i=>i.id===id); if(!item) return;
+  items=items.filter(i=>i.id!==id);
+  render();
+  showToast("已刪除："+item.name);
+  gasRequest({action:"deleteItem",name:item.name,date:item.expiry},(err,data)=>{
+    if(err||!data||!data.ok) showToast("⚠️ 同步失敗，請重新整理");
+  });
+}
+
+function deleteItem(id){
+  const item=items.find(i=>i.id===id); if(!item) return;
+  showConfirm(`確定要刪除「${item.name}」嗎？`,"此操作無法復原",()=>{
+    showLoading("刪除中...");
+    gasRequest({action:"deleteItem",name:item.name,date:item.expiry},(err,data)=>{
+      hideLoading();
+      if(err||!data||!data.ok){ showToast("⚠️ 刪除失敗，請重試"); return; }
+      items=items.filter(i=>i.id!==id);
+      render();
+      showToast("已刪除："+item.name);
+    });
+  });
+}
+
+// === 設定頁 ===
+let settingsTab="cat";
+function openSettingsPage(){
+  document.getElementById("pageMain").classList.add("hidden");
+  document.getElementById("pageSettings").classList.remove("hidden");
+  document.getElementById("fabBtn").style.display="none";
+  settingsTab="cat";
+  switchSettingsTab("cat");
+}
+function closeSettingsPage(){
+  document.getElementById("pageSettings").classList.add("hidden");
+  document.getElementById("pageMain").classList.remove("hidden");
+  document.getElementById("fabBtn").style.display="flex";
+  render();
+}
+function switchSettingsTab(tab){
+  settingsTab=tab;
+  document.getElementById("tabCat").classList.toggle("active",tab==="cat");
+  document.getElementById("tabLoc").classList.toggle("active",tab==="loc");
+  document.getElementById("tabTg").classList.toggle("active",tab==="tg");
+  document.getElementById("panelCat").classList.toggle("active",tab==="cat");
+  document.getElementById("panelLoc").classList.toggle("active",tab==="loc");
+  document.getElementById("panelTg").classList.toggle("active",tab==="tg");
+  if(tab==="cat") renderCatPanel();
+  else if(tab==="loc") renderLocPanel();
+  else if(tab==="tg") renderTgPanel();
+}
+
+// === 類別管理面板 ===
+function renderCatPanel(){
+  const freq={};
+  items.forEach(i=>{ i.category.split(",").map(s=>s.trim()).forEach(c=>{ freq[c]=(freq[c]||0)+1; }); });
+  const display=allCatsForSettingsDisplay();
+  const sys=display.filter(c=>c.type==="系統");
+  const custom=display.filter(c=>c.type!=="系統");
+
+  let html=`<button class="cat-add-btn" onclick="openCatAdd()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    新增類別
+  </button>`;
+
+  html+='<div class="cat-section-lbl">系統類別</div>';
+  html+='<div class="cat-grid">';
+  html+=sys.map(cat=>{
+    const cs=catStyle(cat.name);
+    return `<div class="cat-item cat-system">
+      <svg class="cat-system-lock" width="14" height="14" viewBox="0 0 24 24" fill="#9ca3af" opacity="0.5"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>
+      <div class="cat-item-dot" style="background:${cs.color}"></div>
+      <div class="cat-item-info">
+        <div class="cat-item-name" style="color:${cs.color}">${cat.name}</div>
+        <div class="cat-item-count">${freq[cat.name]||0} 個品項</div>
+      </div>
+    </div>`;
+  }).join("");
+  html+='</div>';
+
+  html+='<div class="cat-section-lbl cat-divider">自訂類別</div>';
+  if(custom.length>0){
+    for(let i=0;i<custom.length;i+=2){
+      html+='<div class="settings-pair-row">';
+      for(let j=i;j<i+2;j++){
+        if(j<custom.length){
+          const cat=custom[j];
+          const cs=catStyle(cat.name);
+          html+=`<div class="card-wrap settings-swipe">
+            <div class="card-actions">
+              <button class="card-action-del" onclick="confirmDeleteCat('${esc(cat.name)}');closeAllSettingsSwipe()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                刪除
+              </button>
+            </div>
+            <div class="card">
+              <div class="cat-item-dot" style="background:${cs.color}"></div>
+              <div class="cat-item-info">
+                <div class="cat-item-name">${cat.name}</div>
+                <div class="cat-item-count">${freq[cat.name]||0} 個品項</div>
+              </div>
+              <button class="cat-edit-btn" onclick="openCatEdit('${esc(cat.name)}')" title="編輯" style="padding:4px;align-self:flex-start;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>`;
+        } else {
+          html+='<div class="spacer"></div>';
+        }
+      }
+      html+='</div>';
+    }
+  } else {
+    html+='<div class="cat-empty">目前無自訂類別<br>點擊上方按鈕新增</div>';
+  }
+  const panel=document.getElementById("panelCat");
+  panel.innerHTML=html;
+  initSettingsSwipes(panel);
+}
+
+// 編輯類別
+let editingCatName=null;
+function openCatAdd(){
+  editingCatName=null;
+  document.getElementById("catEditTitle").textContent="新增類別";
+  document.getElementById("iCatEditName").value="";
+  document.getElementById("iCatEditWeight").value="";
+  document.getElementById("iCatEditColor").value="#374151";
+  clearEditError('catEditError');
+  document.getElementById("catEditOverlay").classList.remove("hidden");
+  setTimeout(()=>document.getElementById("iCatEditName").focus(),100);
+}
+function openCatEdit(name){
+  editingCatName=name;
+  const cat=categories.find(c=>c.name===name);
+  document.getElementById("catEditTitle").textContent="編輯類別";
+  document.getElementById("iCatEditName").value=name;
+  document.getElementById("iCatEditWeight").value=cat?cat.weight:'';
+  document.getElementById("iCatEditColor").value=cat?cat.color:'#374151';
+  clearEditError('catEditError');
+  document.getElementById("catEditOverlay").classList.remove("hidden");
+  setTimeout(()=>document.getElementById("iCatEditName").focus(),100);
+}
+function closeCatEdit(){ document.getElementById("catEditOverlay").classList.add("hidden"); editingCatName=null; clearEditError('catEditError'); }
+function saveCatEdit(){
+  const newName=document.getElementById("iCatEditName").value.trim();
+  const newWeight=parseInt(document.getElementById("iCatEditWeight").value)||999;
+  const newColor=document.getElementById("iCatEditColor").value||"#374151";
+  const errEl=document.getElementById("catEditError");
+  if(!newName){ showEditError('catEditError','請輸入類別名稱'); return; }
+
+  if(editingCatName===null){
+    // 新增模式
+    if(categories.find(c=>c.name.toLowerCase()===newName.toLowerCase())){ showEditError('catEditError','「'+newName+'」類別已存在，請使用其他名稱'); return; }
+    showLoading("新增中...");
+    gasRequest({action:"addCategory",name:newName,weight:newWeight,type:"自訂",color:newColor},(err,data)=>{
+      hideLoading();
+      if(err||!data||!data.ok){ showToast("⚠️ 新增失敗"); return; }
+      categories.push({weight:newWeight,name:newName,type:"自訂",color:newColor});
+      closeCatEdit();
+      renderCatPanel();
+      showToast("已新增類別："+newName);
+    });
+  } else {
+    // 編輯模式
+    const old=editingCatName;
+    if(newName!==old && categories.find(c=>c.name.toLowerCase()===newName.toLowerCase())){ showEditError('catEditError','「'+newName+'」類別已存在，請使用其他名稱'); return; }
+    const oldCat=categories.find(c=>c.name===old);
+    showLoading("更新中...");
+    gasRequest({action:"updateCategory",oldName:old,name:newName,weight:newWeight,type:oldCat?.type||"自訂",color:newColor},(err,data)=>{
+      hideLoading();
+      if(err||!data||!data.ok){ showToast("⚠️ 更新失敗"); return; }
+      categories=categories.map(c=>c.name===old?{...c,name:newName,weight:newWeight,color:newColor}:c);
+      if(newName!==old){
+        items=items.map(i=>{
+          const cats=i.category.split(",").map(s=>s.trim());
+          const idx=cats.indexOf(old);
+          if(idx>=0){ cats[idx]=newName; return {...i,category:cats.join(",")}; }
+          return i;
+        });
+      }
+      closeCatEdit();
+      renderCatPanel();
+      showToast("已更新類別");
+    });
+  }
+}
+
+function confirmDeleteCat(name){
+  const count=items.filter(i=>i.category.split(",").map(s=>s.trim()).includes(name)).length;
+  showConfirm(
+    `確定要刪除「${name}」嗎？`,
+    count>0?`有 ${count} 個品項使用此類別，刪除後將改為「其他」`:'此類別目前沒有品項使用',
+    ()=>doDeleteCat(name)
+  );
+}
+function doDeleteCat(name){
+  showLoading("刪除中...");
+  gasRequest({action:"deleteCategory",name},(err,data)=>{
+    hideLoading();
+    if(err||!data||!data.ok){ showToast("⚠️ 刪除失敗"); return; }
+    categories=categories.filter(c=>c.name!==name);
+    items=items.map(i=>{
+      const cats=i.category.split(",").map(s=>s.trim()).filter(c=>c!==name);
+      return {...i,category:cats.length>0?cats.join(","):"其他"};
+    });
+    renderCatPanel();
+    showToast("已刪除類別「"+name+"」");
+  });
+}
+
+// === 位置管理面板 ===
+function renderLocPanel(){
+  const freq={};
+  items.forEach(i=>{ if(i.location) freq[i.location]=(freq[i.location]||0)+1; });
+
+  let html=`<button class="loc-add-btn" onclick="openLocEditNew()" style="margin-top:0;margin-bottom:12px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    新增位置
+  </button>`;
+  if(locations.length>0){
+    for(let i=0;i<locations.length;i+=2){
+      html+='<div class="settings-pair-row">';
+      for(let j=i;j<i+2;j++){
+        if(j<locations.length){
+          const loc=locations[j];
+          html+=`<div class="card-wrap settings-swipe">
+            <div class="card-actions">
+              <button class="card-action-del" onclick="confirmDeleteLoc('${esc(loc)}');closeAllSettingsSwipe()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                刪除
+              </button>
+            </div>
+            <div class="card">
+              <div style="width:24px;height:24px;border-radius:6px;background:#F0F9FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0369A1;margin-top:2px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="cat-item-info">
+                <div class="cat-item-name">${loc}</div>
+                <div class="cat-item-count">${freq[loc]||0} 個品項</div>
+              </div>
+              <button class="cat-edit-btn" onclick="openLocEditExisting('${esc(loc)}')" title="編輯" style="padding:4px;align-self:flex-start;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>`;
+        } else {
+          html+='<div class="spacer"></div>';
+        }
+      }
+      html+='</div>';
+    }
+  } else {
+    html+='<div class="cat-empty">尚無存放位置</div>';
+  }
+  const panel=document.getElementById("panelLoc");
+  panel.innerHTML=html;
+  initSettingsSwipes(panel);
+}
+
+// 編輯/新增位置
+let editingLocName=null;
+function openLocEditNew(){
+  editingLocName=null;
+  document.getElementById("locEditTitle").textContent="新增位置";
+  document.getElementById("iLocEditName").value="";
+  clearEditError('locEditError');
+  document.getElementById("locEditOverlay").classList.remove("hidden");
+  setTimeout(()=>document.getElementById("iLocEditName").focus(),100);
+}
+function openLocEditExisting(name){
+  editingLocName=name;
+  document.getElementById("locEditTitle").textContent="編輯位置";
+  document.getElementById("iLocEditName").value=name;
+  clearEditError('locEditError');
+  document.getElementById("locEditOverlay").classList.remove("hidden");
+  setTimeout(()=>document.getElementById("iLocEditName").focus(),100);
+}
+function closeLocEdit(){ document.getElementById("locEditOverlay").classList.add("hidden"); editingLocName=null; clearEditError('locEditError'); }
+function saveLocEdit(){
+  const newName=document.getElementById("iLocEditName").value.trim();
+  if(!newName){ showEditError('locEditError','請輸入位置名稱'); return; }
+
+  // 重複檢查 (英文不分大小寫)
+  const dupLoc=locations.find(l=>l.toLowerCase()===newName.toLowerCase());
+  if(editingLocName){
+    if(newName.toLowerCase()!==editingLocName.toLowerCase() && dupLoc){ showEditError('locEditError','「'+newName+'」位置已存在，請使用其他名稱'); return; }
+  } else {
+    if(dupLoc){ showEditError('locEditError','「'+newName+'」位置已存在，請使用其他名稱'); return; }
+  }
+
+  showLoading("儲存中...");
+  if(editingLocName){
+    // 編輯：更新位置名稱 + 同步 items
+    gasRequest({action:"updateLocation",oldName:editingLocName,name:newName},(err,data)=>{
+      hideLoading();
+      if(err||!data||!data.ok){ showToast("⚠️ 更新失敗"); return; }
+      const idx=locations.indexOf(editingLocName);
+      if(idx>=0) locations[idx]=newName;
+      items=items.map(i=>i.location===editingLocName?{...i,location:newName}:i);
+      closeLocEdit();
+      renderLocPanel();
+      showToast("已更新位置");
+    });
+  } else {
+    // 新增
+    gasRequest({action:"addLocation",name:newName},(err,data)=>{
+      hideLoading();
+      if(err||!data||!data.ok){ showToast("⚠️ 新增失敗"); return; }
+      locations.push(newName);
+      closeLocEdit();
+      renderLocPanel();
+      showToast("已新增位置："+newName);
+    });
+  }
+}
+
+function confirmDeleteLoc(name){
+  const count=items.filter(i=>i.location===name).length;
+  showConfirm(
+    `確定要刪除位置「${name}」嗎？`,
+    count>0?`有 ${count} 個品項存放在此位置，刪除後將清空其位置欄位`:'此位置目前沒有品項使用',
+    ()=>doDeleteLoc(name)
+  );
+}
+function doDeleteLoc(name){
+  showLoading("刪除中...");
+  gasRequest({action:"deleteLocation",name},(err,data)=>{
+    hideLoading();
+    if(err||!data||!data.ok){ showToast("⚠️ 刪除失敗"); return; }
+    locations=locations.filter(l=>l!==name);
+    items=items.map(i=>i.location===name?{...i,location:""}:i);
+    renderLocPanel();
+    showToast("已刪除位置「"+name+"」");
+  });
+}
+
+// === 通用確認對話框 ===
+let confirmCallback=null;
+function showConfirm(title,sub,cb){
+  confirmCallback=cb;
+  const box=document.getElementById("confirmBox");
+  box.innerHTML=`<p>${title}</p><div class="sub">${sub}</div>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" onclick="closeConfirm()">取消</button>
+      <button class="confirm-del" onclick="doConfirm()">確認</button>
+    </div>`;
+  document.getElementById("confirmOverlay").classList.remove("hidden");
+}
+function closeConfirm(){ document.getElementById("confirmOverlay").classList.add("hidden"); confirmCallback=null; }
+function doConfirm(){ if(confirmCallback) confirmCallback(); closeConfirm(); }
+
+// === Swipe-to-Action (Settings Page) ===
+let activeSettingsSwipe=null;
+const SETTINGS_SWIPE_OPEN=64;
+function initSettingsSwipes(container){
+  container.querySelectorAll(".card-wrap.settings-swipe").forEach(initSettingsSwipe);
+}
+function initSettingsSwipe(wrap){
+  const card=wrap.querySelector(".card");
+  if(!card) return;
+  let startX=0,startY=0,curX=0,isDragging=false,isHorizontal=null;
+  card.addEventListener("touchstart",(e)=>{
+    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
+    curX=activeSettingsSwipe===wrap?-SETTINGS_SWIPE_OPEN:0;
+    isDragging=true; isHorizontal=null;
+    card.style.transition="none";
+  },{passive:true});
+  card.addEventListener("touchmove",(e)=>{
+    if(!isDragging) return;
+    const dx=e.touches[0].clientX-startX;
+    const dy=e.touches[0].clientY-startY;
+    if(isHorizontal===null) isHorizontal=Math.abs(dx)>Math.abs(dy);
+    if(!isHorizontal) return;
+    e.preventDefault();
+    const newX=Math.max(-SETTINGS_SWIPE_OPEN,Math.min(0,curX+dx));
+    card.style.transform=`translateX(${newX}px)`;
+  },{passive:false});
+  card.addEventListener("touchend",(e)=>{
+    if(!isDragging||!isHorizontal){isDragging=false;return;}
+    isDragging=false;
+    const dx=e.changedTouches[0].clientX-startX;
+    card.style.transition="transform 0.25s ease";
+    if(dx<-40){
+      if(activeSettingsSwipe&&activeSettingsSwipe!==wrap) closeSettingsSwipe(activeSettingsSwipe);
+      card.style.transform=`translateX(-${SETTINGS_SWIPE_OPEN}px)`;
+      activeSettingsSwipe=wrap;
+    } else {
+      card.style.transform="translateX(0)";
+      if(activeSettingsSwipe===wrap) activeSettingsSwipe=null;
+    }
+  },{passive:true});
+}
+function closeSettingsSwipe(wrap){
+  if(!wrap) return;
+  const card=wrap.querySelector(".card");
+  if(card){card.style.transition="transform 0.25s ease";card.style.transform="translateX(0)";}
+  if(activeSettingsSwipe===wrap) activeSettingsSwipe=null;
+}
+function closeAllSettingsSwipe(){ if(activeSettingsSwipe) closeSettingsSwipe(activeSettingsSwipe); }
+
+// === Swipe-to-Action (Home) ===
+let activeSwipe=null;
+const SWIPE_OPEN=128;
+
+function initSwipe(wrap){
+  const card=wrap.querySelector(".card");
+  if(!card) return;
+  let startX=0,startY=0,curX=0,isDragging=false,isHorizontal=null;
+  card.addEventListener("touchstart",(e)=>{
+    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
+    curX=activeSwipe===wrap?-SWIPE_OPEN:0;
+    isDragging=true; isHorizontal=null;
+    card.style.transition="none";
+  },{passive:true});
+  card.addEventListener("touchmove",(e)=>{
+    if(!isDragging) return;
+    const dx=e.touches[0].clientX-startX;
+    const dy=e.touches[0].clientY-startY;
+    if(isHorizontal===null) isHorizontal=Math.abs(dx)>Math.abs(dy);
+    if(!isHorizontal) return;
+    e.preventDefault();
+    const newX=Math.max(-SWIPE_OPEN,Math.min(0,curX+dx));
+    card.style.transform=`translateX(${newX}px)`;
+  },{passive:false});
+  card.addEventListener("touchend",(e)=>{
+    if(!isDragging||!isHorizontal){isDragging=false;return;}
+    isDragging=false;
+    const dx=e.changedTouches[0].clientX-startX;
+    card.style.transition="transform 0.25s ease";
+    if(dx<-60){
+      if(activeSwipe&&activeSwipe!==wrap) closeSwipe(activeSwipe);
+      card.style.transform=`translateX(-${SWIPE_OPEN}px)`;
+      activeSwipe=wrap;
+    } else {
+      card.style.transform="translateX(0)";
+      if(activeSwipe===wrap) activeSwipe=null;
+    }
+  },{passive:true});
+}
+function closeSwipe(wrap){
+  if(!wrap) return;
+  const card=wrap.querySelector(".card");
+  if(card){card.style.transition="transform 0.25s ease";card.style.transform="translateX(0)";}
+  if(activeSwipe===wrap) activeSwipe=null;
+}
+function closeAllSwipe(){ if(activeSwipe) closeSwipe(activeSwipe); }
+document.addEventListener("touchstart",(e)=>{
+  if(activeSwipe&&!activeSwipe.contains(e.target)) closeAllSwipe();
+},{passive:true});
+
+// === Sheet 鍵盤適配 ===
+function scrollSheetToInput(el){
+  setTimeout(()=>{
+    const sheet=el.closest('.sheet');
+    if(sheet) sheet.scrollTop=el.offsetTop-sheet.offsetTop-60;
+  },400);
+}
+
+// === iOS 鍵盤修復 (visualViewport) ===
+function fixViewport(){
+  window.scrollTo(0,0);
+  if(window.visualViewport){
+    document.body.style.height=window.visualViewport.height+'px';
+    setTimeout(()=>{ document.body.style.height=''; },300);
+  }
+  applyFilterExpand();
+}
+
+document.addEventListener('focusout',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'){
+    setTimeout(fixViewport,250);
+  }
+});
+
+if(window.visualViewport){
+  let prevH=window.visualViewport.height;
+  window.visualViewport.addEventListener('resize',()=>{
+    const curH=window.visualViewport.height;
+    if(curH>prevH+50){
+      document.body.style.height=curH+'px';
+      window.scrollTo(0,0);
+      setTimeout(()=>{
+        document.body.style.height='';
+        fixViewport();
+      },200);
+    }
+    prevH=curH;
+  });
+}
+
+// === Toast ===
+let toastTimer;
+function showToast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2200); }
+function showEditError(id,msg){ const el=document.getElementById(id); if(el){ el.textContent=msg; el.style.display='block'; } }
+function clearEditError(id){ const el=document.getElementById(id); if(el){ el.textContent=''; el.style.display='none'; } }
+
+// === 從網址取得 user 參數 ===
+const URL_USER = new URLSearchParams(location.search).get("user") || "";
+let tgBound = false;
+let tgNotify = false;
+
+// === Telegram 通知面板 ===
+function renderTgPanel(){
+  const panel=document.getElementById("panelTg");
+  panel.innerHTML='<div style="text-align:center;padding:40px 0;color:#9ca3af;font-size:13px;">查詢綁定狀態中...</div>';
+  gasRequest({action:"getTgStatus"},(err,data)=>{
+    if(!err&&data&&data.ok){
+      tgBound=!!data.bound;
+      tgNotify=!!data.notify;
+    }
+    renderTgPanelUI();
+  });
+}
+function renderTgPanelUI(){
+  const panel=document.getElementById("panelTg");
+  const deepLink="https://t.me/GoodsTimeKeeper_bot?start="+URL_USER;
+  let btnHTML,statusHTML,extraHTML;
+  if(tgBound){
+    btnHTML=tgNotify
+      ?'<button class="tg-btn tg-btn-off" onclick="toggleTgNotify(false)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>關閉通知</button>'
+      :'<button class="tg-btn tg-btn-primary" onclick="toggleTgNotify(true)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 1 0 24 12.056A12.013 12.013 0 0 0 11.944 0Zm5.654 8.22l-1.7 8.007c-.128.6-.462.746-.937.465l-2.59-1.908l-1.249 1.2a.649.649 0 0 1-.519.253l.186-2.631 4.793-4.33c.209-.186-.045-.289-.323-.103l-5.926 3.731l-2.553-.797c-.555-.174-.566-.555.116-.822l9.982-3.849c.462-.167.867.113.717.784Z"/></svg>重新開啟通知</button>';
+    statusHTML=tgNotify
+      ?'<span style="color:#2e7d32;">✅ 已成功綁定，每周一上午 9:00 自動推播到期提醒</span>'
+      :'<span style="color:#9ca3af;">🔕 通知已關閉，點擊上方按鈕重新開啟</span>';
+    extraHTML=`<div style="margin-top:12px;"><a href="${deepLink}" target="_blank" style="font-size:11px;color:#0088cc;text-decoration:none;">重新綁定 Telegram →</a></div>`;
+  } else {
+    btnHTML=`<a href="${deepLink}" target="_blank" class="tg-btn tg-btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 1 0 24 12.056A12.013 12.013 0 0 0 11.944 0Zm5.654 8.22l-1.7 8.007c-.128.6-.462.746-.937.465l-2.59-1.908l-1.249 1.2a.649.649 0 0 1-.519.253l.186-2.631 4.793-4.33c.209-.186-.045-.289-.323-.103l-5.926 3.731l-2.553-.797c-.555-.174-.566-.555.116-.822l9.982-3.849c.462-.167.867.113.717.784Z"/></svg>
+      開啟 Telegram 通知</a>`;
+    statusHTML='點擊上方按鈕，開啟 Telegram 後按「開始」即可完成綁定';
+    extraHTML=`<div class="tg-dl">
+      <div class="tg-dl-title">還沒有 Telegram？立即下載</div>
+      <div class="tg-dl-links">
+        <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=zh_TW" target="_blank" class="tg-dl-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Android
+        </a>
+        <a href="https://apps.apple.com/tw/app/telegram-messenger/id686449807" target="_blank" class="tg-dl-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 4-6 4-10.5 0-4.5-2.5-7.5-6-7.5-1.5 0-2 .5-2 .5s-.5-.5-2-.5c-3.5 0-6 3-6 7.5 0 4.5 1 10.5 4 10.5 1.25 0 2.5-1.06 4-1.06z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>
+          iOS
+        </a>
+      </div>
+    </div>`;
+  }
+  panel.innerHTML=`
+    <div class="tg-section">
+      <div class="tg-card">
+        <div class="tg-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 1 0 24 12.056A12.013 12.013 0 0 0 11.944 0Zm5.654 8.22l-1.7 8.007c-.128.6-.462.746-.937.465l-2.59-1.908l-1.249 1.2a.649.649 0 0 1-.519.253l.186-2.631 4.793-4.33c.209-.186-.045-.289-.323-.103l-5.926 3.731l-2.553-.797c-.555-.174-.566-.555.116-.822l9.982-3.849c.462-.167.867.113.717.784Z"/></svg>
+        </div>
+        <div class="tg-title">Telegram 到期通知</div>
+        <div class="tg-desc">綁定後，系統每周一上午 9:00 會自動檢查<br>即將到期的物品，並透過 Telegram 傳送提醒通知給你。</div>
+        ${btnHTML}
+        <div class="tg-status">${statusHTML}</div>
+        ${extraHTML}
+      </div>
+      <button class="tg-refresh-btn" onclick="renderTgPanel()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        更新綁定狀態
+      </button>
+    </div>`;
+}
+function toggleTgNotify(enable){
+  gasRequest({action:"toggleNotify",enable:enable?"1":"0"},(err,data)=>{
+    if(!err&&data&&data.ok){
+      tgNotify=!!data.notify;
+      showToast(tgNotify?"已開啟通知":"已關閉通知");
+      renderTgPanelUI();
+    } else {
+      showToast("⚠️ 操作失敗");
+    }
+  });
+}
+
+// === 驗證使用者 ===
+function showBlockPage(title, sub){
+  document.getElementById("blockTitle").textContent = title;
+  document.getElementById("blockSub").textContent = sub;
+  document.getElementById("pageBlock").classList.remove("hidden");
+  document.getElementById("pageMain").classList.add("hidden");
+  document.getElementById("fabBtn").style.display = "none";
+}
+function showMainPage(){
+  document.getElementById("pageBlock").classList.add("hidden");
+  document.getElementById("pageMain").classList.remove("hidden");
+  document.getElementById("fabBtn").style.display = "flex";
+}
+
+// === 初始化 ===
+(function(){
+  // 沒有帶 user 參數，直接擋住
+  if(!URL_USER){
+    showBlockPage("無法存取", "請透過正確的連結開啟此頁面");
+    return;
+  }
+  // 向 GAS 驗證 user 是否存在（網路慢時自動重試，連線問題和查無帳號分開提示）
+  let verifyTries = 0;
+  (function verify(){
+  verifyTries++;
+  gasRequest({action:"verifyUser"},(err,data)=>{
+    if(err && verifyTries < 3){ setTimeout(verify, 800); return; }
+    if(err){
+      showBlockPage("連線逾時", "網路較慢或伺服器忙碌，請確認網路後重新整理");
+      return;
+    }
+    if(!data||!data.ok){
+      showBlockPage("無法存取", "查無此使用者，請確認連結是否正確");
+      return;
+    }
+    // 驗證通過，顯示主頁面並載入資料
+    tgBound = !!data.tgBound;
+    tgNotify = tgBound; // 綁定時預設通知開啟
+    showMainPage();
+    loadFromSheet();
+  },25000);
+  })();
+})();
+</script>
+</body>
+</html>

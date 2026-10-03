@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.classList.add('js');</script>
+<title>王韻婷 Tina Wang｜Portfolio</title>
+<meta name="description" content="王韻婷 Tina Wang — 逾 10 年 Web／APP 產品與專案管理經驗，具程式開發背景，從需求到上線與維運的完整生命週期管理。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #EEF3F2;
+    --cream-deep: #E1EAE8;
+    --text-dark: #33383A;
+    --text-body: #4F585A;
+    --text-muted: #7B8688;
+    --accent: #526B6B;
+    --accent-2: #8FA8A4;
+    --accent-dark: #3E5454;
+    --accent-grad: linear-gradient(135deg, #3E5454 0%, #526B6B 50%, #6E8886 100%);
+    --success: #5B8A72;
+    --border: #D5E0DE;
+    --white: #ffffff;
+    --radius: 20px;
+    --max-width: 1080px;
+    --shadow: 0 10px 30px rgba(40, 52, 53, 0.08);
+    --shadow-lg: 0 20px 50px rgba(40, 52, 53, 0.16);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    color: var(--text-body);
+    background: var(--cream);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Bricolage Grotesque', 'Noto Sans TC', "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(238, 243, 242, 0); backdrop-filter: blur(0px);
+    transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px 0;
+  }
+  .nav.scrolled {
+    background: rgba(238, 243, 242, 0.92); backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(40, 52, 53, 0.12); padding: 14px 0;
+  }
+  .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 500; background: rgba(40, 52, 53, 0.10); pointer-events: none; }
+  .scroll-progress-bar {
+    height: 100%; width: 0;
+    background: var(--accent); border-radius: 0 2px 2px 0; transition: width 0.08s linear;
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--text-dark); letter-spacing: 0.02em; }
+  .nav-logo span { color: var(--accent-dark); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--text-dark); font-size: 0.92rem; font-weight: 500; opacity: 0.75;
+    transition: opacity 0.2s ease, color 0.2s ease; position: relative; padding-bottom: 4px;
+  }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px;
+    background: var(--accent-dark); border-radius: 2px; transform: scaleX(0); transform-origin: left center;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .nav-links a:hover { opacity: 1; color: var(--accent-dark); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-links a.active { opacity: 1; color: var(--accent-dark); }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+  .nav-toggle span { width: 24px; height: 2px; background: var(--text-dark); border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--cream); position: relative; overflow: hidden; padding: 150px 0 100px;
+  }
+  .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; pointer-events: none; }
+  .hero::before { width: 420px; height: 420px; background: var(--accent); top: -140px; right: -100px; opacity: 0.19; }
+  .hero::after { width: 360px; height: 360px; background: var(--accent-2); bottom: -150px; left: -110px; opacity: 0.31; }
+  .hero-inner { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr); gap: 48px; align-items: center; }
+  .hero-text { max-width: 640px; }
+  .hero-photo { display: flex; justify-content: center; }
+  .hero-photo-frame { position: relative; width: 100%; max-width: 280px; aspect-ratio: 1 / 1; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+  .hero-photo-frame::before {
+    content: ""; position: absolute; inset: -16px; border-radius: 50%;
+    background: conic-gradient(from 200deg, var(--accent), var(--accent-2) 45%, rgba(143, 168, 164, 0) 68%);
+    z-index: 0; pointer-events: none;
+  }
+  .hero-photo img {
+    position: relative; z-index: 1; width: 100%; height: 100%; aspect-ratio: 1 / 1;
+    object-fit: cover; object-position: center 30%; border-radius: 50%;
+    border: 6px solid var(--cream); box-shadow: var(--shadow-lg);
+  }
+  .hero-badge {
+    position: absolute; z-index: 3; display: flex; align-items: center; gap: 8px;
+    background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 11px 16px;
+    box-shadow: var(--shadow); opacity: 0; white-space: nowrap;
+  }
+  .hero-badge-top { top: 10%; right: -8%; font-weight: 700; color: var(--text-dark); font-size: 0.9rem; animation: fadeUp 0.7s ease 0.6s forwards, floatY 4s ease-in-out 1.4s infinite; }
+  .hero-badge-bottom { bottom: 9%; left: -9%; flex-direction: column; align-items: flex-start; gap: 2px; animation: fadeUp 0.7s ease 0.78s forwards, floatY 4.6s ease-in-out 1.6s infinite; }
+  .hero-badge-bottom .num { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--accent-dark); line-height: 1; }
+  .hero-badge-bottom .num small { font-size: 0.95rem; font-weight: 700; }
+  .hero-badge-bottom .lbl { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.02em; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; color: var(--accent-dark); font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px; opacity: 0; animation: fadeUp 0.8s ease forwards;
+  }
+  .hero-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--accent-dark); }
+  .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); color: var(--text-dark); margin-bottom: 18px; opacity: 0; animation: fadeUp 0.8s ease 0.1s forwards; }
+  .hero h1 .accent { display: inline-block; margin-top: 10px; font-size: 0.6em; line-height: 1.35; color: var(--accent-dark); }
+  .hero .role { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text-muted); font-weight: 600; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+  .hero .tagline { font-size: clamp(1rem, 1.6vw, 1.15rem); color: var(--text-body); max-width: 560px; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 15px 30px; border-radius: 999px;
+    font-weight: 700; font-size: 0.95rem; cursor: pointer; border: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .btn-primary { background: var(--accent-grad); color: #ffffff; box-shadow: 0 8px 20px rgba(62, 84, 84, 0.24); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(62, 84, 84, 0.32); }
+  .btn-outline { background: transparent; color: var(--text-dark); border: 1.5px solid rgba(40, 52, 53, 0.25); }
+  .btn-outline:hover { background: var(--cream-deep); border-color: var(--accent-dark); transform: translateY(-3px); }
+  .cta-particle { position: fixed; border-radius: 50%; pointer-events: none; z-index: 6000; transform: translate(-50%, -50%); will-change: transform, opacity; }
+  .cta-ring { position: fixed; border-radius: 50%; border: 2px solid var(--accent); pointer-events: none; z-index: 5999; transform: translate(-50%, -50%); will-change: transform, opacity; }
+  .hero-ctas .btn.cta-pop { transform: translateY(-3px) scale(0.9); transition: transform 0.13s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+  /* ---------- Section shared ---------- */
+  section { padding: 110px 0; }
+  .section-tag { color: var(--accent-dark); font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 16px; }
+  .section-head { max-width: 620px; margin-bottom: 56px; }
+  .section-head p { color: var(--text-body); font-size: 1.05rem; }
+  .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .js .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* ---------- About ---------- */
+  .about { background: var(--white); padding-top: 40px; }
+  .about-text { max-width: 760px; margin-bottom: 48px; }
+  .about-text p { margin-bottom: 18px; font-size: 1.05rem; }
+  .about-text .highlight { color: var(--text-dark); font-weight: 700; background: linear-gradient(180deg, transparent 65%, rgba(143, 168, 164, 0.45) 65%); }
+  .skills-below { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  .skill-card { background: var(--cream-deep); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+  .skill-card h3 { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 18px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { background: var(--white); border: 1px solid var(--border); color: var(--text-dark); font-size: 0.85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; }
+  .tool-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 32px; }
+  .tool-group h4 { font-size: 0.8rem; font-weight: 600; color: var(--text-dark); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .tool-icons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .tool-icon svg { width: 28px; height: 28px; display: block; }
+  .tool-icon { display: flex; flex-direction: column; align-items: center; gap: 9px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 14px 8px; text-align: center; }
+  .tool-monogram { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--cream-deep); color: var(--accent-dark); font-size: 0.66rem; font-weight: 700; border-radius: 8px; letter-spacing: 0.02em; }
+  .tool-icon .tool-name { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); line-height: 1.25; word-break: keep-all; overflow-wrap: anywhere; }
+
+  /* ---------- Experience ---------- */
+  .experience { background: var(--cream-deep); }
+  .timeline { position: relative; display: flex; flex-direction: column; gap: 36px; padding-left: 56px; }
+  .timeline::before { content: ""; position: absolute; left: 15px; top: 14px; bottom: 14px; width: 2px; background: var(--accent-2); }
+  .exp-card { position: relative; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .exp-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .exp-card::after {
+    content: ""; position: absolute; left: -48px; top: 34px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--cream-deep); border: 3px solid var(--accent); box-shadow: 0 0 0 4px var(--cream-deep); z-index: 1;
+  }
+  .exp-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+  .exp-top h3 { font-size: 1.35rem; margin-bottom: 6px; }
+  .exp-role { color: var(--text-muted); font-weight: 600; font-size: 0.95rem; }
+  .exp-period { font-size: 0.92rem; font-weight: 700; color: var(--accent-dark); white-space: nowrap; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .exp-list { list-style: none; columns: 2; column-gap: 44px; }
+  .exp-list li { position: relative; padding-left: 26px; font-size: 0.98rem; color: var(--text-body); margin-bottom: 14px; break-inside: avoid; }
+  .exp-list li:last-child { margin-bottom: 0; }
+  .exp-list li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .exp-list li strong { color: var(--text-dark); font-weight: 700; margin-right: 4px; }
+  .exp-projects { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--border); font-size: 0.93rem; color: var(--text-muted); }
+  .exp-projects strong { color: var(--accent-dark); font-weight: 700; margin-right: 6px; }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; padding-left: 56px; }
+  .edu-card { background: rgba(255, 255, 255, 0.7); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 26px; display: flex; gap: 16px; align-items: center; }
+  .edu-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex: none; }
+  .edu-card h4 { font-size: 1.02rem; margin-bottom: 2px; }
+  .edu-card p { font-size: 0.88rem; color: var(--text-muted); font-weight: 600; }
+
+  /* ---------- Portfolio ---------- */
+  .portfolio { background: var(--white); }
+  .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; align-items: start; }
+  .case-card {
+    display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--white);
+    box-shadow: var(--shadow); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    cursor: pointer; transform-style: preserve-3d; will-change: transform;
+  }
+  .case-card:hover { box-shadow: var(--shadow-lg); }
+  .case-cover { position: relative; height: 200px; flex: none; overflow: hidden; background: var(--cream-deep); }
+  .case-cover::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, transparent 60%);
+    transform: translateX(-130%); transition: transform 0.8s ease;
+  }
+  .case-card:hover .case-cover::after { transform: translateX(130%); }
+  .case-cover-phones { display: flex; align-items: flex-start; justify-content: center; gap: 16px; padding-top: 28px; background: var(--cream-deep); }
+  .mini-phone { width: 84px; flex: none; aspect-ratio: 9 / 19.5; background: #0b0b0d; border-radius: 16px; padding: 4px; box-shadow: 0 10px 22px rgba(40, 52, 53, 0.22); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1); }
+  .mini-phone.mid { margin-top: -12px; }
+  .mini-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 12px; display: block; background: #fff; }
+  .case-card:hover .mini-phone { transform: translateY(-4px); }
+  .case-card:hover .mini-phone.mid { transform: translateY(-8px); }
+  .case-body { flex: 1; background: linear-gradient(165deg, #3E5454 0%, #344444 100%); padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .case-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A9C2BE; }
+  .case-body h3 { font-size: 1.45rem; color: #fff; line-height: 1.25; }
+  .case-body .case-problem { color: rgba(255, 255, 255, 0.82); font-size: 0.92rem; line-height: 1.55; }
+  .case-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .case-chip { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; font-size: 0.8rem; font-weight: 600; padding: 6px 13px; border-radius: 999px; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .case-toggle { margin-top: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 0.92rem; font-weight: 700; transition: gap 0.2s ease, opacity 0.2s ease; }
+  .case-toggle:hover { opacity: 0.8; gap: 9px; }
+  .case-toggle svg { transition: transform 0.3s ease; width: 14px; height: 14px; }
+  .mini-head { margin: 60px 0 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .mini-head h3 { font-size: 1.25rem; }
+  .mini-head span { font-size: 0.88rem; color: var(--text-muted); font-weight: 600; }
+  .mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .mini-card { background: var(--cream-deep); border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .mini-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .mini-card .case-tag { color: var(--accent-dark); }
+  .mini-card h4 { font-size: 1.1rem; }
+  .mini-card p { font-size: 0.9rem; color: var(--text-body); line-height: 1.55; }
+  .mini-card .mini-intro { color: var(--text-body); }
+  .mini-role { margin-top: 6px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .mini-label { display: block; margin-bottom: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; color: var(--accent-dark); }
+
+  /* ---------- Side project ---------- */
+  .side-card { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); border-radius: var(--radius); overflow: hidden; background: var(--white); border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .side-main { background: linear-gradient(165deg, #3E5454 0%, #344444 100%); padding: 34px 32px; display: flex; flex-direction: column; gap: 14px; }
+  .side-main h3 { color: #fff; font-size: clamp(1.6rem, 3vw, 2rem); line-height: 1.2; }
+  .side-main .side-lede { color: rgba(255, 255, 255, 0.84); font-size: 0.96rem; line-height: 1.65; }
+  .side-demo { margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; font-size: 0.86rem; line-height: 1.55; color: rgba(255, 255, 255, 0.74); }
+  .side-demo span { flex: 1 1 200px; }
+  .side-try { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; background: #EEF3F2; color: #2C3D3D; font-size: 0.92rem; font-weight: 700; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22); transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; }
+  .side-try svg { width: 16px; height: 16px; flex: none; }
+  .side-try:hover { transform: translateY(-2px); background: #ffffff; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28); }
+  .side-try:focus-visible { outline: 3px solid #A9C2BE; outline-offset: 3px; }
+  .side-detail { padding: 32px 34px; display: flex; flex-direction: column; gap: 24px; }
+  .side-detail h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }
+  .side-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .side-list li { position: relative; padding-left: 22px; font-size: 0.95rem; color: var(--text-body); line-height: 1.6; }
+  .side-list li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .side-list li strong { color: var(--text-dark); font-weight: 700; margin-right: 4px; }
+  .expiry-scale { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+  .expiry-scale span { border-radius: 10px; padding: 9px 4px; text-align: center; font-size: 0.78rem; font-weight: 700; line-height: 1.3; white-space: nowrap; font-variant-numeric: tabular-nums; border: 1px solid rgba(0, 0, 0, 0.05); }
+  .expiry-note { margin-top: 8px; font-size: 0.82rem; color: var(--text-muted); }
+  @media (max-width: 860px) {
+    .side-card { grid-template-columns: 1fr; }
+    .side-main, .side-detail { padding: 26px 24px; }
+  }
+  @media (max-width: 560px) {
+    .expiry-scale { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  .side-shots { margin-top: 28px; }
+  @media (min-width: 861px) {
+    .side-shots .phone-strip { flex-wrap: nowrap; gap: clamp(20px, 3vw, 44px); }
+    .side-shots .phone-frame { width: clamp(168px, 20vw, 220px); border-radius: 34px; padding: 9px; }
+    .side-shots .phone-frame::before { top: 18px; width: 70px; height: 20px; }
+    .side-shots .phone-screen { border-radius: 25px; }
+  }
+
+  /* ---------- Operation flow (雄獅) ---------- */
+  .flow { margin: 34px 0 8px; display: flex; flex-direction: column; gap: 26px; }
+  .flow-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 12px; }
+  .flow-label { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; color: #fff; background: var(--accent); padding: 4px 12px; border-radius: 999px; }
+  .flow-label-soft { color: var(--accent-dark); background: var(--cream-deep); }
+  .flow-note { font-size: 0.9rem; color: var(--text-muted); }
+  .flow-steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  .flow-step { position: relative; display: flex; flex-direction: column; gap: 6px; background: var(--cream); border: 1px solid var(--border); border-radius: 16px; padding: 18px 16px 16px; }
+  .flow-num { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+  .flow-step h4 { font-size: 1rem; }
+  .flow-step p { font-size: 0.86rem; line-height: 1.6; color: var(--text-body); }
+  .flow-role { margin-top: auto; padding-top: 6px; font-size: 0.74rem; font-weight: 600; color: var(--accent-dark); }
+  .flow-step:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: -12px; width: 7px; height: 7px; border-top: 2px solid var(--accent-2); border-right: 2px solid var(--accent-2); transform: translate(-1px, -50%) rotate(45deg); }
+  .flow-extra .tags { margin-bottom: 14px; }
+  .flow-rules { list-style: none; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
+  .flow-rules li { position: relative; padding-left: 18px; font-size: 0.9rem; line-height: 1.6; color: var(--text-body); }
+  .flow-rules li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); }
+  @media (max-width: 960px) {
+    .flow-steps { grid-template-columns: 1fr; gap: 14px; }
+    .flow-step:not(:last-child)::after { top: auto; bottom: -11px; right: auto; left: 26px; transform: rotate(135deg); }
+  }
+
+  /* ---------- Showcase ---------- */
+  .showcase { background: var(--cream-deep); }
+  .case-block-head { max-width: 620px; margin-bottom: 8px; }
+  .case-block-head p { color: var(--text-body); font-size: 1.02rem; }
+  .case-block-head p + p { margin-top: 10px; }
+  .brand-title { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .brand-mark { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 14px; border-radius: 11px; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; flex: none; }
+  .phone-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 80px; padding: 24px 4px 30px; }
+  .phone-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .phone-dots { display: none; }
+  .phone-frame { position: relative; width: 260px; aspect-ratio: 9 / 19.5; background: #0b0b0d; border-radius: 40px; padding: 11px; box-shadow: var(--shadow-lg); }
+  .phone-frame::before { content: ""; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 82px; height: 24px; background: #0b0b0d; border-radius: 13px; z-index: 3; }
+  .phone-screen { position: relative; width: 100%; height: 100%; border-radius: 29px; overflow: hidden; background: #fff; }
+  .phone-screen img { width: 100%; display: block; }
+  .phone-screen.fit img { height: 100%; object-fit: cover; object-position: top; }
+  .phone-screen.fit.top-only img { height: auto; }
+  .phone-screen.fit img.phone-tabbar { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; object-fit: fill; z-index: 2; }
+  .phone-caption { font-size: 0.9rem; font-weight: 700; color: var(--text-dark); }
+  .phone-with-anno { position: relative; }
+  .showcase-hint { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 16px; background: rgba(82, 107, 107, 0.12); color: var(--accent-dark); border-radius: 999px; font-size: 0.85rem; font-weight: 700; }
+  .phone-frame.is-zoomable { cursor: zoom-in; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .phone-item:hover .phone-frame.is-zoomable { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(40, 52, 53, 0.24); }
+  .phone-frame.is-zoomable:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; }
+  .phone-zoom-icon {
+    position: absolute; top: 14px; right: 14px; z-index: 5; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, 0.92); color: var(--accent-dark); border-radius: 50%; font-size: 0.95rem; box-shadow: var(--shadow);
+    opacity: 0; transform: scale(0.8); transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none;
+  }
+  .phone-item:hover .phone-zoom-icon { opacity: 1; transform: scale(1); }
+  .phone-anno {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 44px 18px 18px;
+    background: linear-gradient(to top, rgba(11, 13, 16, 0.66) 0%, rgba(11, 13, 16, 0.46) 45%, rgba(11, 13, 16, 0.14) 78%, rgba(11, 13, 16, 0) 100%);
+    transform: translateY(101%); opacity: 0; transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease; pointer-events: none;
+  }
+  .phone-item:hover .phone-anno { transform: translateY(0); opacity: 1; }
+  .phone-anno p { font-size: 0.82rem; line-height: 1.55; color: #fff; margin: 0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+    padding: 40px 20px; background: rgba(24, 32, 33, 0.84); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; transition: opacity 0.3s ease;
+  }
+  .lightbox.open { display: flex; opacity: 1; }
+  .lightbox-img-wrap { max-height: 84vh; max-width: 96vw; border-radius: 26px; overflow-x: hidden; overflow-y: auto; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); cursor: zoom-out; animation: lbPop 0.35s cubic-bezier(0.22, 1, 0.36, 1); background: #fff; }
+  .lightbox-img-wrap img { display: block; width: min(86vw, 340px); height: auto; }
+  .lightbox.wide .lightbox-img-wrap { border-radius: 14px; }
+  .lightbox.wide .lightbox-img-wrap img { width: min(94vw, 1500px); }
+  @keyframes lbPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .lightbox-caption { color: rgba(255, 255, 255, 0.92); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em; text-align: center; }
+  .lightbox-close { position: absolute; top: 24px; right: 28px; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.88); color: var(--text-dark); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease, background 0.2s ease; }
+  .lightbox-close:hover { transform: scale(1.08); background: #fff; }
+
+  /* ---------- Admin ---------- */
+  .admin { background: var(--white); }
+  /* ---------- Case summary（專案／問題／我的角色／成果） ---------- */
+  .case-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  #case-lanrui .case-summary { background: var(--cream); }
+  .sum-item { padding: 24px 22px 26px; border-left: 1px solid var(--border); }
+  .sum-item:first-child { border-left: none; }
+  .sum-label { display: inline-block; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid var(--accent-2); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; color: var(--accent-dark); }
+  .sum-item p { font-size: 0.93rem; line-height: 1.7; color: var(--text-body); }
+  .sum-item.sum-result { background: linear-gradient(165deg, #3E5454 0%, #344444 100%); border-left-color: transparent; }
+  .sum-result .sum-label { color: #A9C2BE; border-bottom-color: rgba(255, 255, 255, 0.28); }
+  .sum-result p { color: #fff; font-weight: 600; }
+  @media (max-width: 960px) {
+    .case-summary { grid-template-columns: 1fr 1fr; }
+    .sum-item:nth-child(3) { border-left: none; }
+    .sum-item:nth-child(n+3) { border-top: 1px solid var(--border); }
+    .sum-item.sum-result { border-top-color: transparent; }
+  }
+  @media (max-width: 560px) {
+    .case-summary { grid-template-columns: 1fr; }
+    .sum-item { border-left: none; padding: 20px 20px 22px; }
+    .sum-item + .sum-item { border-top: 1px solid var(--border); }
+  }
+
+  /* ---------- 案例內的小標與間距 ---------- */
+  .block-gap { margin-top: 72px; }
+  .block-title { font-size: 1.3rem; margin-bottom: 8px; }
+
+  /* ---------- 最難的設計（雄獅桌次分派） ---------- */
+  .challenge { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: center; margin-top: 40px; padding: 40px 44px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .challenge-text h3 { font-size: clamp(1.4rem, 2.6vw, 1.75rem); margin: 14px 0 10px; }
+  .challenge-text > p { font-size: 1rem; color: var(--text-body); margin-bottom: 20px; }
+  .challenge-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .challenge-list li { position: relative; padding-left: 22px; font-size: 0.95rem; line-height: 1.7; color: var(--text-body); }
+  .challenge-list li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .challenge-list strong { display: block; color: var(--text-dark); font-weight: 700; }
+  .challenge-phones { display: flex; gap: 26px; }
+  .challenge-phones .phone-frame { width: 210px; border-radius: 34px; padding: 9px; }
+  .challenge-phones .phone-frame::before { top: 18px; width: 66px; height: 20px; }
+  .challenge-phones .phone-screen { border-radius: 25px; }
+  @media (max-width: 960px) {
+    .challenge { grid-template-columns: 1fr; gap: 32px; padding: 30px 26px; }
+    .challenge-phones { justify-content: center; }
+  }
+  @media (max-width: 860px) {
+    .challenge-phones .phone-item { flex: 0 1 auto; }
+  }
+  @media (max-width: 560px) {
+    .challenge { padding: 26px 20px; }
+    .challenge-phones { gap: 14px; }
+    .challenge-phones .phone-item { flex: 1 1 0; min-width: 0; }
+    .challenge-phones .phone-frame { width: 100%; border-radius: 24px; padding: 6px; }
+    .challenge-phones .phone-frame::before { top: 11px; width: 40px; height: 12px; }
+    .challenge-phones .phone-screen { border-radius: 18px; }
+    .challenge-phones .phone-caption { font-size: 0.8rem; text-align: center; }
+  }
+
+
+  /* ---------- 蘭瑞：三個關卡 ---------- */
+  .issue-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 40px; }
+  .issue-card { display: flex; flex-direction: column; gap: 10px; background: var(--cream); border: 1px solid var(--border); border-radius: 18px; padding: 26px 24px; }
+  .issue-num { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+  .issue-card h4 { font-size: 1.1rem; }
+  .issue-q { font-size: 0.92rem; line-height: 1.7; color: var(--text-muted); }
+  .issue-a { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 0.93rem; line-height: 1.7; color: var(--text-body); }
+  .issue-a b { display: block; margin-bottom: 2px; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--accent-dark); }
+  @media (max-width: 960px) { .issue-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- 其他專案（接在三個案例後面） ---------- */
+  .more-projects { background: var(--cream-deep); }
+  .more-projects .section-head + .mini-head { margin-top: 0; }
+  .more-projects .mini-card { background: var(--white); }
+
+  /* ---------- 其他專案卡片內的連結 ---------- */
+  .mini-link { margin-top: 4px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-dark); }
+  .mini-link svg { width: 13px; height: 13px; transition: transform 0.25s ease; }
+  .mini-link:hover svg { transform: translateY(2px); }
+
+  /* ---------- 規格案例（作品集重製版） ---------- */
+  .spec-block { margin-top: 64px; }
+  .spec-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+  .spec-table th { text-align: left; padding: 12px 16px; background: var(--accent-dark); color: #fff; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+  .spec-table td { padding: 14px 16px; border-top: 1px solid var(--border); font-size: 0.92rem; line-height: 1.65; color: var(--text-body); vertical-align: top; }
+  .spec-table tbody tr:first-child td { border-top: none; }
+  .spec-table td:first-child { white-space: nowrap; }
+  .spec-table td strong { color: var(--text-dark); }
+  @media (min-width: 721px) { .spec-compare th:not(:first-child), .spec-compare td:not(:first-child) { width: 42%; } }
+  @media (min-width: 721px) { .spec-table td[data-label="誰送出"], .spec-table td[data-label="誰審核"], .spec-table td[data-label="資料來源"] { white-space: nowrap; } }
+  .spec-note { margin-top: 12px; font-size: 0.8rem; line-height: 1.6; color: var(--text-muted); }
+  .flow.spec-block { margin-bottom: 0; }
+  .flow-steps.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 960px) { .flow-steps.cols-4 { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) {
+    .spec-table thead { display: none; }
+    .spec-table, .spec-table tbody, .spec-table tr, .spec-table td { display: block; width: 100%; }
+    .spec-table tr { padding: 16px 18px; border-top: 1px solid var(--border); }
+    .spec-table tbody tr:first-child { border-top: none; }
+    .spec-table td { padding: 2px 0; border: none; white-space: normal; }
+    .spec-table td:first-child { padding-bottom: 6px; font-size: 1rem; white-space: normal; }
+    .spec-table td:not(:first-child)::before { content: attr(data-label); display: block; margin-top: 6px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; color: var(--accent-dark); }
+  }
+
+  /* ---------- 後台示意（作品集重製版，假資料） ---------- */
+  .mock-wrap { max-width: 900px; margin: 0 auto; }
+  .mock-admin { background: var(--white); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .mock-bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: #F4F7F6; border-bottom: 1px solid var(--border); }
+  .mock-dots { display: flex; gap: 6px; }
+  .mock-dots i { display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .mock-title { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); }
+  .mock-body { padding: 18px 20px 20px; }
+  .mock-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .mock-field { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 0.8rem; color: var(--text-body); }
+  .mock-btn { margin-left: auto; padding: 6px 14px; border-radius: 8px; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 700; }
+  .mock-table-wrap { overflow-x: auto; }
+  .mock-table { width: 100%; min-width: 560px; border-collapse: collapse; }
+  .mock-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+  .mock-table td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.86rem; color: var(--text-dark); white-space: nowrap; }
+  .mock-table tbody tr:last-child td { border-bottom: none; }
+  .mock-switch { position: relative; display: inline-block; width: 30px; height: 17px; border-radius: 999px; background: #CBD5D3; vertical-align: middle; }
+  .mock-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; }
+  .mock-switch.on { background: var(--accent); }
+  .mock-switch.on::after { left: 15px; }
+  .mock-link { color: var(--accent-dark); font-weight: 700; text-decoration: underline; }
+  .mock-tag { padding: 2px 8px; border-radius: 6px; background: var(--cream-deep); color: var(--accent-dark); font-size: 0.74rem; font-weight: 700; }
+  .mock-notes { margin-top: 18px; }
+  .mock-wrap .flow-head { margin-bottom: 14px; }
+  @media (max-width: 560px) {
+    .mock-body { padding: 14px 14px 16px; }
+    .mock-btn { margin-left: 0; }
+  }
+
+  /* ---------- Back to top ---------- */
+  .back-to-top {
+    position: fixed; bottom: 28px; right: 28px; z-index: 150; width: 52px; height: 52px; border-radius: 50%; border: none;
+    background: var(--accent); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(40, 52, 53, 0.2); opacity: 0; visibility: hidden; transform: translateY(16px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, box-shadow 0.25s ease;
+  }
+  .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .back-to-top.visible:hover { transform: translateY(-3px) scale(1); background: var(--accent-dark); box-shadow: 0 12px 24px rgba(40, 52, 53, 0.26); }
+  .back-to-top svg { width: 22px; height: 22px; }
+
+  /* ---------- Cat cursor ---------- */
+  .cat-cursor { position: fixed; top: 0; left: 0; width: 42px; height: 42px; pointer-events: none; z-index: 10000; opacity: 0; transform: translate3d(-100px, -100px, 0); transition: opacity 0.3s ease; will-change: transform; }
+  .cat-cursor.active { opacity: 1; }
+  .cat-cursor .cat-heart { opacity: 0; transform: scale(0); transform-box: view-box; transform-origin: 44px 4px; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .cat-cursor.hover .cat-heart { opacity: 1; transform: scale(1); }
+  .cat-cursor svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 1px 3px rgba(40, 52, 53, 0.35)); }
+  body.cat-cursor-on, body.cat-cursor-on * { cursor: none !important; }
+  @media (hover: none), (pointer: coarse) { .cat-cursor { display: none !important; } }
+
+  /* ---------- Contact ---------- */
+  .contact { font-family: "Bricolage Grotesque", "Noto Sans TC", system-ui, sans-serif; position: relative; overflow: hidden; background: var(--cream); padding: 160px 0 130px; }
+  .contact-wave { position: absolute; top: 0; left: 0; width: 100%; height: 150px; display: block; z-index: 1; filter: blur(0.5px); }
+  .contact-glow { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+  .contact-glow.cg1 { width: 480px; height: 480px; background: var(--accent-2); top: -40px; right: -120px; opacity: 0.32; }
+  .contact-glow.cg2 { width: 400px; height: 400px; background: var(--accent); bottom: -180px; left: 6%; opacity: 0.12; }
+  .contact-glow.cg3 { width: 300px; height: 300px; background: var(--cream-deep); top: 44%; right: 30%; opacity: 0.5; }
+  .contact-inner { position: relative; z-index: 2; }
+  .contact-status { display: inline-flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.02em; color: var(--accent-dark); margin-bottom: 30px; }
+  .contact-status .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(82, 107, 107, 0.5); animation: contactPulse 2.2s infinite; }
+  @keyframes contactPulse { 0% { box-shadow: 0 0 0 0 rgba(82, 107, 107, 0.45); } 70% { box-shadow: 0 0 0 10px rgba(82, 107, 107, 0); } 100% { box-shadow: 0 0 0 0 rgba(82, 107, 107, 0); } }
+  .contact-title { margin: 0 0 46px; font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: var(--text-dark); }
+  .contact-title .hl { color: var(--accent); }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 34px; }
+  .contact-links a { position: relative; display: inline-flex; align-items: center; gap: 9px; font-size: 1.15rem; font-weight: 700; color: var(--text-dark); text-decoration: none; padding-bottom: 5px; transition: color 0.25s ease; }
+  .contact-links a svg { width: 19px; height: 19px; flex-shrink: 0; transition: transform 0.25s ease; }
+  .contact-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px; background: var(--accent); border-radius: 2px; transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1); }
+  .contact-links a:hover { color: var(--accent-dark); }
+  .contact-links a:hover svg { transform: translateY(-2px); }
+  .contact-links a:hover::after { right: 0; }
+  .contact-note { margin-top: 40px; font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
+  footer { text-align: center; padding: 28px 0; font-size: 0.85rem; color: var(--text-muted); background: var(--cream-deep); }
+
+  /* ---------- Landing intro ---------- */
+  .landing-intro {
+    position: fixed; inset: 0; z-index: 9000; background: var(--cream); display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: clamp(22px, 4.5vh, 44px); overflow: hidden; opacity: 1; visibility: visible;
+    transition: transform 0.75s cubic-bezier(0.7, 0, 0.2, 1), opacity 0.75s ease, visibility 0.75s;
+  }
+  .landing-intro::before, .landing-intro::after { content: ""; position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
+  .landing-intro::before { width: 420px; height: 420px; background: var(--accent); top: -140px; right: -100px; opacity: 0.18; }
+  .landing-intro::after { width: 360px; height: 360px; background: var(--accent-2); bottom: -150px; left: -110px; opacity: 0.3; }
+  .landing-intro.intro-dismissed { transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none; }
+  .landing-mark { position: absolute; top: 28px; right: 34px; z-index: 1; display: flex; align-items: center; gap: 9px; font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-muted); opacity: 0; transition: opacity 0.6s ease; }
+  .landing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: landingPulse 1.8s ease-out infinite; }
+  @keyframes landingPulse { 0% { box-shadow: 0 0 0 0 rgba(82, 107, 107, 0.5); } 70% { box-shadow: 0 0 0 9px rgba(82, 107, 107, 0); } 100% { box-shadow: 0 0 0 0 rgba(82, 107, 107, 0); } }
+  .landing-eyebrow { position: relative; z-index: 1; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.34em; text-transform: uppercase; color: var(--text-muted); opacity: 0; transform: translateY(8px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .landing-grid { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: clamp(10px, 2.2vw, 30px); }
+  .landing-cell { font-family: 'Noto Sans TC', "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 700; font-size: clamp(2.2rem, 6vw, 4.4rem); line-height: 1.1; letter-spacing: 0.06em; color: var(--text-dark); opacity: 0; transform: translateY(14px); transition: opacity 1s ease, transform 1s ease, color 0.7s ease; }
+  .landing-cell.on { opacity: 1; transform: none; }
+  .landing-cell.flash, .landing-cell.last { color: var(--accent); }
+  .landing-sep { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.1rem, 2.6vw, 2rem); color: var(--accent-2); opacity: 0; transition: opacity 0.8s ease; }
+  .landing-sep.on { opacity: 1; }
+  .landing-foot { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; opacity: 0; transform: translateY(10px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .landing-name { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-dark); }
+  .landing-hint { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.72rem; letter-spacing: 0.22em; color: var(--text-muted); opacity: 0; transition: opacity 0.6s ease; }
+  .landing-hint .arrow { animation: hintBob 1.6s ease-in-out infinite; }
+  @keyframes hintBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  .landing-intro.reveal-meta .landing-mark, .landing-intro.reveal-meta .landing-hint { opacity: 1; }
+  .landing-intro.reveal-meta .landing-eyebrow, .landing-intro.reveal-meta .landing-foot { opacity: 1; transform: none; }
+  body.intro-lock { overflow: hidden; }
+  @media (max-width: 600px) { .landing-mark { display: none; } .landing-grid { display: grid; grid-template-columns: auto auto; gap: 10px 32px; } .landing-sep { display: none; } }
+
+  /* ---------- Wave dividers ---------- */
+  .wave-divider { position: relative; width: 100%; height: 115px; line-height: 0; overflow: hidden; }
+  .wave-divider svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+  .wave-divider path { filter: blur(0.5px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-dot, .contact-status .dot { animation: none; }
+    .landing-cell, .landing-sep { transition: none; }
+    .landing-intro { transition: opacity 0.4s ease, visibility 0.4s; }
+    .hero-badge-top, .hero-badge-bottom { animation: fadeUp 0.5s ease forwards; }
+    .js .reveal { transition: none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .skills-below { grid-template-columns: 1fr; gap: 20px; }
+    .tool-groups { grid-template-columns: 1fr; gap: 18px; }
+    .phone-strip { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; gap: 0; justify-content: flex-start; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 24px 0 30px; }
+    .phone-strip::-webkit-scrollbar { display: none; }
+    .phone-item { flex: 0 0 100%; scroll-snap-align: center; }
+    .phone-dots { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+    .phone-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(62, 84, 84, 0.28); transition: width 0.3s ease, background 0.3s ease; cursor: pointer; }
+    .phone-dots span.active { width: 22px; border-radius: 5px; background: var(--accent); }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-photo { order: -1; }
+    .hero-photo-frame { max-width: min(60vw, 260px); }
+    .hero-badge-top { right: -4%; }
+    .hero-badge-bottom { left: -4%; }
+    .edu-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .wave-divider { height: 58px; }
+    .nav-links {
+      position: fixed; top: 0; right: -100%; height: 100vh; width: 72%; max-width: 320px; background: rgba(238, 243, 242, 0.98); backdrop-filter: blur(12px);
+      flex-direction: column; justify-content: center; align-items: flex-start; padding: 40px; gap: 26px; transition: right 0.35s ease; box-shadow: -8px 0 30px rgba(40, 52, 53, 0.12);
+    }
+    .nav-links.open { right: 0; }
+    .nav-links a { font-size: 1.1rem; opacity: 1; }
+    .nav-toggle { display: flex; }
+    section { padding: 80px 0; }
+    .hero { padding: 120px 0 60px; }
+    .hero-badge { padding: 8px 12px; }
+    .hero-badge-bottom .num { font-size: 1.25rem; }
+    .exp-top { flex-direction: column; }
+    .exp-card { padding: 26px; }
+    .timeline { padding-left: 34px; }
+    .timeline::before { left: 8px; }
+    .exp-card::after { left: -31px; top: 28px; }
+    .exp-list { columns: 1; }
+    .edu-grid { padding-left: 34px; }
+    .skill-card { padding: 24px 20px; }
+    .tool-icon { padding: 12px 0; gap: 7px; }
+    .tool-icons { gap: 6px; }
+    .tool-icon .tool-name { font-size: 0.6rem; letter-spacing: -0.01em; overflow-wrap: normal; }
+    .case-body { padding: 22px 20px 20px; }
+    .case-cover { height: 180px; }
+    .back-to-top { bottom: 20px; right: 18px; width: 46px; height: 46px; }
+    .contact { padding: 120px 0 90px; }
+    .contact-links { gap: 20px 26px; }
+  }
+  @media (max-width: 480px) {
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="landing-intro" id="landingIntro" role="img" aria-label="需求、開發、測試、上線 — Tina Wang">
+  <div class="landing-mark"><span>Taipei</span><span class="landing-dot"></span></div>
+  <div class="landing-eyebrow">Product / Project Manager</div>
+  <div class="landing-grid" aria-hidden="true">
+    <span class="landing-cell">需求</span><span class="landing-sep">→</span>
+    <span class="landing-cell">開發</span><span class="landing-sep">→</span>
+    <span class="landing-cell">測試</span><span class="landing-sep">→</span>
+    <span class="landing-cell">上線</span>
+  </div>
+  <div class="landing-foot">
+    <span class="landing-name">Tina Wang</span>
+  </div>
+</div>
+
+<script>
+  // Landing intro：需求 → 開發 → 測試 → 上線 依序出現，跑完自動進入首頁
+  (function () {
+    const intro = document.getElementById('landingIntro');
+    if (!intro) return;
+    const cells = Array.from(intro.querySelectorAll('.landing-cell'));
+    const seps = Array.from(intro.querySelectorAll('.landing-sep'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let dismissed = false, autoTimer = null;
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      if (autoTimer) clearTimeout(autoTimer);
+      intro.classList.add('intro-dismissed');
+      document.body.classList.remove('intro-lock');
+      skipEvents.forEach(ev => window.removeEventListener(ev, skip, { passive: true }));
+      setTimeout(() => { intro.style.display = 'none'; intro.setAttribute('aria-hidden', 'true'); }, 800);
+    }
+    const skipEvents = ['wheel', 'touchmove', 'click', 'keydown'];
+    function skip(e) {
+      if (e.type === 'keydown' && !['Enter', ' ', 'Spacebar', 'Escape', 'ArrowDown'].includes(e.key)) return;
+      dismiss();
+    }
+    document.body.classList.add('intro-lock');
+    window.scrollTo(0, 0);
+    skipEvents.forEach(ev => window.addEventListener(ev, skip, { passive: true }));
+    const last = cells.length - 1;
+    if (reduce) {
+      cells.forEach(c => c.classList.add('on'));
+      seps.forEach(sp => sp.classList.add('on'));
+      cells[last].classList.add('last');
+      intro.classList.add('reveal-meta');
+      autoTimer = setTimeout(dismiss, 1600);
+      return;
+    }
+    const START = 600, STEP = 1100;
+    cells.forEach((cell, i) => {
+      setTimeout(() => {
+        if (dismissed) return;
+        cell.classList.add('on');
+        if (i === last) { cell.classList.add('last'); return; }
+        cell.classList.add('flash');
+        setTimeout(() => cell.classList.remove('flash'), 950);
+        if (seps[i]) setTimeout(() => seps[i].classList.add('on'), 550);
+      }, START + i * STEP);
+    });
+    const done = START + last * STEP + 1000;
+    setTimeout(() => { if (!dismissed) intro.classList.add('reveal-meta'); }, done);
+    autoTimer = setTimeout(dismiss, done + 2200);
+  })();
+</script>
+
+<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar"></div></div>
+
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo">Tina Wang<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="開啟選單">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Product / Project Manager</div>
+      <h1>王韻婷 Tina Wang<br><span class="accent">把需求，落地成能上線的產品。</span></h1>
+      <p class="role">產品經理／專案經理・Web／APP 全生命週期・逾 10 年經驗</p>
+      <p class="tagline">從需求訪談、功能企劃、工項拆解與成本估算，到開發管理、測試驗收、APP 上架與維運。具程式開發背景，能在客戶需求與工程實作之間有效溝通，推動專案落地。</p>
+      <div class="hero-ctas">
+        <a href="#portfolio" class="btn btn-primary">查看作品集</a>
+        <a href="resume.pdf" class="btn btn-outline" download>下載履歷</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="hero-photo-frame">
+        <img src="img/photo_sq.jpg" alt="王韻婷 Tina Wang">
+        <div class="hero-badge hero-badge-top">💬 聽懂客戶，也聽懂工程</div>
+        <div class="hero-badge hero-badge-bottom">
+          <span class="num"><small>逾</small> 10 <small>年</small></span>
+          <span class="lbl">產品・專案經驗</span>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+<div class="wave-divider" style="background:#EEF3F2;height:150px;"><div style="position:absolute;left:-110px;top:-210px;width:360px;height:360px;border-radius:50%;background:#8FA8A4;opacity:.31;filter:blur(70px);pointer-events:none;"></div><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,85 C300,85 420,8 720,8 C1020,8 1140,85 1440,85 L1440,100 L0,100 Z" fill="#ffffff"></path></svg></div>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-tag reveal">About Me</div>
+    <div class="about-text reveal">
+      <h2 class="section-title">關於我</h2>
+      <p>具程式開發背景，歷經產品企劃與專案管理，長期參與 Web／APP 產品開發，熟悉從需求分析、功能企劃、系統規格、開發管理、測試驗收到上線及維運的完整流程。</p>
+      <p>我相信 <span class="highlight">好的 PM 要能把模糊的需求，轉化為工程團隊可以直接開發的規格</span>。過去的程式經驗讓我理解前後端架構與技術限制，能在客戶需求與工程實作之間有效溝通，協調客戶、BD、設計、工程、法務與外部廠商推動專案落地。</p>
+      <p>除專案執行外，也參與成本、外包報價與合約管理，協助 BD 進行新客戶需求分析、工項拆解與成本估算。近年將 AI 工具導入日常工作，協助需求整理、文件撰寫、資料彙整與測試案例產出，讓 PM 的時間留給判斷與溝通。</p>
+    </div>
+    <div class="skills-below">
+      <div class="skill-card reveal">
+        <h3>Skill</h3>
+        <div class="tags">
+          <span class="tag">需求分析與跨部門協作</span>
+          <span class="tag">專案規劃與時程管理</span>
+          <span class="tag">企劃與系統規格撰寫</span>
+          <span class="tag">Axure 互動原型</span>
+          <span class="tag">測試規劃與驗收</span>
+          <span class="tag">Web／APP 技術協作</span>
+          <span class="tag">工時／成本估算與外包報價</span>
+          <span class="tag">AI 工具應用</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Tool &amp; Tech</h3>
+        <div class="tool-groups">
+          <div class="tool-group">
+            <h4>專案協作</h4>
+            <div class="tool-icons">
+              <div class="tool-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path d="M27.255 80.719c0 7.33-5.978 13.317-13.309 13.317C6.616 94.036.63 88.049.63 80.719s5.987-13.317 13.317-13.317h13.309zm6.709 0c0-7.33 5.987-13.317 13.317-13.317s13.317 5.986 13.317 13.317v33.335c0 7.33-5.986 13.317-13.317 13.317-7.33 0-13.317-5.987-13.317-13.317zm0 0" fill="#de1c59"/><path d="M47.281 27.255c-7.33 0-13.317-5.978-13.317-13.309C33.964 6.616 39.951.63 47.281.63s13.317 5.987 13.317 13.317v13.309zm0 6.709c7.33 0 13.317 5.987 13.317 13.317s-5.986 13.317-13.317 13.317H13.946C6.616 60.598.63 54.612.63 47.281c0-7.33 5.987-13.317 13.317-13.317zm0 0" fill="#35c5f0"/><path d="M100.745 47.281c0-7.33 5.978-13.317 13.309-13.317 7.33 0 13.317 5.987 13.317 13.317s-5.987 13.317-13.317 13.317h-13.309zm-6.709 0c0 7.33-5.987 13.317-13.317 13.317s-13.317-5.986-13.317-13.317V13.946C67.402 6.616 73.388.63 80.719.63c7.33 0 13.317 5.987 13.317 13.317zm0 0" fill="#2eb57d"/><path d="M80.719 100.745c7.33 0 13.317 5.978 13.317 13.309 0 7.33-5.987 13.317-13.317 13.317s-13.317-5.987-13.317-13.317v-13.309zm0-6.709c-7.33 0-13.317-5.987-13.317-13.317s5.986-13.317 13.317-13.317h33.335c7.33 0 13.317 5.986 13.317 13.317 0 7.33-5.987 13.317-13.317 13.317zm0 0" fill="#ebb02e"/></svg><span class="tool-name">Slack</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"> <defs> <linearGradient id="azdo-grad" gradientUnits="userSpaceOnUse" x1="9" y1="16.97" x2="9" y2="1.03" gradientTransform="scale(7.11111)"> <stop offset="0" stop-color="#0078d4"/> <stop offset=".16" stop-color="#1380da"/> <stop offset=".53" stop-color="#3c91e5"/> <stop offset=".82" stop-color="#559cec"/> <stop offset="1" stop-color="#5ea0ef"/> </linearGradient> </defs> <path fill="url(#azdo-grad)" d="M120.89 28.445v69.262l-28.445 23.324-44.09-16.07v15.93L23.395 88.25l72.746 5.688V31.574ZM96.64 31.93 55.82 7.11v16.285L18.348 34.418 7.109 48.852v32.785l16.075 7.11V46.718Zm0 0"/> </svg><span class="tool-name">Azure DevOps</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#0052CC" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg><span class="tool-name">Jira</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#0052CC" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.147 0H2.853A2.86 2.86 0 000 2.853v18.294A2.86 2.86 0 002.853 24h18.294A2.86 2.86 0 0024 21.147V2.853A2.86 2.86 0 0021.147 0zM10.34 17.287a.953.953 0 01-.953.953h-4a.954.954 0 01-.954-.953V5.38a.953.953 0 01.954-.953h4a.954.954 0 01.953.953zm9.233-5.467a.944.944 0 01-.953.947h-4a.947.947 0 01-.953-.947V5.38a.953.953 0 01.953-.953h4a.954.954 0 01.953.953z"/></svg><span class="tool-name">Trello</span></div>
+            </div>
+          </div>
+          <div class="tool-group">
+            <h4>文件與設計</h4>
+            <div class="tool-icons">
+              <div class="tool-icon"><svg aria-hidden="true" fill="#1A1A1A" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg><span class="tool-name">Notion</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#F24E1E" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg><span class="tool-name">Figma</span></div>
+              <div class="tool-icon"><span class="tool-monogram">Ax</span><span class="tool-name">Axure</span></div>
+            </div>
+          </div>
+          <div class="tool-group">
+            <h4>AI 工具</h4>
+            <div class="tool-icons">
+              <div class="tool-icon"><svg aria-hidden="true" fill="#D97757" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg><span class="tool-name">Claude</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#1A1A1A" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg><span class="tool-name">ChatGPT</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#8E75B2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg><span class="tool-name">Gemini</span></div>
+              <div class="tool-icon"><svg aria-hidden="true" fill="#1A1A1A" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.999 3.201C5.372 3.201 0 8.528 0 15.101V20.8h2.212v-.568c0-2.666 2.178-4.827 4.866-4.827 2.688 0 4.866 2.16 4.866 4.827v.568h2.212v-.568c0-3.877-3.17-7.019-7.078-7.019A7.075 7.075 0 0 0 2.992 14.5a7.355 7.355 0 0 1 6.568-4.016c4.057 0 7.347 3.264 7.347 7.287V20.8h2.212V17.77c0-5.235-4.28-9.481-9.56-9.481a9.563 9.563 0 0 0-6.217 2.28A9.795 9.795 0 0 1 12 5.393c5.406 0 9.788 4.346 9.788 9.707V20.8H24V15.1c-.001-6.573-5.373-11.9-12.001-11.9Z"/></svg><span class="tool-name">NotebookLM</span></div>
+            </div>
+          </div>
+          <div class="tool-group">
+            <h4>規格與技術</h4>
+            <div class="tool-icons">
+              <div class="tool-icon"><span class="tool-monogram">API</span><span class="tool-name">API 規格</span></div>
+              <div class="tool-icon"><span class="tool-monogram">F/B</span><span class="tool-name">前後端分工</span></div>
+              <div class="tool-icon"><span class="tool-monogram">SQL</span><span class="tool-name">SQL</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+
+<section class="experience" id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Experience</div>
+      <h2 class="section-title">工作經歷</h2>
+      <p>具程式開發背景，歷經產品企劃與專案管理，長期參與 Web／APP 產品開發。以下列出近年經歷。</p>
+    </div>
+    <div class="timeline">
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div>
+            <h3>康太數位整合股份有限公司</h3>
+            <div class="exp-role">專案經理</div>
+          </div>
+          <div class="exp-period">2018 / 11 — 至今</div>
+        </div>
+        <ul class="exp-list">
+          <li><strong>需求與專案管理</strong>負責 Web／APP 專案需求訪談、需求分析、功能企劃、工項拆解、時程規劃及開發進度控管，擔任客戶、BD、設計、工程及外部廠商的主要溝通窗口。</li>
+          <li><strong>成本與商務</strong>負責工時／成本估算、外包報價及合約管理，並協助 BD 進行新客戶需求分析、工項拆解與成本估算，支援前期提案與報價。</li>
+          <li><strong>規格與技術協作</strong>負責功能規格確認與跨團隊協作，涵蓋 UI/UX、API、前後台功能及第三方系統串接，確保需求與技術方案對齊。</li>
+          <li><strong>測試與驗收</strong>負責測試規劃、測試腳本撰寫與實際驗測，追蹤問題修正及驗收結果。</li>
+          <li><strong>上線</strong>統籌 iOS／Android APP 上架時程與發布排程，完成驗收與專案交付。</li>
+          <li><strong>維運</strong>負責產品上線後維運管理，包含需求派工、工程資源協調、工時追蹤及開發工時結算。</li>
+          <li><strong>AI 運用</strong>分析客戶需求、拆解工項，並產出企劃文件與測試腳本；維運問題先用 AI 分析可能原因，整理成工程師能直接處理的說明。會議錄音錄影自動整理成會議記錄，整理時間減少一半以上；專案文件建成查詢庫，確認規格時能快速找到依據；每日彙整 Slack 與信件中的專案進度與待追蹤事項。</li>
+          <li><strong>結案／資產移交</strong>負責專案結案及終止作業，包含費用結算、法務協調及程式碼、API 規格、資料庫 Schema 等技術資產移交。</li>
+        </ul>
+        <div class="exp-projects"><strong>代表專案</strong>雄獅旅遊大團 APP、集章活動系列（全家、家樂福、天成飯店）、蘭瑞診所 APP、台積電福委會：交流專區／禮品網、PayEasy APP、采盟 APP</div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div>
+            <h3>藍新科技股份有限公司</h3>
+            <div class="exp-role">產品經理（軟體專案管理師）</div>
+          </div>
+          <div class="exp-period">2015 / 4 — 2016 / 10</div>
+        </div>
+        <ul class="exp-list">
+          <li>負責 B2C 線上票券、電子發票等系統的專案管理</li>
+          <li>需求確認、系統規格撰寫、開發排程與人員工作分配</li>
+          <li>測試協調、進度報告及內外部溝通</li>
+        </ul>
+      </div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-icon">學歷</div>
+        <div>
+          <h4>輔仁大學 資訊管理學系</h4>
+          <p>大學畢業</p>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-icon">語言</div>
+        <div>
+          <h4>JLPT N2 日本語能力試驗</h4>
+          <p>2015 年取得</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-title">作品集</h2>
+      <p>三個主要案例。點擊卡片可以看專案摘要、最難的設計和實際畫面；其他專案與 Side Project 接在三個案例後面。</p>
+    </div>
+    <div class="case-grid">
+
+      <a class="case-card reveal" href="#case-lion">
+        <div class="case-cover case-cover-phones">
+          <div class="mini-phone"><img decoding="async" src="img/ls_seatstaff.jpg" alt=""></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅旅遊大團 APP 畫面：桌次分派、主頁、單一車次逐桌分派"></div>
+          <div class="mini-phone"><img decoding="async" src="img/ls_seatone.jpg" alt=""></div>
+        </div>
+        <div class="case-body">
+          <div class="case-tag">旅遊團務 APP ＋ 後台</div>
+          <h3>雄獅旅遊大團 APP</h3>
+          <p class="case-problem">企業團一團最多兩三千人，報到、餐食、座位與行程資料原本用 Excel 整理，再靠紙本和 LINE 群組通知。現在改由一支 APP 處理，旅客、領隊與工作人員依身分使用。</p>
+          <div class="case-chips"><span class="case-chip">唯一 PM</span><span class="case-chip">3 種身分</span><span class="case-chip">現場桌次分派</span></div>
+          <span class="case-toggle">查看案例 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </div>
+      </a>
+
+      <a class="case-card reveal" href="#case-stamps">
+        <div class="case-cover case-cover-phones">
+          <div class="mini-phone"><img decoding="async" src="img/tc_event.jpg" alt=""></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/cf_stamp.jpg" alt="集章活動畫面：天成活動頁、家樂福集點頁、家樂福兌換商品"></div>
+          <div class="mini-phone"><img decoding="async" src="img/cf_product.jpg" alt=""></div>
+        </div>
+        <div class="case-body">
+          <div class="case-tag">會員活動模組</div>
+          <h3>集章活動系列</h3>
+          <p class="case-problem">全家「集章趣」、家樂福「貼貼樂」、天成飯店「鐵粉回饋」。同一套會員集章模組，從便利商店延伸到量販店與飯店。</p>
+          <div class="case-chips"><span class="case-chip">3 個品牌</span><span class="case-chip">跨產業延伸</span><span class="case-chip">訂房系統串接</span></div>
+          <span class="case-toggle">查看案例 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </div>
+      </a>
+
+      <a class="case-card reveal" href="#case-lanrui">
+        <div class="case-cover case-cover-phones">
+          <div class="mini-phone"><img decoding="async" src="img/lr_booking.jpg" alt=""></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/lr_secretary.jpg" alt="蘭瑞診所 APP 畫面：立即預約、健康秘書、血壓紀錄"></div>
+          <div class="mini-phone"><img decoding="async" src="img/lr_bp.jpg" alt=""></div>
+        </div>
+        <div class="case-body">
+          <div class="case-tag">診所會員 APP ＋ 後台</div>
+          <h3>蘭瑞診所 APP</h3>
+          <p class="case-problem">抗老診所的會員 APP，提供線上預約、療程介紹、健康秘書與推播。預約要串接診所系統，健康量測要串接儀器 SDK，還要通過 Apple 審查。</p>
+          <div class="case-chips"><span class="case-chip">唯一 PM</span><span class="case-chip">系統與 SDK 串接</span><span class="case-chip">Apple 審查補件</span></div>
+          <span class="case-toggle">查看案例 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+
+<section class="showcase" id="case-lion">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Case 01</div>
+      <h2 class="section-title brand-title">雄獅旅遊大團 APP<span class="brand-mark">團務管理</span></h2>
+    </div>
+    <div class="case-summary reveal">
+      <div class="sum-item"><span class="sum-label">專案｜Project</span><p>服務企業客戶的大型團體旅遊 APP，旅客、領隊與工作人員三種身分共用，搭配團務後台。</p></div>
+      <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>客戶原本用 Excel 統計整理報到、餐食、座位與行程資料，再靠紙本和 LINE 群組通知。企業團一團最多兩三千人，資訊分散，難以即時掌握。</p></div>
+      <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>專案唯一 PM，負責需求訪談、規格、開發控管與測試，直到上線。</p></div>
+      <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>APP 與後台完成上線。</p></div>
+    </div>
+
+    <div class="challenge reveal">
+      <div class="challenge-text">
+        <span class="flow-label">最難的設計</span>
+        <h3>工作人員的餐廳座位流程</h3>
+        <p>大團用餐時，工作人員要在 APP 上依車次把旅客分到各桌，到了現場還要帶位、確認餐點。這是整個專案最複雜的一段流程。</p>
+        <ul class="challenge-list">
+          <li><strong>以車次為單位分派</strong>同一車的旅客可以分到不同桌，素食旅客可以集中到素食桌。</li>
+          <li><strong>即時檢查座位</strong>用＋／－調整每桌人數，畫面即時顯示剩餘座位；超過上限會提醒，分錯可以取消重來。</li>
+          <li><strong>現場帶位與確認餐點</strong>可以依車次查看各桌名單，方便帶位；也可以依桌次查看特殊飲食狀況，方便確認餐點。</li>
+          <li><strong>資料隨時會變</strong>一般車次和自選行程車次都要分派，餐食或行程變更後也可能要重排，所以分派結果必須能隨時修改。</li>
+        </ul>
+      </div>
+      <div class="challenge-phones">
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatstaff.jpg" alt="雄獅大團 APP 桌次分派（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>上方顯示餐廳、用餐時間、座位總數與已分派座位；下方依車次列出人數與分派進度，點進車次即可逐桌分派。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">桌次分派：車次列表</span>
+        </div>
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatone.jpg" alt="雄獅大團 APP 單一車次逐桌分派"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>依桌型切換，用＋／－調整每桌分到的人數，即時顯示剩餘座位；超過上限會提醒，「清空設定」可重新分派。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">單一車次逐桌分派</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-block-head block-gap reveal">
+      <h3 class="block-title">操作流程</h3>
+      <p>大團 APP 的運作分成兩段：出發前，後台依序建立出團、匯入梯次與旅客、綁定車次與領隊；出發後，旅客在 APP 上報到、點餐並申請變更，由工作人員或領隊審核，結果再以推播通知。</p>
+      <p>梯次、旅客與自選名單都用 Excel 範本匯入。這是刻意的設計：客戶原本就用 Excel 整理資料，沿用同樣的作業習慣，導入時不用改變做法。</p>
+    </div>
+    <div class="flow reveal">
+      <div class="flow-head"><span class="flow-label">出發前・後台建置</span><span class="flow-note">核心資料依序完成，APP 才能正常運作</span></div>
+      <ol class="flow-steps">
+        <li class="flow-step">
+          <span class="flow-num">01</span>
+          <h4>建立出團</h4>
+          <p>輸入專案代碼與 APP 主標。</p>
+          <span class="flow-role">管理者</span>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num">02</span>
+          <h4>匯入梯次與旅客</h4>
+          <p>用 Excel 範本匯入梯次，同步旅客與一般車次。</p>
+          <span class="flow-role">管理者</span>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num">03</span>
+          <h4>車次綁定梯次</h4>
+          <p>一般車次綁定梯次，自選車次可以跨梯次。</p>
+          <span class="flow-role">管理者・工作人員</span>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num">04</span>
+          <h4>設定領隊</h4>
+          <p>替領隊綁定負責的梯次與車次。</p>
+          <span class="flow-role">管理者・工作人員</span>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num">05</span>
+          <h4>匯入自選名單</h4>
+          <p>依梯次用 Excel 範本上傳自選行程名單。</p>
+          <span class="flow-role">管理者・工作人員</span>
+        </li>
+      </ol>
+      <div class="flow-extra">
+        <div class="flow-head"><span class="flow-label flow-label-soft">附屬資料</span><span class="flow-note">可以晚點建置；沒有資料時，APP 上就不會出現對應功能</span></div>
+        <div class="tags"><span class="tag">設定人員</span><span class="tag">餐廳設定</span><span class="tag">餐點管理</span><span class="tag">特殊餐食</span><span class="tag">住宿管理</span><span class="tag">報到時段</span><span class="tag">變更開關</span><span class="tag">帳號管理</span></div>
+      </div>
+    </div>
+    <div class="spec-block reveal">
+      <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">旅客申請與審核</span></div>
+      <table class="spec-table">
+        <thead><tr><th>申請項目</th><th>誰送出</th><th>誰審核</th><th>規則與通過後的影響</th></tr></thead>
+        <tbody>
+          <tr><td data-label="申請項目"><strong>同行旅客</strong></td><td data-label="誰送出">旅客</td><td data-label="誰審核">領隊</td><td data-label="規則與通過後的影響">讓一家人可以一起報到。旅客在報到頁新增同行旅客，審核結果以推播通知。</td></tr>
+          <tr><td data-label="申請項目"><strong>特殊餐食</strong></td><td data-label="誰送出">旅客或領隊</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">選項與忌口清單由後台維護，匯入特殊餐食名單後才開放申請。審核通過才生效；素食等變更可能要重排桌次，工作人員可依桌次確認特殊飲食。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
+
+    <div class="flow-head block-gap reveal"><span class="flow-label">出發後・APP 端</span><span class="flow-note">旅客、領隊與工作人員依身分看到不同功能</span></div>
+    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <div class="phone-strip">
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅大團 APP 主頁（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>依身分顯示不同功能：工作人員可看全團報到人數與行程版本；「編輯行程」只有工作人員、且只在今天之後的日期出現。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">主頁（工作人員）</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_m3.jpg" alt="雄獅大團 APP 選擇特殊餐食"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>特殊餐食的單選項目與忌口清單都由後台維護。旅客或領隊送出變更後，工作人員審核通過才生效；素食等變更可能需要重新調整桌次。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">選擇特殊餐食</span>
+      </div>
+    </div>
+    <div class="phone-dots" aria-hidden="true"></div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+
+<section class="admin" id="admin-lion">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Admin Panel</div>
+      <h2 class="section-title">雄獅大團 管理後台</h2>
+      <p>操作流程的每一步都有對應的後台功能：出團管理負責建團與匯入，行程管理處理車次、領隊、餐食、住宿與報到。以下以報到管理為例。</p>
+    </div>
+    <div class="mock-wrap reveal">
+      <div class="mock-admin" role="img" aria-label="報到管理後台示意：依日期列出報到項目、時段、車次、啟用狀態與報到結果下載">
+        <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">團務管理後台｜報到管理（示意）</span></div>
+        <div class="mock-body">
+          <div class="mock-filters"><span class="mock-field">報到日期：全部</span><span class="mock-field">車次：全部</span><span class="mock-btn">＋ 新增報到項目</span></div>
+          <div class="mock-table-wrap"><table class="mock-table">
+            <thead><tr><th>#</th><th>報到日期</th><th>時段</th><th>報到項目</th><th>報到車次</th><th>啟用</th><th>報到結果</th></tr></thead>
+            <tbody>
+            <tr><td>1</td><td>4/1</td><td>10:00–11:00</td><td>機場集合點名</td><td>A1–A5、A14–A17</td><td><span class="mock-switch on"></span></td><td><span class="mock-link">下載 PDF</span></td></tr>
+            <tr><td>2</td><td>4/2</td><td>10:00–11:00</td><td>機場集合點名</td><td>A6–A13</td><td><span class="mock-switch"></span></td><td>—</td></tr>
+            <tr><td>3</td><td>4/3</td><td>09:30–10:00</td><td>景點集合</td><td>A1–A19</td><td><span class="mock-switch on"></span></td><td><span class="mock-link">下載 PDF</span></td></tr>
+            <tr><td>4</td><td>4/4</td><td>09:30–10:00</td><td>自選行程報到</td><td>A1–A5</td><td><span class="mock-switch on"></span></td><td>—</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <ul class="flow-rules mock-notes">
+        <li>旅客在 APP 出示 QR Code，由領隊掃碼報到；工作人員在後台查看報到與未報到名單，並可下載報到結果 PDF。</li>
+        <li>同一個車次在同一時段只能有一個報到項目；列表順序可拖曳調整，APP 依同樣順序顯示。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+
+<section class="showcase" id="case-stamps">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Case 02</div>
+      <h2 class="section-title brand-title">集章活動系列<span class="brand-mark">會員活動</span></h2>
+    </div>
+    <div class="case-summary reveal">
+      <div class="sum-item"><span class="sum-label">專案｜Project</span><p>會員集章／集點活動模組。最早為全家「集章趣」企劃上線，之後延伸到家樂福（萬家福）「貼貼樂」與天成飯店「鐵粉回饋」。</p></div>
+      <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>品牌想提高會員忠誠度與回訪：把每次消費或住宿變成看得見的進度，集滿就能兌換。</p></div>
+      <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>三個品牌都由我協助評估需求、取得案子，再負責企劃並推動上線。</p></div>
+      <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>同一套模組在便利商店、量販店與飯店三個產業上線。</p></div>
+    </div>
+
+    <div class="spec-block reveal">
+      <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">同一套模組，依產業調整資料來源與兌換方式</span></div>
+      <table class="spec-table spec-compare">
+        <thead><tr><th>項目</th><th>全家「集章趣」／家樂福「貼貼樂」</th><th>天成「鐵粉回饋」</th></tr></thead>
+        <tbody>
+          <tr><td data-label="項目"><strong>集章資料來源</strong></td><td data-label="全家／家樂福">門市 POS 批次傳入消費資料；斷線等異常時稍後重傳</td><td data-label="天成">訂房系統傳入住宿紀錄，多晚住宿拆成每晚一筆</td></tr>
+          <tr><td data-label="項目"><strong>集章計算</strong></td><td data-label="全家／家樂福">集章系統依傳入的消費資料計算章數</td><td data-label="天成">每天早上排程計算，並確認在專案期間內、獎項還沒送完</td></tr>
+          <tr><td data-label="項目"><strong>兌換方式</strong></td><td data-label="全家／家樂福">消費者自行兌換：集滿免費兌換，或章數／點數＋加價購</td><td data-label="天成">達標後通知天成 APP 自動發券</td></tr>
+          <tr><td data-label="項目"><strong>特殊規則</strong></td><td data-label="家樂福">家樂福的貼紙可以轉贈</td><td data-label="天成">改期或取消要重新計算；已發券時通知飯店收回優惠券</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
+
+    <span class="showcase-hint block-gap">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <div class="phone-strip">
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/tc_event.jpg" alt="天成鐵粉回饋 活動頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>活動頁顯示持有貼紙、專案日期、活動說明與贈品獎項。住宿紀錄由訂房系統傳入後自動累計，會員不需要自己登錄。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">天成：活動頁</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp.jpg" alt="家樂福貼貼樂 集點頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>家樂福版本：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">家樂福：集點頁</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_product.jpg" alt="家樂福貼貼樂 兌換商品"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>同一個商品可以設定多種兌換組合，例如「點數＋加價購」或全額點數兌換。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">家樂福：兌換商品</span>
+      </div>
+    </div>
+    <div class="phone-dots" aria-hidden="true"></div>
+
+    <div class="mock-wrap block-gap reveal">
+      <div class="flow-head"><span class="flow-label">後台示意</span><span class="flow-note">集章統計報表（以天成「鐵粉回饋」為例）</span></div>
+      <div class="mock-admin" role="img" aria-label="集章統計報表示意：每晚一筆，標示發送方式與補登、修改紀錄">
+        <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">集章活動後台｜集章統計（示意）</span></div>
+        <div class="mock-body">
+          <div class="mock-filters"><span class="mock-field">專案：鐵粉回饋</span><span class="mock-field">館別：全部</span><span class="mock-field">登錄日期：近一年</span><span class="mock-btn">匯出 Excel</span></div>
+          <div class="mock-table-wrap"><table class="mock-table">
+            <thead><tr><th>會員</th><th>住宿日</th><th>入住–退房</th><th>章數</th><th>發送方式</th><th>備註</th></tr></thead>
+            <tbody>
+            <tr><td>會員 A</td><td>5/3</td><td>5/3–5/5</td><td>1</td><td>系統</td><td>—</td></tr>
+            <tr><td>會員 A</td><td>5/4</td><td>5/3–5/5</td><td>1</td><td>系統</td><td>—</td></tr>
+            <tr><td>會員 B</td><td>5/10</td><td>5/10–5/11</td><td>1</td><td>手動</td><td><span class="mock-tag">補登</span></td></tr>
+            <tr><td>會員 C</td><td>5/10</td><td>5/10–5/12</td><td>1</td><td>系統</td><td><span class="mock-tag">修改</span></td></tr>
+            <tr><td>會員 C</td><td>5/11</td><td>5/10–5/12</td><td>1</td><td>系統</td><td><span class="mock-tag">修改</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <ul class="flow-rules mock-notes">
+        <li>多晚住宿拆成每晚一筆，一晚一章。</li>
+        <li>訂房系統傳入的資料標示為系統發送，後台補登標示為手動發送。</li>
+        <li>改期或取消會留下修改、刪除紀錄，可以匯出 Excel 對帳。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+
+<section class="showcase" id="case-lanrui" style="background:#ffffff;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Case 03</div>
+      <h2 class="section-title brand-title">蘭瑞診所 APP<span class="brand-mark">診所會員</span></h2>
+    </div>
+    <div class="case-summary reveal">
+      <div class="sum-item"><span class="sum-label">專案｜Project</span><p>麗彤集團旗下抗老診所的會員 APP 與後台，提供線上預約、療程介紹、健康秘書與推播。</p></div>
+      <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>預約和健康量測都要串接外部系統，但文件不完整；血壓量測功能又讓 APP 審查多次退件。</p></div>
+      <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>專案唯一 PM，負責企劃、規格與測試。同集團的電商網站與醫美門店 APP 也由我企劃。</p></div>
+      <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>通過 Apple 審查並完成上架（目前已下架）。</p></div>
+    </div>
+
+    <div class="issue-grid">
+      <div class="issue-card reveal">
+        <span class="issue-num">01</span>
+        <h4>串接「領健」預約系統</h4>
+        <p class="issue-q">預約要串接診所使用的領健系統，但客戶只提供 Swagger 文件。</p>
+        <p class="issue-a"><b>我的做法</b>自己讀 API 文件，實際呼叫 API 驗證欄位和回傳資料，再逐欄寫進規格：哪個畫面用哪支 API、領健沒有資料時怎麼顯示。</p>
+      </div>
+      <div class="issue-card reveal">
+        <span class="issue-num">02</span>
+        <h4>串接量測儀器 SDK</h4>
+        <p class="issue-q">健康秘書要顯示血壓與情緒壓力指數，資料來自量測儀器。</p>
+        <p class="issue-a"><b>我的做法</b>規劃量測流程與結果頁，把 SDK 回傳的各項指標對應到畫面，並定義數值區間和紅、橘、綠燈的呈現方式。</p>
+      </div>
+      <div class="issue-card reveal">
+        <span class="issue-num">03</span>
+        <h4>Apple 審查多次退件</h4>
+        <p class="issue-q">Apple 把血壓量測視為醫療器材相關功能，審查多次退件。</p>
+        <p class="issue-a"><b>我的做法</b>撰寫 APP 操作說明，並向血壓計廠商取得證明文件，連同免責聲明一起補件，最後通過審查。</p>
+      </div>
+    </div>
+
+    <div class="spec-block reveal">
+      <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">立即預約：欄位、資料來源與例外處理</span></div>
+      <table class="spec-table">
+        <thead><tr><th>欄位</th><th>資料來源</th><th>規則</th><th>查無資料時</th></tr></thead>
+        <tbody>
+          <tr><td data-label="欄位"><strong>就診類型</strong></td><td data-label="資料來源">固定選項</td><td data-label="規則">諮詢（預設）或美療。</td><td data-label="查無資料時">—</td></tr>
+          <tr><td data-label="欄位"><strong>診間</strong></td><td data-label="資料來源">診所系統</td><td data-label="規則">列出該診所的治療房間與手術房間。</td><td data-label="查無資料時">—</td></tr>
+          <tr><td data-label="欄位"><strong>人員</strong></td><td data-label="資料來源">診所系統的排班</td><td data-label="規則">諮詢列出醫師，美療列出美容師；預設帶入前一頁選的醫師。</td><td data-label="查無資料時">查無該醫師時改為「不指定」。</td></tr>
+          <tr><td data-label="欄位"><strong>日期</strong></td><td data-label="資料來源">診所系統的預約資料</td><td data-label="規則">列出所選人員有排班的日期，沒有排班的日期反灰；可預約兩個月內的日期。</td><td data-label="查無資料時">沒有指定人員時列出所有日期。</td></tr>
+          <tr><td data-label="欄位"><strong>時段</strong></td><td data-label="資料來源">診所系統的班表</td><td data-label="規則">醫師依診間設定的時間為單位，美容師依後台設定的療程時間為單位。</td><td data-label="查無資料時">沒有可預約時段時，提示改選其他日期。</td></tr>
+          <tr><td data-label="欄位"><strong>送出預約</strong></td><td data-label="資料來源">—</td><td data-label="規則">寫入前再確認一次所選時段是否已被預約。</td><td data-label="查無資料時">已被預約時提示重新選擇。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
+
+    <span class="showcase-hint block-gap">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <div class="phone-strip">
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_booking.jpg" alt="蘭瑞診所 APP 立即預約"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>預約欄位依序向診所系統取得診間、人員排班與可預約時段。綠框是規格標註：人員預設帶入前一頁的醫師，查無該醫師時改為「不指定」。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">立即預約</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_secretary.jpg" alt="蘭瑞診所 APP 健康秘書"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>健康秘書集中血壓與情緒壓力兩項量測，顯示最近一次結果；第一次使用可以先看儀器操作教學。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">健康秘書</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_bp.jpg" alt="蘭瑞診所 APP 血壓紀錄"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>血壓紀錄可切換天、週、月、3 個月，以圖表呈現收縮壓與舒張壓，下方列出歷史量測紀錄。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">血壓紀錄</span>
+      </div>
+    </div>
+    <div class="phone-dots" aria-hidden="true"></div>
+  </div>
+</section>
+
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+
+<section class="more-projects" id="more-projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">More Work</div>
+      <h2 class="section-title">其他專案</h2>
+      <p>用 AI 協作做出的 Side Project、負責前期評估或企劃的專案，以及其他代表專案。</p>
+    </div>
+    <div class="mini-head reveal">
+      <h3>Side Project</h3>
+      <span>用 Claude 把自己的生活需求，做成每天在用的小工具</span>
+    </div>
+    <div class="side-card reveal">
+      <div class="side-main">
+        <div class="case-tag">Side Project・AI 協作開發</div>
+        <h3>時光守護者</h3>
+        <p class="side-lede">管理食品、美妝、藥品效期的生活小工具。從「東西放到過期才發現」這個問題出發，自己定義需求、規劃功能，再和 Claude 協作寫出前端與後端，目前迭代到 V3.0，並做出親友版，每人一條專屬連結，資料各自獨立。</p>
+        <div class="case-chips">
+          <span class="case-chip">Claude 協作開發</span>
+          <span class="case-chip">Google Sheets 當資料庫</span>
+          <span class="case-chip">Telegram 每週推播</span>
+          <span class="case-chip">V3.0</span>
+        </div>
+        <div class="side-demo">
+          <a class="side-try" href="timekeeper/?user=g8r2n9d1" target="_blank" rel="noopener">線上試用<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><polyline points="8 7 17 7 17 16"></polyline></svg></a>
+          <span>試用帳號內是示範資料，可以自由新增、編輯、刪除。建議用手機開啟。</span>
+        </div>
+      </div>
+      <div class="side-detail">
+        <div>
+          <h4>我怎麼做</h4>
+          <ul class="side-list">
+            <li><strong>需求定義</strong>把一件物品拆成品名、類別、到期日、庫存數量、存放位置與備註，類別分食品、美妝、藥品，也能自訂代表色與排序。</li>
+            <li><strong>與 AI 協作實作</strong>和 Claude 一起寫出網頁前端與 Google Apps Script 後端，用 Google Sheets 存資料，不需架設伺服器。</li>
+            <li><strong>主動提醒</strong>綁定 Telegram，每週一上午 9:00 自動推播即將到期的品項。</li>
+            <li><strong>操作細節</strong>庫存歸零時詢問要保留還是刪除；搜尋找不到時可一鍵新增；寫入試算表前過濾以 = + - @ 開頭的內容，避免公式注入。</li>
+          </ul>
+        </div>
+        <div>
+          <h4>依剩餘天數自動分級</h4>
+          <div class="expiry-scale" role="list" aria-label="效期六級色譜">
+            <span role="listitem" style="color:#991B1B;background:#FEE2E2;">已過期</span>
+            <span role="listitem" style="color:#C2410C;background:#FFF4E6;">⚠ 30 天內</span>
+            <span role="listitem" style="color:#92400E;background:#FFFBEB;">90 天內</span>
+            <span role="listitem" style="color:#4D7C0F;background:#F7FEE7;">180 天內</span>
+            <span role="listitem" style="color:#15803D;background:#F0FDF4;">1 年內</span>
+            <span role="listitem" style="color:#166534;background:#F0FDF4;">1 年+</span>
+          </div>
+          <p class="expiry-note">六級色譜與分級門檻都和工具本身的設定一致。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-shots">
+      <div class="phone-strip">
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_home.jpg" alt="時光守護者 首頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>上方統計已過期、即將到期與安全的數量；可依類別篩選，每筆顯示到期日與剩餘天數，左滑即可編輯或刪除。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">首頁</span>
+        </div>
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_add.jpg" alt="時光守護者 新增品項"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>品名、類別、到期日、庫存數量與存放位置一次填完；類別和存放位置都能在設定頁自訂。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">新增品項</span>
+        </div>
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_category.jpg" alt="時光守護者 類別管理"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>系統類別固定為使用中、食品、美妝、藥品；自訂類別可設定名稱、排序與代表色，並顯示各類別的品項數。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">類別管理</span>
+        </div>
+        <div class="phone-item reveal">
+          <div class="phone-with-anno">
+            <div class="phone-frame">
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_telegram.jpg" alt="時光守護者 Telegram 到期通知"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>綁定 Telegram 後，系統每週一上午 9:00 自動檢查即將到期的物品並推播提醒；已綁定時可一鍵關閉或重新綁定。</p></div></div>
+            </div>
+          </div>
+          <span class="phone-caption">Telegram 到期通知</span>
+        </div>
+      </div>
+      <div class="phone-dots" aria-hidden="true"></div>
+    </div>
+
+    <div class="mini-head reveal">
+      <h3>需求評估與企劃</h3>
+      <span>負責前期評估或企劃階段的專案</span>
+    </div>
+    <div class="mini-grid">
+      <div class="mini-card reveal">
+        <div class="case-tag">新案評估</div>
+        <h4>Riv 精品洗衣</h4>
+        <p class="mini-intro">精品洗衣品牌的前台、總部管理系統與門市 POS，2026 年上線。</p>
+        <div class="mini-role"><span class="mini-label">負責工作</span><p>前期整理前台、總部系統與 POS 的需求列表，拆解開發工項並規劃分階段時程（含 SIT、UAT 測試與緩衝期），協助公司成功接案。企劃由其他同事負責。</p></div>
+      </div>
+      <div class="mini-card reveal">
+        <div class="case-tag">租屋管理 APP・企劃</div>
+        <h4>租屋管理平台 APP 與後台</h4>
+        <p class="mini-intro">業務、管理人員、房東、房客與訪客共用一支 APP，搭配管理後台。</p>
+        <div class="mini-role"><span class="mini-label">負責工作</span><p>和另一位 PM 一起完成企劃與規格，專案於開發階段終止。</p></div>
+      </div>
+    </div>
+
+    <div class="mini-head reveal">
+      <h3>其他代表專案</h3>
+      <span>各專案負責範圍不同，簡述如下</span>
+    </div>
+    <div class="mini-grid">
+      <div class="mini-card reveal">
+        <div class="case-tag">企業網站</div>
+        <h4>台積電福委會：交流專區／禮品網</h4>
+        <div class="mini-role"><span class="mini-label">負責工作</span><p>負責總 PM 工作：專案時程追蹤、統整各開發單位的問題與進度、安排會議並追蹤待辦事項。</p></div>
+      </div>
+      <div class="mini-card reveal">
+        <div class="case-tag">企業福利 APP</div>
+        <h4>PayEasy APP</h4>
+        <p class="mini-intro">企業會員專屬的福利網 APP，涵蓋購物網、電子票券與特約商店，員工可用企業福利點數消費。</p>
+        <div class="mini-role"><span class="mini-label">負責工作</span><p>客戶提出需求後，評估可行性並安排開發與送審上架，上線後持續負責維運。</p></div>
+      </div>
+      <div class="mini-card reveal">
+        <div class="case-tag">免稅購物 APP</div>
+        <h4>采盟 APP</h4>
+        <p class="mini-intro">機場免稅店 APP，可線上預訂免稅商品；有會員等級、集點與好禮兌換，也提供機場導覽與登機提醒。</p>
+        <div class="mini-role"><span class="mini-label">負責工作</span><p>需求分析、規格確認、開發進度控管與上線後維運管理。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <svg class="contact-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V82 C1140,82 1020,8 720,8 C420,8 300,82 0,82 Z" fill="#E1EAE8"></path></svg>
+  <div class="contact-glow cg1"></div><div class="contact-glow cg2"></div><div class="contact-glow cg3"></div>
+  <div class="container">
+    <div class="contact-inner reveal">
+      <span class="contact-status"><i class="dot"></i>Open to new opportunities</span>
+      <h2 class="contact-title">一起聊聊<br>下一個<span class="hl">專案</span></h2>
+      <nav class="contact-links">
+        <a href="mailto:gigimimi.w@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><polyline points="3 7 12 13 21 7"></polyline></svg>Email</a>
+        <a href="tel:+886910113521"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Phone</a>
+        <a href="resume.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg>Resume</a>
+      </nav>
+      <p class="contact-note">台北／新北・目前在職中・希望職稱：產品經理／專案經理</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 王韻婷 Tina Wang. All rights reserved.
+</footer>
+
+<div class="lightbox" id="phoneLightbox" aria-hidden="true">
+  <button class="lightbox-close" type="button" aria-label="關閉">✕</button>
+  <div class="lightbox-img-wrap"><img src="" alt="放大檢視"></div>
+  <div class="lightbox-caption"></div>
+</div>
+
+<button id="backToTop" class="back-to-top" type="button" aria-label="回到頂端">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<div class="cat-cursor" id="catCursor" aria-hidden="true">
+  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12,16 L9,3 L23,13 Z" fill="none" stroke="#3E5454" stroke-width="2" stroke-linejoin="round"></path>
+    <path d="M36,16 L39,3 L25,13 Z" fill="none" stroke="#3E5454" stroke-width="2" stroke-linejoin="round"></path>
+    <circle cx="24" cy="27" r="15" fill="none" stroke="#3E5454" stroke-width="2"></circle>
+    <circle cx="18.5" cy="26" r="1.8" fill="#3E5454"></circle>
+    <circle cx="29.5" cy="26" r="1.8" fill="#3E5454"></circle>
+    <path d="M24,33 l-2.4,-2.4 h4.8 Z" fill="#3E5454"></path>
+    <path d="M15,31 Q6,29 2,28" fill="none" stroke="#3E5454" stroke-width="2" stroke-linecap="round"></path>
+    <path d="M15,34 Q6,35 2,36" fill="none" stroke="#3E5454" stroke-width="2" stroke-linecap="round"></path>
+    <path d="M33,31 Q42,29 46,28" fill="none" stroke="#3E5454" stroke-width="2" stroke-linecap="round"></path>
+    <path d="M33,34 Q42,35 46,36" fill="none" stroke="#3E5454" stroke-width="2" stroke-linecap="round"></path>
+    <g class="cat-heart"><path d="M44,3 C42.8,1.3 40.8,2.3 41.5,4 C41.9,5.1 44,6.4 44,6.4 C44,6.4 46.1,5.1 46.5,4 C47.2,2.3 45.2,1.3 44,3 Z" fill="#D19C94"></path></g>
+  </svg>
+</div>
+
+<script>
+  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  window.scrollTo(0, 0);
+  window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
+
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+
+  // Scroll progress bar
+  (function () {
+    const bar = document.querySelector('.scroll-progress-bar');
+    if (!bar) return;
+    let raf = null;
+    function update() {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = ((max > 0 ? Math.min(1, st / max) : 0) * 100).toFixed(2) + '%';
+      raf = null;
+    }
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // Scroll-spy
+  (function () {
+    const links = [...document.querySelectorAll('.nav-links a')];
+    const items = links.map(a => ({ a, sec: document.getElementById((a.getAttribute('href') || '').slice(1)) })).filter(x => x.sec);
+    if (!items.length) return;
+    const OFFSET = 140;
+    let raf = null;
+    function spy() {
+      raf = null;
+      const y = window.scrollY;
+      const atBottom = window.innerHeight + y >= document.documentElement.scrollHeight - 4;
+      let current = null;
+      if (atBottom) current = items[items.length - 1];
+      else for (const it of items) { if (it.sec.offsetTop - OFFSET <= y) current = it; }
+      links.forEach(a => a.classList.toggle('active', !!current && a === current.a));
+    }
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(spy); }, { passive: true });
+    window.addEventListener('resize', spy);
+    spy();
+  })();
+
+  // Mobile nav
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => { navToggle.classList.toggle('open'); navLinks.classList.toggle('open'); });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { navToggle.classList.remove('open'); navLinks.classList.remove('open'); }));
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  // Back to top
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    const toggleBTT = () => backToTop.classList.toggle('visible', window.scrollY > 400);
+    window.addEventListener('scroll', toggleBTT, { passive: true });
+    toggleBTT();
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  // Lightbox：手機螢幕與規格板皆可放大
+  const lightbox = document.getElementById('phoneLightbox');
+  if (lightbox) {
+    const lbImg = lightbox.querySelector('.lightbox-img-wrap img');
+    const lbWrap = lightbox.querySelector('.lightbox-img-wrap');
+    const lbCap = lightbox.querySelector('.lightbox-caption');
+    const openLightbox = (src, title, wide) => {
+      lbImg.src = src;
+      lbCap.textContent = title ? (title + ' · 點擊任意處關閉') : '點擊任意處關閉';
+      lightbox.classList.toggle('wide', !!wide);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbWrap.scrollTop = 0;
+    };
+    const closeLightbox = () => {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    document.querySelectorAll('.phone-item').forEach(item => {
+      const frame = item.querySelector('.phone-frame');
+      const img = item.querySelector('.phone-screen img');
+      const caption = item.querySelector('.phone-caption');
+      if (!frame || !img) return;
+      const title = caption ? caption.textContent.trim() : '';
+      frame.classList.add('is-zoomable');
+      frame.setAttribute('role', 'button');
+      frame.setAttribute('tabindex', '0');
+      frame.setAttribute('aria-label', title + ' 放大檢視');
+      frame.addEventListener('click', () => openLightbox(img.currentSrc || img.src, title, false));
+      frame.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(img.currentSrc || img.src, title, false); } });
+    });
+    document.querySelectorAll('img.zoomable').forEach(img => {
+      const title = img.dataset.title || img.alt || '';
+      img.setAttribute('role', 'button');
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('aria-label', title + ' 放大檢視');
+      img.addEventListener('click', () => openLightbox(img.currentSrc || img.src, title, true));
+      img.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(img.currentSrc || img.src, title, true); } });
+    });
+    lightbox.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+  }
+
+  // 作品集卡片：滑鼠傾斜效果（點擊連到下方案例）
+  const cardReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TILT_MAX = 6;
+  document.querySelectorAll('.case-card').forEach(card => {
+    if (!cardReduceMotion) {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transition = 'transform 0.1s ease-out';
+        card.style.transform = 'perspective(900px) rotateX(' + (-py * TILT_MAX * 2).toFixed(2) + 'deg) rotateY(' + (px * TILT_MAX * 2).toFixed(2) + 'deg) translateY(-6px) scale(1.025)';
+      });
+      card.addEventListener('mouseleave', () => { card.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1)'; card.style.transform = ''; });
+    }
+  });
+  function equalizeCards() {
+    const cards = [...document.querySelectorAll('.case-grid .case-card')];
+    if (cards.length < 2) return;
+    cards.forEach(c => { c.style.minHeight = ''; });
+    const multiCol = Math.abs(cards[1].getBoundingClientRect().top - cards[0].getBoundingClientRect().top) < 1;
+    if (!multiCol) return;
+    let max = 0;
+    cards.forEach(c => {
+      const cover = c.querySelector('.case-cover');
+      const body = c.querySelector('.case-body');
+      const h = (cover ? cover.offsetHeight : 0) + (body ? body.offsetHeight : 0);
+      if (h > max) max = h;
+    });
+    cards.forEach(c => { c.style.minHeight = max + 'px'; });
+  }
+  equalizeCards();
+  window.addEventListener('load', equalizeCards);
+  window.addEventListener('resize', equalizeCards);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalizeCards);
+
+  // 手機版手機輪播：每個 showcase 各自一組指示器與自動輪播
+  document.querySelectorAll('.phone-strip').forEach(strip => {
+    const dotsWrap = strip.parentElement.querySelector('.phone-dots');
+    if (!dotsWrap) return;
+    const items = Array.from(strip.querySelectorAll('.phone-item'));
+    if (!items.length) return;
+    items.forEach((_, i) => {
+      const dot = document.createElement('span');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => { goTo(i); start(); });
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+    const mq = window.matchMedia('(max-width: 860px)');
+    let current = 0, timer = null, anim = null;
+    const DWELL = 2800;
+    function setActive(i) { current = i; dots.forEach((d, idx) => d.classList.toggle('active', idx === i)); }
+    function animateTo(target) {
+      if (anim) cancelAnimationFrame(anim);
+      const startPos = strip.scrollLeft, dist = target - startPos;
+      if (Math.abs(dist) < 1) { strip.scrollLeft = target; return; }
+      const t0 = performance.now(), dur = 450;
+      function step(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        strip.scrollLeft = startPos + dist * ease;
+        if (p < 1) anim = requestAnimationFrame(step);
+      }
+      anim = requestAnimationFrame(step);
+    }
+    function goTo(i) { animateTo(i * strip.clientWidth); setActive(i); }
+    function jumpTo(i) { if (anim) cancelAnimationFrame(anim); strip.scrollLeft = i * strip.clientWidth; setActive(i); }
+    function next() {
+      const nextIdx = (current + 1) % items.length;
+      if (nextIdx === 0 && current !== 0) jumpTo(0); else goTo(nextIdx);
+      scheduleNext();
+    }
+    let raf;
+    strip.addEventListener('scroll', () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const idx = Math.round(strip.scrollLeft / strip.clientWidth);
+        if (idx >= 0 && idx < items.length && idx !== current) setActive(idx);
+      });
+    }, { passive: true });
+    function scheduleNext() { stop(); if (!mq.matches) return; timer = setTimeout(next, DWELL); }
+    function start() { stop(); if (mq.matches) scheduleNext(); }
+    function stop() { if (timer) { clearTimeout(timer); timer = null; } }
+    strip.addEventListener('touchstart', stop, { passive: true });
+    strip.addEventListener('touchend', () => setTimeout(start, 800), { passive: true });
+    strip.addEventListener('mouseenter', stop);
+    strip.addEventListener('mouseleave', start);
+    const onMqChange = () => { setActive(0); strip.scrollTo({ left: 0 }); start(); };
+    if (mq.addEventListener) mq.addEventListener('change', onMqChange); else mq.addListener(onMqChange);
+    start();
+  });
+
+  // 貓頭滑鼠游標
+  (function () {
+    const cur = document.getElementById('catCursor');
+    if (!cur) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    document.body.classList.add('cat-cursor-on');
+    let tx = -100, ty = -100, cx = -100, cy = -100, scale = 0.6, shown = false, over = false;
+    window.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      over = !!(e.target.closest && e.target.closest('a, button, [role="button"], .case-card, .phone-frame, .zoomable, .back-to-top'));
+      cur.classList.toggle('hover', over);
+      if (!shown) { shown = true; cur.classList.add('active'); }
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => cur.classList.remove('active'));
+    document.addEventListener('mouseenter', () => { if (shown) cur.classList.add('active'); });
+    (function loop() {
+      cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
+      scale += ((over ? 1.15 : 1) - scale) * 0.2;
+      cur.style.transform = 'translate3d(' + (cx - 21) + 'px, ' + (cy - 21) + 'px, 0) scale(' + scale + ')';
+      requestAnimationFrame(loop);
+    })();
+  })();
+
+  // Hero 按鈕粒子迸發
+  (function () {
+    const btns = document.querySelectorAll('.hero-ctas .btn');
+    if (!btns.length) return;
+    const COLORS = ['#526B6B', '#3E5454', '#8FA8A4'];
+    function burst(btn) {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      const ring = document.createElement('span');
+      ring.className = 'cta-ring';
+      ring.style.left = cx + 'px'; ring.style.top = cy + 'px'; ring.style.width = ring.style.height = '20px';
+      document.body.appendChild(ring);
+      ring.animate([{ transform: 'translate(-50%, -50%) scale(0.4)', opacity: 0.75 }, { transform: 'translate(-50%, -50%) scale(3.6)', opacity: 0 }], { duration: 540, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)' }).onfinish = () => ring.remove();
+      for (let i = 0; i < 16; i++) {
+        const p = document.createElement('span');
+        p.className = 'cta-particle';
+        const size = Math.random() * 6 + 7;
+        p.style.width = p.style.height = size + 'px';
+        p.style.left = cx + 'px'; p.style.top = cy + 'px';
+        const color = COLORS[i % COLORS.length];
+        p.style.background = color; p.style.boxShadow = '0 0 10px ' + color;
+        document.body.appendChild(p);
+        const dx = (Math.random() * 2 - 1) * (Math.random() * 62 + 30);
+        const dy = -(Math.random() * 58 + 30);
+        p.animate([
+          { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+          { transform: 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px)) scale(1)', opacity: 1, offset: 0.55 },
+          { transform: 'translate(calc(-50% + ' + (dx * 1.4) + 'px), calc(-50% + ' + (dy * 1.4 + 26) + 'px)) scale(0)', opacity: 0 }
+        ], { duration: 720, delay: i * 20, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)' }).onfinish = () => p.remove();
+      }
+    }
+    btns.forEach(btn => btn.addEventListener('click', () => { burst(btn); btn.classList.add('cta-pop'); setTimeout(() => btn.classList.remove('cta-pop'), 150); }));
+  })();
+
+</script>
+
+</body>
+</html>
