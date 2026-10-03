@@ -341,7 +341,7 @@
   .admin { background: var(--white); }
   /* ---------- Case summary（專案／問題／我的角色／成果） ---------- */
   .case-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-  #case-lanrui .case-summary { background: var(--cream); }
+  #case-stamps .case-summary { background: var(--cream); }
   .sum-item { padding: 24px 22px 26px; border-left: 1px solid var(--border); }
   .sum-item:first-child { border-left: none; }
   .sum-label { display: inline-block; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid var(--accent-2); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; color: var(--accent-dark); }
@@ -394,10 +394,9 @@
     .challenge-phones .phone-caption { font-size: 0.8rem; text-align: center; }
   }
 
-
   /* ---------- 蘭瑞：三個關卡 ---------- */
   .issue-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 40px; }
-  .issue-card { display: flex; flex-direction: column; gap: 10px; background: var(--cream); border: 1px solid var(--border); border-radius: 18px; padding: 26px 24px; }
+  .issue-card { display: flex; flex-direction: column; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 26px 24px; }
   .issue-num { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); font-variant-numeric: tabular-nums; }
   .issue-card h4 { font-size: 1.1rem; }
   .issue-q { font-size: 0.92rem; line-height: 1.7; color: var(--text-muted); }
@@ -408,8 +407,9 @@
   @media (max-width: 960px) { .issue-grid { grid-template-columns: 1fr; } }
 
   /* ---------- 其他專案（接在三個案例後面） ---------- */
-  .side-project { background: var(--cream-deep); }
-  .more-projects { background: var(--white); }
+  .side-project { background: var(--white); }
+  .more-projects { background: var(--cream-deep); }
+  .more-projects .mini-card { background: var(--white); }
   .more-projects .section-head + .mini-head { margin-top: 0; }
 
   /* ---------- 其他專案卡片內的連結 ---------- */
@@ -439,7 +439,11 @@
   }
 
   /* ---------- 後台示意（作品集重製版，假資料） ---------- */
-  .mock-wrap { max-width: 900px; margin: 0 auto; }
+  .mock-wrap { margin: 0; }
+  .mock-intro { max-width: 760px; margin-bottom: 16px; font-size: 0.98rem; line-height: 1.75; color: var(--text-body); }
+  /* 案例內每個段落（小標＋內容）的統一間距 */
+  .cb { margin-top: 64px; }
+  .cb + .challenge, .cb + .issue-grid { margin-top: 0; }
   .mock-admin { background: var(--white); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
   .mock-bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: #F4F7F6; border-bottom: 1px solid var(--border); }
   .mock-dots { display: flex; gap: 6px; }
@@ -466,7 +470,6 @@
     .mock-body { padding: 14px 14px 16px; }
     .mock-btn { margin-left: 0; }
   }
-
 
   /* ---------- 規格表收合（蘭瑞）---------- */
   .spec-summary { max-width: 760px; margin-bottom: 16px; font-size: 0.98rem; line-height: 1.75; color: var(--text-body); }
@@ -645,7 +648,8 @@
     .wave-divider.hero-wave { height: 112px; }
     .section-head { margin-bottom: 36px; }
     .block-gap { margin-top: 48px; }
-    .spec-block { margin-top: 44px; }
+    .spec-block, .cb { margin-top: 44px; }
+    .mock-intro { font-size: 1rem; line-height: 1.7; }
     .challenge, .issue-grid { margin-top: 28px; }
     .mini-head { margin-top: 44px; }
     .case-back-wrap { margin-top: 36px; }
@@ -931,9 +935,9 @@
 
       <a class="case-card reveal" href="#case-stamps">
         <div class="case-cover case-cover-phones">
-          <div class="mini-phone"><img decoding="async" src="img/tc_event.jpg" alt=""></div>
-          <div class="mini-phone mid"><img decoding="async" src="img/cf_stamp.jpg" alt="集章活動畫面：天成活動頁、家樂福（萬家福）集點頁、家樂福（萬家福）兌換商品"></div>
-          <div class="mini-phone"><img decoding="async" src="img/cf_product.jpg" alt=""></div>
+          <div class="mini-phone"><img decoding="async" src="img/tc_list.jpg" alt=""></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/fm_home.jpg" alt="集章活動畫面：天成、全家、家樂福（萬家福）的集章首頁"></div>
+          <div class="mini-phone"><img decoding="async" src="img/cf_list.jpg" alt=""></div>
         </div>
         <div class="case-body">
           <div class="case-tag">會員活動模組</div>
@@ -977,9 +981,9 @@
       <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>APP 與後台完成上線。</p></div>
     </div>
 
+    <div class="flow-head cb reveal"><span class="flow-label">最難的設計</span></div>
     <div class="challenge reveal">
       <div class="challenge-text">
-        <span class="flow-label">最難的設計</span>
         <h3>工作人員與領隊的餐廳座位流程</h3>
         <p>整個專案最複雜的流程：工作人員決定各車次坐哪幾桌，領隊再把車上旅客排進座位。</p>
         <ul class="challenge-list">
@@ -1023,7 +1027,7 @@
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
-    <div class="flow-head block-gap reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">同一個主頁，依身分顯示不同內容</span></div>
+    <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">同一個主頁，依身分顯示不同內容</span></div>
     <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
     <div class="phone-strip">
       <div class="phone-item reveal">
@@ -1052,19 +1056,10 @@
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
-  </div>
-</section>
 
-<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
-
-<section class="admin" id="admin-lion">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-tag">Admin Panel</div>
-      <h2 class="section-title">雄獅大團 管理後台</h2>
-      <p>後台分成出團管理（建團、匯入）與行程管理（車次、領隊、餐食、住宿、報到）。資料刻意沿用客戶熟悉的 Excel 範本匯入，導入時不必改變作業習慣。以下以出團管理為例。</p>
-    </div>
-    <div class="mock-wrap reveal">
+    <div class="mock-wrap cb reveal">
+      <div class="flow-head"><span class="flow-label">後台示意</span><span class="flow-note">出團管理</span></div>
+      <p class="mock-intro">後台分成出團管理（建團、匯入）與行程管理（車次、領隊、餐食、住宿、報到）。資料刻意沿用客戶熟悉的 Excel 範本匯入，導入時不必改變作業習慣。</p>
       <div class="mock-admin" role="img" aria-label="出團管理後台示意：每個出團用 Excel 範本匯入梯次與旅客、自選行程名單，並指派工作人員">
         <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">團務管理後台｜出團管理（示意）</span></div>
         <div class="mock-body">
@@ -1088,9 +1083,9 @@
   </div>
 </section>
 
-<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
 
-<section class="showcase" id="case-stamps">
+<section class="showcase" id="case-stamps" style="background:#ffffff;">
   <div class="container">
     <div class="section-head reveal">
       <div class="section-tag">Case 02</div>
@@ -1117,36 +1112,37 @@
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
-    <span class="showcase-hint block-gap">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">集章首頁：全家為目前線上畫面，天成與家樂福（萬家福）為企劃畫面</span></div>
+    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/tc_event.jpg" alt="天成鐵粉回饋 活動頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>活動頁顯示持有貼紙、專案日期、活動說明與贈品獎項。住宿紀錄由訂房系統傳入後自動累計，會員不需要自己登錄。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/fm_home.jpg" alt="全家 APP 集章趣首頁（目前線上畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>目前線上畫面：依未參加、已參加、已結束列出各品牌的集章活動，每個活動顯示截止天數、結束日與目前章數。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">天成：活動頁</span>
+        <span class="phone-caption">全家：集章首頁</span>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp.jpg" alt="家樂福（萬家福）貼貼樂 集點頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>家樂福（萬家福）版本：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/tc_list.jpg" alt="天成飯店 APP 鐵粉回饋首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>企劃畫面：會員可以同時參加多個集章活動。上方統計活動任務總數與贈獎紀錄，每個活動標示專案日期與目前的任務數。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">家樂福（萬家福）：集點頁</span>
+        <span class="phone-caption">天成：集章首頁</span>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/cf_product.jpg" alt="家樂福（萬家福）貼貼樂 兌換商品"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>同一個商品可以設定多種兌換組合，例如「點數＋加價購」或全額點數兌換。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_list.jpg" alt="家樂福（萬家福）貼貼樂首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>企劃畫面：列出進行中的集點活動，顯示活動期間、兌換期間與目前的貼紙張數或點數；名稱超過兩行會截斷。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">家樂福（萬家福）：兌換商品</span>
+        <span class="phone-caption">家樂福（萬家福）：集章首頁</span>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
 
-    <div class="mock-wrap block-gap reveal">
+    <div class="mock-wrap cb reveal">
       <div class="flow-head"><span class="flow-label">後台示意</span><span class="flow-note">集章統計報表（以天成「鐵粉回饋」為例）</span></div>
       <div class="mock-admin" role="img" aria-label="集章統計報表示意：每晚一筆，標示發送方式與補登、修改紀錄">
         <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">集章活動後台｜集章統計（示意）</span></div>
@@ -1174,9 +1170,9 @@
   </div>
 </section>
 
-<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
 
-<section class="showcase" id="case-lanrui" style="background:#ffffff;">
+<section class="showcase" id="case-lanrui">
   <div class="container">
     <div class="section-head reveal">
       <div class="section-tag">Case 03</div>
@@ -1189,6 +1185,7 @@
       <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>撰寫 APP 操作說明、向血壓計廠商取得證明文件並加上免責聲明補件，通過 Apple 審查並完成上架（目前已下架）。</p></div>
     </div>
 
+    <div class="flow-head cb reveal"><span class="flow-label">串接重點</span><span class="flow-note">預約系統 API 與量測儀器 SDK</span></div>
     <div class="issue-grid cols-2">
       <div class="issue-card reveal">
         <span class="issue-num">01</span>
@@ -1225,7 +1222,8 @@
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
-    <span class="showcase-hint block-gap">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">預約、健康秘書與量測紀錄</span></div>
+    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
@@ -1257,7 +1255,7 @@
   </div>
 </section>
 
-<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
 
 <section class="side-project" id="side-project">
   <div class="container">
@@ -1346,7 +1344,7 @@
   </div>
 </section>
 
-<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+<div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
 
 <section class="more-projects" id="more-projects">
   <div class="container">
@@ -1384,7 +1382,7 @@
 </section>
 
 <section class="contact" id="contact">
-  <svg class="contact-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V82 C1140,82 1020,8 720,8 C420,8 300,82 0,82 Z" fill="#ffffff"></path></svg>
+  <svg class="contact-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V82 C1140,82 1020,8 720,8 C420,8 300,82 0,82 Z" fill="#E1EAE8"></path></svg>
   <div class="contact-glow cg1"></div><div class="contact-glow cg2"></div><div class="contact-glow cg3"></div>
   <div class="container">
     <div class="contact-inner reveal">
@@ -1664,7 +1662,6 @@
     if (mq.addEventListener) mq.addEventListener('change', onMqChange); else mq.addListener(onMqChange);
     start();
   });
-
 
   // 蘭瑞：預約規格表收合（獨立於案例本身）
   document.querySelectorAll('.spec-toggle').forEach(btn => {
