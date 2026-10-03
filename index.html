@@ -372,7 +372,7 @@
   .challenge-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
   .challenge-list li { position: relative; padding-left: 22px; font-size: 0.95rem; line-height: 1.7; color: var(--text-body); }
   .challenge-list li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-  .challenge-list strong { display: block; color: var(--text-dark); font-weight: 700; }
+  .challenge-list strong { color: var(--text-dark); font-weight: 700; }
   .challenge-phones { display: flex; gap: 26px; }
   .challenge-phones .phone-frame { width: 210px; border-radius: 34px; padding: 9px; }
   .challenge-phones .phone-frame::before { top: 18px; width: 66px; height: 20px; }
@@ -406,9 +406,9 @@
   @media (max-width: 960px) { .issue-grid { grid-template-columns: 1fr; } }
 
   /* ---------- 其他專案（接在三個案例後面） ---------- */
-  .more-projects { background: var(--cream-deep); }
+  .side-project { background: var(--cream-deep); }
+  .more-projects { background: var(--white); }
   .more-projects .section-head + .mini-head { margin-top: 0; }
-  .more-projects .mini-card { background: var(--white); }
 
   /* ---------- 其他專案卡片內的連結 ---------- */
   .mini-link { margin-top: 4px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-dark); }
@@ -859,7 +859,7 @@
       <a class="case-card reveal" href="#case-lion">
         <div class="case-cover case-cover-phones">
           <div class="mini-phone"><img decoding="async" src="img/ls_seatone.jpg" alt=""></div>
-          <div class="mini-phone mid"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅旅遊大團 APP 畫面：逐桌分派、主頁、每桌餐食統計"></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/ls_role_staff.jpg" alt="雄獅旅遊大團 APP 畫面：逐桌分派、主頁、每桌餐食統計"></div>
           <div class="mini-phone"><img decoding="async" src="img/ls_mealstat.jpg" alt=""></div>
         </div>
         <div class="case-body">
@@ -914,7 +914,7 @@
     </div>
     <div class="case-summary reveal">
       <div class="sum-item"><span class="sum-label">專案｜Project</span><p>服務企業客戶的大型團體旅遊 APP，旅客、領隊與工作人員三種身分共用，搭配團務後台。</p></div>
-      <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>客戶原本用 Excel 統計整理報到、餐食、座位與行程資料，再靠紙本和 LINE 群組通知。企業團一團最多兩三千人，資訊分散，難以即時掌握。</p></div>
+      <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>一團最多兩三千人，報到、餐食、座位與行程原本靠 Excel、紙本和 LINE 群組處理，資訊分散、難以即時掌握。</p></div>
       <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>專案唯一 PM，負責需求訪談、規格、開發控管與測試，直到上線。</p></div>
       <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>APP 與後台完成上線。</p></div>
     </div>
@@ -923,13 +923,13 @@
       <div class="challenge-text">
         <span class="flow-label">最難的設計</span>
         <h3>工作人員與領隊的餐廳座位流程</h3>
-        <p>大團用餐的座位由工作人員和領隊分工完成：工作人員決定各車次坐哪幾桌，領隊再把自己車上的旅客排進這些桌。這是整個專案最複雜的一段流程。</p>
+        <p>整個專案最複雜的流程：工作人員決定各車次坐哪幾桌，領隊再把車上旅客排進座位。</p>
         <ul class="challenge-list">
-          <li><strong>設定餐廳</strong>工作人員依餐期設定餐廳資料：這個時段有哪些桌型、各有幾桌、每桌幾個座位，也可以設定素食桌和主桌。</li>
-          <li><strong>分派車次到各桌</strong>以車次為單位，用＋／－調整這台車在每桌分到的座位，畫面即時顯示剩餘座位，超過上限會提醒。同一車可以分到不同桌；素食桌依該車次的素食旅客人數分派，主桌也是同樣做法。</li>
-          <li><strong>通知領隊排座</strong>分派完成後推播通知該車次的領隊，領隊依旅客名單把人排進被指派的各桌：素食旅客排入素食桌，主管級旅客排入主桌。</li>
-          <li><strong>現場帶位與確認餐點</strong>工作人員可以依車次查看各桌名單，方便帶位；也可以依桌次查看特殊飲食狀況，方便確認餐點。</li>
-          <li><strong>資料隨時會變</strong>一般車次和自選行程車次都要分派，餐食或行程變更後也可能要重排，所以分派結果必須能隨時修改。</li>
+          <li><strong>設定餐廳｜</strong>依餐期設定桌型、桌數與座位數，可指定素食桌、主桌。</li>
+          <li><strong>分派車次｜</strong>以車次為單位，同一車可分到不同桌；用＋／－分配座位，即時顯示剩餘、超量提醒。素食桌依該車素食人數分派，主桌同理。</li>
+          <li><strong>領隊排座｜</strong>分派後推播通知領隊，依旅客名單排座：素食旅客入素食桌、主管入主桌。</li>
+          <li><strong>現場確認｜</strong>依車次查各桌名單帶位，依桌次查特殊飲食確認餐點。</li>
+          <li><strong>隨時調整｜</strong>一般與自選行程車次都要分派；餐食或行程變更後可重新分派。</li>
         </ul>
       </div>
       <div class="challenge-phones">
@@ -957,21 +957,21 @@
       <table class="spec-table">
         <thead><tr><th>申請項目</th><th>誰送出</th><th>誰審核</th><th>規則與通過後的影響</th></tr></thead>
         <tbody>
-          <tr><td data-label="申請項目"><strong>同行旅客</strong></td><td data-label="誰送出">旅客</td><td data-label="誰審核">領隊</td><td data-label="規則與通過後的影響">讓一家人可以一起報到。旅客在報到頁新增同行旅客，審核結果以推播通知。</td></tr>
-          <tr><td data-label="申請項目"><strong>特殊餐食</strong></td><td data-label="誰送出">旅客或領隊</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">選項與忌口清單由後台維護；匯入特殊餐食名單、且後台開啟該團的特殊餐食變更開關後，才能送出申請。審核通過才生效；素食等變更可能要重排桌次，工作人員可依桌次確認特殊飲食。</td></tr>
-          <tr><td data-label="申請項目"><strong>自選行程</strong></td><td data-label="誰送出">領隊代旅客送出</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">旅客出團前已選好，工作人員先在後台匯入各自選車次的名單。後台開啟該團的自選行程變更開關後，領隊才能在 APP 上從名單選取旅客送出變更（和特殊餐食的開關分開設定）；通過後自動解除原行程的同行旅客，車次與桌次可能要重排。</td></tr>
+          <tr><td data-label="申請項目"><strong>同行旅客</strong></td><td data-label="誰送出">旅客</td><td data-label="誰審核">領隊</td><td data-label="規則與通過後的影響">在報到頁新增同行旅客，讓一家人一起報到；結果以推播通知。</td></tr>
+          <tr><td data-label="申請項目"><strong>特殊餐食</strong></td><td data-label="誰送出">旅客或領隊</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">選項由後台維護；需匯入名單並開啟該團的「特殊餐食」變更開關才能申請。通過才生效，素食變更可能需重排桌次。</td></tr>
+          <tr><td data-label="申請項目"><strong>自選行程</strong></td><td data-label="誰送出">領隊（代旅客）</td><td data-label="誰審核">工作人員</td><td data-label="規則與通過後的影響">出團前先匯入各自選車次名單；開啟該團的「自選行程」變更開關（與特殊餐食分開）後，領隊才能從名單代旅客申請。通過後自動解除原行程的同行旅客，車次與桌次可能需重排。</td></tr>
         </tbody>
       </table>
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
-    <div class="flow-head block-gap reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">旅客、領隊與工作人員依身分看到不同功能</span></div>
+    <div class="flow-head block-gap reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">同一個主頁，依身分顯示不同內容</span></div>
     <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/ls_h1.jpg" alt="雄獅大團 APP 主頁（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>依身分顯示不同功能：工作人員可看全團報到人數與行程版本；「編輯行程」只有工作人員、且只在今天之後的日期出現。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_staff.jpg" alt="雄獅大團 APP 主頁（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>看全團的應到／未到人數，可切換全團所有梯次；只有工作人員能編輯行程、查看行程版本。</p></div></div>
           </div>
         </div>
         <span class="phone-caption">主頁（工作人員）</span>
@@ -979,10 +979,18 @@
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/ls_m3.jpg" alt="雄獅大團 APP 選擇特殊餐食"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>特殊餐食的單選項目與忌口清單都由後台維護。旅客或領隊送出變更後，工作人員審核通過才生效；素食等變更可能需要重新調整桌次。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_leader.jpg" alt="雄獅大團 APP 主頁（領隊）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>只看自己負責車次的人數，可切換所負責的梯次；多了「發佈給全車旅客」按鈕。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">選擇特殊餐食</span>
+        <span class="phone-caption">主頁（領隊）</span>
+      </div>
+      <div class="phone-item reveal">
+        <div class="phone-with-anno">
+          <div class="phone-frame">
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_traveler.jpg" alt="雄獅大團 APP 主頁（旅客）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>看不到人數統計，只顯示自己的車次與參加梯次的行程。</p></div></div>
+          </div>
+        </div>
+        <span class="phone-caption">主頁（旅客）</span>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
@@ -996,27 +1004,26 @@
     <div class="section-head reveal">
       <div class="section-tag">Admin Panel</div>
       <h2 class="section-title">雄獅大團 管理後台</h2>
-      <p>後台分成出團管理與行程管理：出團管理負責建團與匯入，行程管理處理車次、領隊、餐食、住宿與報到。梯次、旅客與自選名單都用 Excel 範本匯入，這是刻意的設計：客戶原本就用 Excel 整理資料，沿用同樣的作業習慣，導入時不用改變做法。以下以報到管理為例。</p>
+      <p>後台分成出團管理（建團、匯入）與行程管理（車次、領隊、餐食、住宿、報到）。資料刻意沿用客戶熟悉的 Excel 範本匯入，導入時不必改變作業習慣。以下以出團管理為例。</p>
     </div>
     <div class="mock-wrap reveal">
-      <div class="mock-admin" role="img" aria-label="報到管理後台示意：依日期列出報到項目、時段、車次、啟用狀態與報到結果下載">
-        <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">團務管理後台｜報到管理（示意）</span></div>
+      <div class="mock-admin" role="img" aria-label="出團管理後台示意：每個出團用 Excel 範本匯入梯次與旅客、自選行程名單，並指派工作人員">
+        <div class="mock-bar"><span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock-title">團務管理後台｜出團管理（示意）</span></div>
         <div class="mock-body">
-          <div class="mock-filters"><span class="mock-field">報到日期：全部</span><span class="mock-field">車次：全部</span><span class="mock-btn">＋ 新增報到項目</span></div>
+          <div class="mock-filters"><span class="mock-field">專案代碼：全部</span><span class="mock-btn">＋ 新增出團</span></div>
           <div class="mock-table-wrap"><table class="mock-table">
-            <thead><tr><th>#</th><th>報到日期</th><th>時段</th><th>報到項目</th><th>報到車次</th><th>啟用</th><th>報到結果</th></tr></thead>
+            <thead><tr><th>專案代碼</th><th>APP 主標</th><th>梯次與旅客</th><th>自選行程名單</th><th>工作人員</th><th>啟用</th></tr></thead>
             <tbody>
-            <tr><td>1</td><td>4/1</td><td>10:00–11:00</td><td>機場集合點名</td><td>A1–A5、A14–A17</td><td><span class="mock-switch on"></span></td><td><span class="mock-link">下載 PDF</span></td></tr>
-            <tr><td>2</td><td>4/2</td><td>10:00–11:00</td><td>機場集合點名</td><td>A6–A13</td><td><span class="mock-switch"></span></td><td>—</td></tr>
-            <tr><td>3</td><td>4/3</td><td>09:30–10:00</td><td>景點集合</td><td>A1–A19</td><td><span class="mock-switch on"></span></td><td><span class="mock-link">下載 PDF</span></td></tr>
-            <tr><td>4</td><td>4/4</td><td>09:30–10:00</td><td>自選行程報到</td><td>A1–A5</td><td><span class="mock-switch on"></span></td><td>—</td></tr>
+            <tr><td>A-001</td><td>OO企業 春季旅遊</td><td><span class="mock-tag">已匯入・12 梯</span></td><td><span class="mock-tag">已匯入</span></td><td>5 人</td><td><span class="mock-switch on"></span></td></tr>
+            <tr><td>A-002</td><td>XX企業 員工旅遊</td><td><span class="mock-tag">已匯入・4 梯</span></td><td>—</td><td>3 人</td><td><span class="mock-switch on"></span></td></tr>
+            <tr><td>A-003</td><td>OO協會 秋季旅遊</td><td><span class="mock-link">匯入 Excel</span></td><td><span class="mock-link">匯入 Excel</span></td><td>0 人</td><td><span class="mock-switch"></span></td></tr>
             </tbody>
           </table></div>
         </div>
       </div>
       <ul class="flow-rules mock-notes">
-        <li>旅客在 APP 出示 QR Code，由領隊掃碼報到；工作人員在後台查看報到與未報到名單，並可下載報到結果 PDF。</li>
-        <li>同一個車次在同一時段只能有一個報到項目；列表順序可拖曳調整，APP 依同樣順序顯示。</li>
+        <li>梯次與旅客、自選行程名單都提供 Excel 範本，下載填好再上傳；重新上傳會覆蓋原本的資料。</li>
+        <li>專案代碼不可重複；工作人員可從名單搜尋勾選，指派到各出團。</li>
       </ul>
     </div>
   </div>
@@ -1192,20 +1199,15 @@
 
 <div class="wave-divider" style="background:#E1EAE8;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" style="transform:scaleX(-1)"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#ffffff"></path></svg></div>
 
-<section class="more-projects" id="more-projects">
+<section class="side-project" id="side-project">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-tag">More Work</div>
-      <h2 class="section-title">其他專案</h2>
-      <p>用 AI 協作做出的 Side Project、負責前期評估或企劃的專案，以及其他代表專案。</p>
-    </div>
-    <div class="mini-head reveal">
-      <h3>Side Project</h3>
-      <span>用 Claude 把自己的生活需求，做成每天在用的小工具</span>
+      <div class="section-tag">Side Project</div>
+      <h2 class="section-title">AI 協作開發</h2>
+      <p>發現生活需求 → 定義產品 → 規劃功能 → AI 協作開發 → 完成可實際使用的 Web 工具。</p>
     </div>
     <div class="side-card reveal">
       <div class="side-main">
-        <div class="case-tag">Side Project・AI 協作開發</div>
         <h3>時光守護者</h3>
         <p class="side-lede">管理食品、美妝、藥品效期的生活小工具。從「東西放到過期才發現」這個問題出發，自己定義需求、規劃功能，再和 Claude 協作寫出前端與後端，目前迭代到 V3.0，並做出親友版，每人一條專屬連結，資料各自獨立。</p>
         <div class="case-chips">
@@ -1281,7 +1283,18 @@
       </div>
       <div class="phone-dots" aria-hidden="true"></div>
     </div>
+  </div>
+</section>
 
+<div class="wave-divider" style="background:#ffffff;"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,15 C360,15 500,83 720,83 C940,83 1080,15 1440,15 L1440,0 L0,0 Z" fill="#E1EAE8"></path></svg></div>
+
+<section class="more-projects" id="more-projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">More Work</div>
+      <h2 class="section-title">其他專案</h2>
+      <p>負責前期評估或企劃的專案，以及其他代表專案。</p>
+    </div>
     <div class="mini-head reveal">
       <h3>需求評估與企劃</h3>
       <span>負責前期評估或企劃階段的專案</span>
@@ -1328,7 +1341,7 @@
 </section>
 
 <section class="contact" id="contact">
-  <svg class="contact-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V82 C1140,82 1020,8 720,8 C420,8 300,82 0,82 Z" fill="#E1EAE8"></path></svg>
+  <svg class="contact-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V82 C1140,82 1020,8 720,8 C420,8 300,82 0,82 Z" fill="#ffffff"></path></svg>
   <div class="contact-glow cg1"></div><div class="contact-glow cg2"></div><div class="contact-glow cg3"></div>
   <div class="container">
     <div class="contact-inner reveal">
