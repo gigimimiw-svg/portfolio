@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>document.documentElement.classList.add('js');</script>
 <title>王韻婷 Tina Wang｜Portfolio</title>
 <meta name="description" content="王韻婷 Tina Wang — 逾 10 年 Web／APP 產品與專案管理經驗，具程式開發背景，從需求到上線與維運的完整生命週期管理。">
@@ -47,7 +47,7 @@
   }
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
-  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left)); }
 
   /* ---------- Nav ---------- */
   .nav {
@@ -402,7 +402,9 @@
   .issue-card h4 { font-size: 1.1rem; }
   .issue-q { font-size: 0.92rem; line-height: 1.7; color: var(--text-muted); }
   .issue-a { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 0.93rem; line-height: 1.7; color: var(--text-body); }
-  .issue-a b { display: block; margin-bottom: 2px; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--accent-dark); }
+  .issue-a b, .issue-q b { display: block; margin-bottom: 2px; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--accent-dark); }
+  .issue-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 960px) { .issue-grid.cols-2 { grid-template-columns: 1fr; } }
   @media (max-width: 960px) { .issue-grid { grid-template-columns: 1fr; } }
 
   /* ---------- 其他專案（接在三個案例後面） ---------- */
@@ -465,9 +467,33 @@
     .mock-btn { margin-left: 0; }
   }
 
+
+  /* ---------- 規格表收合（蘭瑞）---------- */
+  .spec-summary { max-width: 760px; margin-bottom: 16px; font-size: 0.98rem; line-height: 1.75; color: var(--text-body); }
+  .spec-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--white); color: var(--accent-dark); font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+  .spec-toggle:hover { background: var(--accent); color: #fff; }
+  .spec-close { display: block; margin: 14px auto 0; min-height: 44px; padding: 10px 20px; border: none; border-radius: 999px; background: rgba(82, 107, 107, 0.12); color: var(--accent-dark); font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+  .spec-close:hover { background: rgba(82, 107, 107, 0.2); }
+  .spec-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .spec-toggle svg { width: 16px; height: 16px; flex: none; transition: transform 0.3s ease; }
+  .spec-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .js .spec-collapse { display: none; }
+  .js .spec-collapse.open { display: block; margin-top: 18px; animation: specIn 0.35s ease; }
+  @keyframes specIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- 回到案例列表 ---------- */
+  .case-back-wrap { display: flex; justify-content: center; margin-top: 48px; }
+  .case-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; border-radius: 999px; background: rgba(82, 107, 107, 0.12); color: var(--accent-dark); font-size: 0.95rem; font-weight: 700; transition: background 0.2s ease; }
+  .case-back:hover { background: rgba(82, 107, 107, 0.2); }
+  .case-back svg { width: 16px; height: 16px; }
+
+  /* ---------- 跳到區塊時，標題不被固定導覽列蓋住 ---------- */
+  #about { scroll-margin-top: 56px; }
+  .case-card { scroll-margin-top: 96px; }
+
   /* ---------- Back to top ---------- */
   .back-to-top {
-    position: fixed; bottom: 28px; right: 28px; z-index: 150; width: 52px; height: 52px; border-radius: 50%; border: none;
+    position: fixed; bottom: calc(28px + env(safe-area-inset-bottom)); right: calc(28px + env(safe-area-inset-right)); z-index: 150; width: 52px; height: 52px; border-radius: 50%; border: none;
     background: var(--accent); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
     box-shadow: 0 8px 20px rgba(40, 52, 53, 0.2); opacity: 0; visibility: hidden; transform: translateY(16px) scale(0.9);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, box-shadow 0.25s ease;
@@ -540,6 +566,7 @@
 
   /* ---------- Wave dividers ---------- */
   .wave-divider { position: relative; width: 100%; height: 115px; line-height: 0; overflow: hidden; }
+  .wave-divider.hero-wave { height: 150px; }
   .wave-divider svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
   .wave-divider path { filter: blur(0.5px); }
 
@@ -601,6 +628,37 @@
   @media (max-width: 480px) {
     .hero-ctas { flex-direction: column; align-items: stretch; }
     .btn { justify-content: center; }
+  }
+
+  /* ---------- 手機版：間距、可讀性、回頂端按鈕（2026-10-03） ---------- */
+  @media (max-width: 860px) {
+    .phone-strip { padding: 16px 0 22px; }
+  }
+  @media (max-width: 720px) {
+    :root { --text-muted: #5B6769; }
+    section { padding: 60px 0; }
+    section[id] { scroll-margin-top: 24px; }
+    #about { scroll-margin-top: 56px; }
+    .about { padding-top: 30px; }
+    .hero { padding: 110px 0 44px; }
+    .wave-divider { height: 44px; }
+    .wave-divider.hero-wave { height: 112px; }
+    .section-head { margin-bottom: 36px; }
+    .block-gap { margin-top: 48px; }
+    .spec-block { margin-top: 44px; }
+    .challenge, .issue-grid { margin-top: 28px; }
+    .mini-head { margin-top: 44px; }
+    .case-back-wrap { margin-top: 36px; }
+    .contact { padding: 96px 0 72px; }
+    .contact-wave { height: 104px; }
+    footer { padding: 22px 0 calc(78px + env(safe-area-inset-bottom)); font-size: 0.875rem; }
+    .spec-note, .showcase-hint, .flow-note, .mock-title, .phone-caption, .challenge-phones .phone-caption, .lightbox-caption, .contact-note { font-size: 0.875rem; }
+    .spec-note { color: var(--text-body); }
+    .case-tag, .sum-result .sum-label { color: #C9D9D6; }
+    .about-text p, .exp-list li, .case-body .case-problem, .sum-item p, .challenge-text > p, .challenge-list li, .spec-table td, .spec-summary,
+    .issue-q, .issue-a, .mini-card p, .flow-rules li, .side-list li, .side-main .side-lede { font-size: 1rem; line-height: 1.7; }
+    .back-to-top { width: 44px; height: 44px; right: calc(12px + env(safe-area-inset-right)); bottom: calc(14px + env(safe-area-inset-bottom)); }
+    .lightbox-close { top: calc(14px + env(safe-area-inset-top)); right: calc(14px + env(safe-area-inset-right)); width: 48px; height: 48px; }
   }
 </style>
 </head>
@@ -713,7 +771,7 @@
     </div>
   </div></section>
 
-<div class="wave-divider" style="background:#EEF3F2;height:150px;"><div style="position:absolute;left:-110px;top:-210px;width:360px;height:360px;border-radius:50%;background:#8FA8A4;opacity:.31;filter:blur(70px);pointer-events:none;"></div><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,85 C300,85 420,8 720,8 C1020,8 1140,85 1440,85 L1440,100 L0,100 Z" fill="#ffffff"></path></svg></div>
+<div class="wave-divider hero-wave" style="background:#EEF3F2;"><div style="position:absolute;left:-110px;top:-210px;width:360px;height:360px;border-radius:50%;background:#8FA8A4;opacity:.31;filter:blur(70px);pointer-events:none;"></div><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,85 C300,85 420,8 720,8 C1020,8 1140,85 1440,85 L1440,100 L0,100 Z" fill="#ffffff"></path></svg></div>
 
 <section class="about" id="about">
   <div class="container">
@@ -771,7 +829,7 @@
             <h4>規格與技術</h4>
             <div class="tool-icons">
               <div class="tool-icon"><span class="tool-monogram">API</span><span class="tool-name">API 規格</span></div>
-              <div class="tool-icon"><span class="tool-monogram">F/B</span><span class="tool-name">前後端分工</span></div>
+              <div class="tool-icon"><span class="tool-monogram" style="font-size:0.58rem;letter-spacing:-0.02em;">FE/BE</span><span class="tool-name">前後端協作</span></div>
               <div class="tool-icon"><span class="tool-monogram">SQL</span><span class="tool-name">SQL</span></div>
             </div>
           </div>
@@ -809,7 +867,7 @@
           <li><strong>AI 運用</strong>分析客戶需求、拆解工項，並產出企劃文件與測試腳本；維運問題先用 AI 分析可能原因，整理成工程師能直接處理的說明。會議錄音錄影自動整理成會議記錄，整理時間減少一半以上；專案文件建成查詢庫，確認規格時能快速找到依據；每日彙整 Slack 與信件中的專案進度與待追蹤事項。</li>
           <li><strong>結案／資產移交</strong>負責專案結案及終止作業，包含費用結算、法務協調及程式碼、API 規格、資料庫 Schema 等技術資產移交。</li>
         </ul>
-        <div class="exp-projects"><strong>代表專案</strong>雄獅旅遊大團 APP、集章活動系列（全家、家樂福、天成飯店）、蘭瑞診所 APP、台積電福委會：交流專區／禮品網、PayEasy APP、采盟 APP</div>
+        <div class="exp-projects"><strong>代表專案</strong>雄獅旅遊大團 APP、集章活動系列（全家、家樂福（萬家福）、天成飯店）、蘭瑞診所 APP、大型半導體企業福委會平台、PayEasy APP、采盟 APP</div>
       </div>
       <div class="exp-card reveal">
         <div class="exp-top">
@@ -874,13 +932,13 @@
       <a class="case-card reveal" href="#case-stamps">
         <div class="case-cover case-cover-phones">
           <div class="mini-phone"><img decoding="async" src="img/tc_event.jpg" alt=""></div>
-          <div class="mini-phone mid"><img decoding="async" src="img/cf_stamp.jpg" alt="集章活動畫面：天成活動頁、家樂福集點頁、家樂福兌換商品"></div>
+          <div class="mini-phone mid"><img decoding="async" src="img/cf_stamp.jpg" alt="集章活動畫面：天成活動頁、家樂福（萬家福）集點頁、家樂福（萬家福）兌換商品"></div>
           <div class="mini-phone"><img decoding="async" src="img/cf_product.jpg" alt=""></div>
         </div>
         <div class="case-body">
           <div class="case-tag">會員活動模組</div>
           <h3>集章活動系列</h3>
-          <p class="case-problem">全家「集章趣」、家樂福「貼貼樂」、天成飯店「鐵粉回饋」。同一套會員集章模組，從便利商店延伸到量販店與飯店。</p>
+          <p class="case-problem">全家「集章趣」、家樂福（萬家福）「貼貼樂」、天成飯店「鐵粉回饋」。同一套會員集章模組，從便利商店延伸到量販店與飯店。</p>
           <div class="case-chips"><span class="case-chip">3 個品牌</span><span class="case-chip">跨產業延伸</span><span class="case-chip">訂房系統串接</span></div>
           <span class="case-toggle">查看案例 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </div>
@@ -928,7 +986,7 @@
           <li><strong>設定餐廳｜</strong>依餐期設定桌型、桌數與座位數，可指定素食桌、主桌。</li>
           <li><strong>分派車次｜</strong>以車次為單位，同一車可分到不同桌；用＋／－分配座位，即時顯示剩餘、超量提醒。素食桌依該車素食人數分派，主桌同理。</li>
           <li><strong>領隊排座｜</strong>分派後推播通知領隊，依旅客名單排座：素食旅客入素食桌、主管入主桌。</li>
-          <li><strong>現場確認｜</strong>依車次查各桌名單帶位，依桌次查特殊飲食確認餐點。</li>
+          <li><strong>現場確認｜</strong>依車次查看旅客名單並安排帶位，依桌次確認特殊飲食與餐點。</li>
           <li><strong>隨時調整｜</strong>一般與自選行程車次都要分派；餐食或行程變更後可重新分派。</li>
         </ul>
       </div>
@@ -1026,6 +1084,7 @@
         <li>專案代碼不可重複；工作人員可從名單搜尋勾選，指派到各出團。</li>
       </ul>
     </div>
+    <div class="case-back-wrap"><a class="case-back" href="#portfolio" data-card="#case-lion">回到案例列表<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg></a></div>
   </div>
 </section>
 
@@ -1040,19 +1099,19 @@
     <div class="case-summary reveal">
       <div class="sum-item"><span class="sum-label">專案｜Project</span><p>會員集章／集點活動模組。最早為全家「集章趣」企劃上線，之後延伸到家樂福（萬家福）「貼貼樂」與天成飯店「鐵粉回饋」。</p></div>
       <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>品牌想提高會員忠誠度與回訪：把每次消費或住宿變成看得見的進度，集滿就能兌換。</p></div>
-      <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>三個品牌都由我協助評估需求、取得案子，再負責企劃並推動上線。</p></div>
+      <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>三個品牌皆由我協助前期需求評估與提案，並負責功能企劃及上線推進。</p></div>
       <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>同一套模組在便利商店、量販店與飯店三個產業上線。</p></div>
     </div>
 
     <div class="spec-block reveal">
       <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">同一套模組，依產業調整資料來源與兌換方式</span></div>
       <table class="spec-table spec-compare">
-        <thead><tr><th>項目</th><th>全家「集章趣」／家樂福「貼貼樂」</th><th>天成「鐵粉回饋」</th></tr></thead>
+        <thead><tr><th>項目</th><th>全家「集章趣」／家樂福（萬家福）「貼貼樂」</th><th>天成「鐵粉回饋」</th></tr></thead>
         <tbody>
-          <tr><td data-label="項目"><strong>集章資料來源</strong></td><td data-label="全家／家樂福">門市 POS 批次傳入消費資料；斷線等異常時稍後重傳</td><td data-label="天成">訂房系統傳入住宿紀錄，多晚住宿拆成每晚一筆</td></tr>
-          <tr><td data-label="項目"><strong>集章計算</strong></td><td data-label="全家／家樂福">集章系統依傳入的消費資料計算章數</td><td data-label="天成">每天早上排程計算，並確認在專案期間內、獎項還沒送完</td></tr>
-          <tr><td data-label="項目"><strong>兌換方式</strong></td><td data-label="全家／家樂福">消費者自行兌換：集滿免費兌換，或章數／點數＋加價購</td><td data-label="天成">達標後通知天成 APP 自動發券</td></tr>
-          <tr><td data-label="項目"><strong>特殊規則</strong></td><td data-label="家樂福">家樂福的貼紙可以轉贈</td><td data-label="天成">改期或取消要重新計算；已發券時通知飯店收回優惠券</td></tr>
+          <tr><td data-label="項目"><strong>集章資料來源</strong></td><td data-label="全家／家樂福（萬家福）">門市 POS 批次傳入消費資料；斷線等異常時稍後重傳</td><td data-label="天成">訂房系統傳入住宿紀錄，多晚住宿拆成每晚一筆</td></tr>
+          <tr><td data-label="項目"><strong>集章計算</strong></td><td data-label="全家／家樂福（萬家福）">集章系統依傳入的消費資料計算章數</td><td data-label="天成">每天早上排程計算，並確認在專案期間內、獎項還沒送完</td></tr>
+          <tr><td data-label="項目"><strong>兌換方式</strong></td><td data-label="全家／家樂福（萬家福）">消費者自行兌換：集滿免費兌換，或章數／點數＋加價購</td><td data-label="天成">達標後通知天成 APP 自動發券</td></tr>
+          <tr><td data-label="項目"><strong>特殊規則</strong></td><td data-label="家樂福（萬家福）">家樂福（萬家福）的貼紙可以轉贈</td><td data-label="天成">改期或取消要重新計算；已發券時通知飯店收回優惠券</td></tr>
         </tbody>
       </table>
     </div>
@@ -1071,18 +1130,18 @@
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp.jpg" alt="家樂福貼貼樂 集點頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>家樂福版本：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp.jpg" alt="家樂福（萬家福）貼貼樂 集點頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>家樂福（萬家福）版本：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">家樂福：集點頁</span>
+        <span class="phone-caption">家樂福（萬家福）：集點頁</span>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/cf_product.jpg" alt="家樂福貼貼樂 兌換商品"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>同一個商品可以設定多種兌換組合，例如「點數＋加價購」或全額點數兌換。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_product.jpg" alt="家樂福（萬家福）貼貼樂 兌換商品"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>同一個商品可以設定多種兌換組合，例如「點數＋加價購」或全額點數兌換。</p></div></div>
           </div>
         </div>
-        <span class="phone-caption">家樂福：兌換商品</span>
+        <span class="phone-caption">家樂福（萬家福）：兌換商品</span>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
@@ -1111,6 +1170,7 @@
         <li>改期或取消會留下修改、刪除紀錄，可以匯出 Excel 對帳。</li>
       </ul>
     </div>
+    <div class="case-back-wrap"><a class="case-back" href="#portfolio" data-card="#case-stamps">回到案例列表<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg></a></div>
   </div>
 </section>
 
@@ -1126,43 +1186,42 @@
       <div class="sum-item"><span class="sum-label">專案｜Project</span><p>麗彤集團旗下抗老診所的會員 APP 與後台，提供線上預約、療程介紹、健康秘書與推播。</p></div>
       <div class="sum-item"><span class="sum-label">挑戰｜Challenge</span><p>預約和健康量測都要串接外部系統，但文件不完整；血壓量測功能又讓 APP 審查多次退件。</p></div>
       <div class="sum-item"><span class="sum-label">角色｜My Role</span><p>專案唯一 PM，負責企劃、規格與測試。同集團的電商網站與醫美門店 APP 也由我企劃。</p></div>
-      <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>通過 Apple 審查並完成上架（目前已下架）。</p></div>
+      <div class="sum-item sum-result"><span class="sum-label">成果｜Outcome</span><p>撰寫 APP 操作說明、向血壓計廠商取得證明文件並加上免責聲明補件，通過 Apple 審查並完成上架（目前已下架）。</p></div>
     </div>
 
-    <div class="issue-grid">
+    <div class="issue-grid cols-2">
       <div class="issue-card reveal">
         <span class="issue-num">01</span>
-        <h4>串接「領健」預約系統</h4>
-        <p class="issue-q">預約要串接診所使用的領健系統，但客戶只提供 Swagger 文件。</p>
-        <p class="issue-a"><b>我的做法</b>自己讀 API 文件，實際呼叫 API 驗證欄位和回傳資料，再逐欄寫進規格：哪個畫面用哪支 API、領健沒有資料時怎麼顯示。</p>
+        <h4>預約系統 API（領健）</h4>
+        <p class="issue-q"><b>問題</b>預約要串接診所使用的「領健」系統，客戶只提供 Swagger 文件。</p>
+        <p class="issue-a"><b>我的做法</b>閱讀 API 文件並實際呼叫測試，確認欄位與回傳資料，再整理成畫面與串接規格，包含查無資料時的處理。</p>
       </div>
       <div class="issue-card reveal">
         <span class="issue-num">02</span>
-        <h4>串接量測儀器 SDK</h4>
-        <p class="issue-q">健康秘書要顯示血壓與情緒壓力指數，資料來自量測儀器。</p>
-        <p class="issue-a"><b>我的做法</b>規劃量測流程與結果頁，把 SDK 回傳的各項指標對應到畫面，並定義數值區間和紅、橘、綠燈的呈現方式。</p>
-      </div>
-      <div class="issue-card reveal">
-        <span class="issue-num">03</span>
-        <h4>Apple 審查多次退件</h4>
-        <p class="issue-q">Apple 把血壓量測視為醫療器材相關功能，審查多次退件。</p>
-        <p class="issue-a"><b>我的做法</b>撰寫 APP 操作說明，並向血壓計廠商取得證明文件，連同免責聲明一起補件，最後通過審查。</p>
+        <h4>量測儀器 SDK</h4>
+        <p class="issue-q"><b>問題</b>健康秘書要顯示血壓與情緒壓力指數，資料來自量測儀器的 SDK。</p>
+        <p class="issue-a"><b>我的做法</b>整理量測流程與 SDK 回傳的各項指標，對應到結果頁，並定義數值區間及紅、橘、綠燈的呈現方式。</p>
       </div>
     </div>
 
     <div class="spec-block reveal">
       <div class="flow-head"><span class="flow-label">規格案例</span><span class="flow-note">立即預約：欄位、資料來源與例外處理</span></div>
+      <p class="spec-summary">整合診所的排班與預約資料，依就診類型、診間與人員篩選可預約的日期及時段，並定義未指定人員、查無所選醫師、時段已被預約等例外處理。</p>
+      <button type="button" class="spec-toggle" aria-expanded="false" aria-controls="lanrui-spec" data-open="收合預約規格" data-closed="查看預約規格範例"><span>查看預約規格範例</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+      <div class="spec-collapse" id="lanrui-spec">
       <table class="spec-table">
         <thead><tr><th>欄位</th><th>資料來源</th><th>規則</th><th>查無資料時</th></tr></thead>
         <tbody>
           <tr><td data-label="欄位"><strong>就診類型</strong></td><td data-label="資料來源">固定選項</td><td data-label="規則">諮詢（預設）或美療。</td><td data-label="查無資料時">—</td></tr>
           <tr><td data-label="欄位"><strong>診間</strong></td><td data-label="資料來源">診所系統</td><td data-label="規則">列出該診所的治療房間與手術房間。</td><td data-label="查無資料時">—</td></tr>
-          <tr><td data-label="欄位"><strong>人員</strong></td><td data-label="資料來源">診所系統的排班</td><td data-label="規則">諮詢列出醫師，美療列出美容師；預設帶入前一頁選的醫師。</td><td data-label="查無資料時">查無該醫師時改為「不指定」。</td></tr>
-          <tr><td data-label="欄位"><strong>日期</strong></td><td data-label="資料來源">診所系統的預約資料</td><td data-label="規則">列出所選人員有排班的日期，沒有排班的日期反灰；可預約兩個月內的日期。</td><td data-label="查無資料時">沒有指定人員時列出所有日期。</td></tr>
+          <tr><td data-label="欄位"><strong>人員</strong></td><td data-label="資料來源">診所系統的排班</td><td data-label="規則">諮詢列出醫師，美療列出美容師；預設帶入前一頁選的醫師。</td><td data-label="查無資料時">查無所選醫師時，改為「不指定」。</td></tr>
+          <tr><td data-label="欄位"><strong>日期</strong></td><td data-label="資料來源">診所系統的預約資料</td><td data-label="規則">列出所選人員有排班的日期，沒有排班的日期反灰；可預約兩個月內的日期。</td><td data-label="查無資料時">未指定人員時，顯示可預約範圍內的所有日期。</td></tr>
           <tr><td data-label="欄位"><strong>時段</strong></td><td data-label="資料來源">診所系統的班表</td><td data-label="規則">醫師依診間設定的時間為單位，美容師依後台設定的療程時間為單位。</td><td data-label="查無資料時">沒有可預約時段時，提示改選其他日期。</td></tr>
           <tr><td data-label="欄位"><strong>送出預約</strong></td><td data-label="資料來源">—</td><td data-label="規則">寫入前再確認一次所選時段是否已被預約。</td><td data-label="查無資料時">已被預約時提示重新選擇。</td></tr>
         </tbody>
       </table>
+      <button type="button" class="spec-close" data-for="lanrui-spec">收合預約規格</button>
+      </div>
     </div>
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
@@ -1171,7 +1230,7 @@
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/lr_booking.jpg" alt="蘭瑞診所 APP 立即預約"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>預約欄位依序向診所系統取得診間、人員排班與可預約時段。綠框是規格標註：人員預設帶入前一頁的醫師，查無該醫師時改為「不指定」。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_booking.jpg" alt="蘭瑞診所 APP 立即預約"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>預約欄位依序向診所系統取得診間、人員排班與可預約時段。綠框是規格標註：人員預設帶入前一頁的醫師，查無所選醫師時，改為「不指定」。</p></div></div>
           </div>
         </div>
         <span class="phone-caption">立即預約</span>
@@ -1194,6 +1253,7 @@
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
+    <div class="case-back-wrap"><a class="case-back" href="#portfolio" data-card="#case-lanrui">回到案例列表<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg></a></div>
   </div>
 </section>
 
@@ -1321,7 +1381,7 @@
     <div class="mini-grid">
       <div class="mini-card reveal">
         <div class="case-tag">企業網站</div>
-        <h4>台積電福委會：交流專區／禮品網</h4>
+        <h4>大型半導體企業福委會平台</h4>
         <div class="mini-role"><span class="mini-label">負責工作</span><p>負責總 PM 工作：專案時程追蹤、統整各開發單位的問題與進度、安排會議並追蹤待辦事項。</p></div>
       </div>
       <div class="mini-card reveal">
@@ -1443,8 +1503,14 @@
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); } });
-    }, { threshold: 0.12 });
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        // 輪播裡的手機一起出現，避免滑到下一張時還在淡入
+        const group = entry.target.classList.contains('phone-item') && entry.target.parentElement.classList.contains('phone-strip')
+          ? entry.target.parentElement.querySelectorAll('.phone-item.reveal') : [entry.target];
+        group.forEach(el => { el.classList.add('in-view'); observer.unobserve(el); });
+      });
+    }, { threshold: 0.05 });
     revealEls.forEach(el => observer.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in-view'));
@@ -1453,7 +1519,16 @@
   // Back to top
   const backToTop = document.getElementById('backToTop');
   if (backToTop) {
-    const toggleBTT = () => backToTop.classList.toggle('visible', window.scrollY > 400);
+    // 手機版：往下讀時隱藏，避免蓋住文字；往上捲或接近頁尾時才出現
+    const bttMobile = window.matchMedia('(max-width: 720px)');
+    let lastY = window.scrollY, goingUp = false;
+    const toggleBTT = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - lastY) > 6) { goingUp = y < lastY; lastY = y; }
+      const nearBottom = window.innerHeight + y >= document.documentElement.scrollHeight - 160;
+      const show = y > 400 && (!bttMobile.matches || goingUp || nearBottom);
+      backToTop.classList.toggle('visible', show);
+    };
     window.addEventListener('scroll', toggleBTT, { passive: true });
     toggleBTT();
     backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
@@ -1465,7 +1540,11 @@
     const lbImg = lightbox.querySelector('.lightbox-img-wrap img');
     const lbWrap = lightbox.querySelector('.lightbox-img-wrap');
     const lbCap = lightbox.querySelector('.lightbox-caption');
+    let lbScrollY = 0;
     const openLightbox = (src, title, wide) => {
+      lbScrollY = window.scrollY;
+      window.__lbOpen = true;
+      window.dispatchEvent(new Event('lightbox:open'));
       lbImg.src = src;
       lbCap.textContent = title ? (title + ' · 點擊任意處關閉') : '點擊任意處關閉';
       lightbox.classList.toggle('wide', !!wide);
@@ -1478,6 +1557,10 @@
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      window.__lbOpen = false;
+      window.dispatchEvent(new Event('lightbox:close'));
+      // 關閉後回到原本的閱讀位置
+      if (Math.abs(window.scrollY - lbScrollY) > 2) window.scrollTo({ top: lbScrollY, behavior: 'instant' });
     };
     document.querySelectorAll('.phone-item').forEach(item => {
       const frame = item.querySelector('.phone-frame');
@@ -1572,6 +1655,7 @@
     function goTo(i) { animateTo(i * strip.clientWidth); setActive(i); }
     function jumpTo(i) { if (anim) cancelAnimationFrame(anim); strip.scrollLeft = i * strip.clientWidth; setActive(i); }
     function next() {
+      if (window.__lbOpen) { scheduleNext(); return; }
       const nextIdx = (current + 1) % items.length;
       if (nextIdx === 0 && current !== 0) jumpTo(0); else goTo(nextIdx);
       scheduleNext();
@@ -1590,10 +1674,50 @@
     strip.addEventListener('touchstart', stop, { passive: true });
     strip.addEventListener('touchend', () => setTimeout(start, 800), { passive: true });
     strip.addEventListener('mouseenter', stop);
+    window.addEventListener('lightbox:open', stop);
+    window.addEventListener('lightbox:close', start);
     strip.addEventListener('mouseleave', start);
     const onMqChange = () => { setActive(0); strip.scrollTo({ left: 0 }); start(); };
     if (mq.addEventListener) mq.addEventListener('change', onMqChange); else mq.addListener(onMqChange);
     start();
+  });
+
+
+  // 蘭瑞：預約規格表收合（獨立於案例本身）
+  document.querySelectorAll('.spec-toggle').forEach(btn => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+    const label = btn.querySelector('span');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('open', open);
+      label.textContent = open ? btn.dataset.open : btn.dataset.closed;
+      if (!open) {
+        const top = btn.getBoundingClientRect().top;
+        if (top < 80 || top > window.innerHeight - 60) btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    });
+  });
+
+  // 表格底部的「收合預約規格」：觸發上方按鈕，收合後捲回上方按鈕
+  document.querySelectorAll('.spec-close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const toggle = document.querySelector('.spec-toggle[aria-controls="' + btn.dataset.for + '"]');
+      if (toggle && toggle.getAttribute('aria-expanded') === 'true') toggle.click();
+    });
+  });
+
+  // 案例底部「回到案例列表」：捲回對應的案例卡片
+  document.querySelectorAll('.case-back').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const card = document.querySelector('.case-card[href="' + link.dataset.card + '"]');
+      if (!card) return;
+      e.preventDefault();
+      card.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
   });
 
   // 貓頭滑鼠游標
