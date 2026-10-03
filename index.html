@@ -152,6 +152,7 @@
   .section-title { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 16px; }
   .section-head { max-width: 620px; margin-bottom: 56px; }
   .section-head p { color: var(--text-body); font-size: 1.05rem; }
+  .step-flow span { white-space: nowrap; }  /* 流程句只在箭頭處換行 */
   .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .js .reveal.in-view { opacity: 1; transform: translateY(0); }
 
@@ -562,6 +563,13 @@
   .wave-divider.hero-wave { height: 150px; }
   .wave-divider svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
   .wave-divider path { filter: blur(0.5px); }
+  /* 桌面版段落交界留白（2026-10-04）：區塊上下留白與波浪高度一起縮小，首頁主視覺與手機版不動 */
+  @media (min-width: 721px) {
+    section { padding: 72px 0; }
+    .wave-divider { height: 84px; }
+    /* AI 協作開發的流程句約 646px，放寬讓它一行顯示，避免「具。」單獨換行 */
+    #side-project .section-head { max-width: 700px; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .landing-dot, .contact-status .dot { animation: none; }
@@ -1244,7 +1252,7 @@
     <div class="section-head reveal">
       <div class="section-tag">Side Project</div>
       <h2 class="section-title">AI 協作開發</h2>
-      <p>發現生活需求 → 定義產品 → 規劃功能 → AI 協作開發 → 完成可實際使用的 Web 工具。</p>
+      <p class="step-flow"><span>發現生活需求</span> → <span>定義產品</span> → <span>規劃功能</span> → <span>AI 協作開發</span> → <span>完成可實際使用的 Web 工具。</span></p>
     </div>
     <div class="side-card reveal">
       <div class="side-main">
