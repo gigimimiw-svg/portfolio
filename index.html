@@ -245,6 +245,21 @@
   .mini-role { margin-top: 6px; padding-top: 10px; border-top: 1px dashed var(--border); }
   .mini-label { display: block; margin-bottom: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; color: var(--accent-dark); }
 
+  /* 時光守護者入口卡（作品集三張案例下方） */
+  .side-entry { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px 40px; padding: 26px 32px;
+    background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .side-entry-text { min-width: 0; }
+  .side-entry-tag { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; color: var(--accent-dark); margin-bottom: 6px; }
+  .side-entry h3 { font-size: 1.35rem; line-height: 1.3; margin-bottom: 6px; }
+  .side-entry p { font-size: 0.95rem; line-height: 1.65; color: var(--text-body); }
+  .side-entry-actions { display: flex; flex-wrap: wrap; gap: 12px; flex: none; }
+  .side-entry .btn { padding: 12px 22px; font-size: 0.92rem; }
+  .side-entry .btn svg { width: 16px; height: 16px; flex: none; }
+  @media (max-width: 860px) {
+    .side-entry { flex-direction: column; align-items: flex-start; padding: 24px 22px; }
+    .side-entry-actions { flex: initial; }
+  }
+
   /* ---------- Side project ---------- */
   .side-card { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); border-radius: var(--radius); overflow: hidden; background: var(--white); border: 1px solid var(--border); box-shadow: var(--shadow); }
   .side-main { background: linear-gradient(165deg, #3E5454 0%, #344444 100%); padding: 34px 32px; display: flex; flex-direction: column; gap: 14px; }
@@ -315,13 +330,9 @@
     opacity: 0; transform: scale(0.8); transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none;
   }
   .phone-item:hover .phone-zoom-icon { opacity: 1; transform: scale(1); }
-  .phone-anno {
-    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 44px 18px 18px;
-    background: linear-gradient(to top, rgba(11, 13, 16, 0.66) 0%, rgba(11, 13, 16, 0.46) 45%, rgba(11, 13, 16, 0.14) 78%, rgba(11, 13, 16, 0) 100%);
-    transform: translateY(101%); opacity: 0; transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease; pointer-events: none;
-  }
-  .phone-item:hover .phone-anno { transform: translateY(0); opacity: 1; }
-  .phone-anno p { font-size: 0.82rem; line-height: 1.55; color: #fff; margin: 0; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+  /* 圖片說明：所有截圖的說明一律放在圖片下方的淺色說明框，不疊在畫面上 */
+  .phone-desc { align-self: stretch; contain: inline-size; margin: 0; padding: 12px 14px; background: rgba(255, 255, 255, 0.72); border: 1px solid var(--border); border-radius: 14px;
+    font-size: 0.9rem; line-height: 1.65; color: var(--text-body); text-align: left; }
 
   /* Lightbox */
   .lightbox {
@@ -393,6 +404,15 @@
     .challenge-phones .phone-frame::before { top: 11px; width: 40px; height: 12px; }
     .challenge-phones .phone-screen { border-radius: 18px; }
     .challenge-phones .phone-caption { font-size: 0.8rem; text-align: center; }
+    /* 兩支手機並排太窄，說明改成手機下方各一整列，前面加上畫面名稱 */
+    .challenge-phones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 12px; }
+    .challenge-phones .phone-item { display: contents; }
+    .challenge-phones .phone-with-anno { grid-row: 1; }
+    .challenge-phones .phone-caption { grid-row: 2; justify-self: center; }
+    .challenge-phones .phone-item:nth-child(1) > * { grid-column: 1; }
+    .challenge-phones .phone-item:nth-child(2) > * { grid-column: 2; }
+    .challenge-phones .phone-item > .phone-desc { grid-column: 1 / -1; }
+    .challenge-phones .phone-desc::before { content: attr(data-label) "｜"; font-weight: 700; color: var(--text-dark); }
   }
 
   /* ---------- 蘭瑞：三個關卡 ---------- */
@@ -569,6 +589,7 @@
     .wave-divider { height: 84px; }
     /* AI 協作開發的流程句約 646px，放寬讓它一行顯示，避免「具。」單獨換行 */
     #side-project .section-head { max-width: 700px; }
+    section[id] { scroll-margin-top: 24px; }  /* 導覽列高約 58px，跳到區塊時標籤留 38px 距離 */
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -634,6 +655,7 @@
   /* ---------- 手機版：間距、可讀性、回頂端按鈕（2026-10-03） ---------- */
   @media (max-width: 860px) {
     .phone-strip { padding: 16px 0 22px; }
+    .phone-strip .phone-desc { align-self: center; width: min(100%, 320px); }
   }
   @media (max-width: 720px) {
     :root { --text-muted: #5B6769; }
@@ -658,6 +680,7 @@
     footer { padding: 22px 0 calc(78px + env(safe-area-inset-bottom)); font-size: 0.875rem; }
     .spec-note, .showcase-hint, .flow-note, .mock-title, .phone-caption, .challenge-phones .phone-caption, .lightbox-caption, .contact-note { font-size: 0.875rem; }
     .spec-note { color: var(--text-body); }
+    .phone-desc { font-size: 0.875rem; line-height: 1.7; }
     .case-tag, .sum-result .sum-label { color: #C9D9D6; }
     .about-text p, .exp-list li, .case-body .case-problem, .sum-item p, .challenge-text > p, .challenge-list li, .spec-table td,
     .issue-q, .issue-a, .mini-card p, .flow-rules li, .side-list li, .side-main .side-lede { font-size: 1rem; line-height: 1.7; }
@@ -867,7 +890,7 @@
           <li><strong>測試與驗收</strong>負責測試規劃、測試腳本撰寫與實際驗測，追蹤問題修正及驗收結果。</li>
           <li><strong>上線</strong>統籌 iOS／Android APP 上架時程與發布排程，完成驗收與專案交付。</li>
           <li><strong>維運</strong>負責產品上線後維運管理，包含需求派工、工程資源協調、工時追蹤及開發工時結算。</li>
-          <li><strong>AI 運用</strong>分析客戶需求、拆解工項，並產出企劃文件與測試腳本；維運問題先用 AI 分析可能原因，整理成工程師能直接處理的說明。會議錄音錄影自動整理成會議記錄，整理時間減少一半以上；專案文件建成查詢庫，確認規格時能快速找到依據；每日彙整 Slack 與信件中的專案進度與待追蹤事項。</li>
+          <li><strong>AI 運用</strong>以 AI 協助需求分析、工項拆解及企劃與測試腳本初稿整理；維運時彙整問題與可能原因，供工程團隊確認與處理。</li>
           <li><strong>結案／資產移交</strong>負責專案結案及終止作業，包含費用結算、法務協調及程式碼、API 規格、資料庫 Schema 等技術資產移交。</li>
         </ul>
         <div class="exp-projects"><strong>代表專案</strong>雄獅旅遊大團 APP、集章活動系列（全家、家樂福（萬家福）、天成飯店）、蘭瑞診所 APP、大型半導體企業福委會平台、PayEasy APP、采盟 APP</div>
@@ -913,7 +936,7 @@
     <div class="section-head reveal">
       <div class="section-tag">Portfolio</div>
       <h2 class="section-title">作品集</h2>
-      <p>三個主要案例。點擊卡片可以看專案摘要、最難的設計和實際畫面；其他專案與 Side Project 接在三個案例後面。</p>
+      <p>三個主要專案案例，呈現需求分析、系統規格與上線經驗；另有可線上試用的 AI 協作作品。</p>
     </div>
     <div class="case-grid">
 
@@ -962,6 +985,17 @@
         </div>
       </a>
     </div>
+    <div class="side-entry reveal">
+      <div class="side-entry-text">
+        <div class="side-entry-tag">AI 協作作品／Side Project</div>
+        <h3>時光守護者</h3>
+        <p>從生活需求出發，自行規劃並透過 AI 協作完成的效期管理工具。</p>
+      </div>
+      <div class="side-entry-actions">
+        <a class="btn btn-primary" href="#side-project">查看製作過程</a>
+        <a class="btn btn-outline" href="timekeeper/?user=g8r2n9d1" target="_blank" rel="noopener">線上試用<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><polyline points="8 7 17 7 17 16"></polyline></svg></a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -997,18 +1031,20 @@
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatone.jpg" alt="雄獅大團 APP 單一車次逐桌分派"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>工作人員為單一車次分配座位：依桌型切換，用＋／－調整這台車在每桌分到的座位數，即時顯示剩餘座位；超過上限會提醒，「清空設定」可以重新分派。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_seatone.jpg" alt="雄獅大團 APP 單一車次逐桌分派"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">單一車次逐桌分派</span>
+          <p class="phone-desc" data-label="單一車次逐桌分派">工作人員為單一車次分配座位：依桌型切換，用＋／－調整這台車在每桌分到的座位數，即時顯示剩餘座位；超過上限會提醒，「清空設定」可以重新分派。</p>
         </div>
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/ls_mealstat.jpg" alt="雄獅大團 APP 餐期詳情：每桌餐食統計"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>領隊排好座位後，工作人員可依桌次查看特殊飲食統計，展開後列出每位旅客的車次、座號與忌口，方便現場確認餐點。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/ls_mealstat.jpg" alt="雄獅大團 APP 餐期詳情：每桌餐食統計"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">每桌餐食統計</span>
+          <p class="phone-desc" data-label="每桌餐食統計">領隊排好座位後，工作人員可依桌次查看特殊飲食統計，展開後列出每位旅客的車次、座號與忌口，方便現場確認餐點。</p>
         </div>
       </div>
     </div>
@@ -1027,31 +1063,34 @@
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
     <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">同一個主頁，依身分顯示不同內容</span></div>
-    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <span class="showcase-hint"><span aria-hidden="true">🔍</span><span>點擊圖片可放大查看</span></span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_staff.jpg" alt="雄獅大團 APP 主頁（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>看全團的應到／未到人數，可切換全團所有梯次；只有工作人員能編輯行程、查看行程版本。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_staff.jpg" alt="雄獅大團 APP 主頁（工作人員）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">主頁（工作人員）</span>
+        <p class="phone-desc">看全團的應到／未到人數，可切換全團所有梯次；只有工作人員能編輯行程、查看行程版本。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_leader.jpg" alt="雄獅大團 APP 主頁（領隊）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>只看自己負責車次的人數，可切換所負責的梯次；多了「發佈給全車旅客」按鈕。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_leader.jpg" alt="雄獅大團 APP 主頁（領隊）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">主頁（領隊）</span>
+        <p class="phone-desc">只看自己負責車次的人數，可切換所負責的梯次；多了「發佈給全車旅客」按鈕。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_traveler.jpg" alt="雄獅大團 APP 主頁（旅客）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>看不到人數統計，只顯示自己的車次與參加梯次的行程。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/ls_role_traveler.jpg" alt="雄獅大團 APP 主頁（旅客）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">主頁（旅客）</span>
+        <p class="phone-desc">看不到人數統計，只顯示自己的車次與參加梯次的行程。</p>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
@@ -1112,31 +1151,34 @@
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
     <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">活動首頁：全家為目前線上畫面，天成與家樂福（萬家福）為企劃畫面</span></div>
-    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <span class="showcase-hint"><span aria-hidden="true">🔍</span><span>點擊圖片可放大查看</span></span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/fm_event.jpg" alt="全家 APP 集章趣活動首頁（目前線上畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>目前線上畫面：活動首頁顯示活動截止天數、結束日與目前章數，下方是章數格與集章贈品，集滿可以免費兌換或加價購。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/fm_event.jpg" alt="全家 APP 集章趣活動首頁（目前線上畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">全家：活動首頁</span>
+        <p class="phone-desc">目前線上畫面：活動首頁顯示活動截止天數、結束日與目前章數，下方是章數格與集章贈品，集滿可以免費兌換或加價購。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/tc_event.jpg" alt="天成飯店 APP 鐵粉回饋活動首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>企劃畫面：顯示持有貼紙、專案日期、活動說明與贈品獎項。住宿紀錄由訂房系統傳入後自動累計，每天早上排程判斷是否達標，達標後通知 APP 發券。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/tc_event.jpg" alt="天成飯店 APP 鐵粉回饋活動首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">天成：活動首頁</span>
+        <p class="phone-desc">企劃畫面：顯示持有貼紙、專案日期、活動說明與贈品獎項。住宿紀錄由訂房系統傳入後自動累計，每天早上排程判斷是否達標，達標後通知 APP 發券。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp_pad.jpg" alt="家樂福（萬家福）貼貼樂活動首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>企劃畫面：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數，下方列出可兌換的商品與「點數＋加價購」組合；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/cf_stamp_pad.jpg" alt="家樂福（萬家福）貼貼樂活動首頁（企劃畫面）"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">家樂福（萬家福）：活動首頁</span>
+        <p class="phone-desc">企劃畫面：上方顯示活動與兌換的剩餘天數，貼紙格呈現已收集的張數，下方列出可兌換的商品與「點數＋加價購」組合；後台開啟轉贈功能時才會出現「轉贈」按鈕。</p>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
@@ -1215,31 +1257,34 @@
     <p class="spec-note">本案例的規格與後台畫面為作品集展示用途重新整理，部分資訊經簡化及去識別化，非原始專案文件。</p>
 
     <div class="flow-head cb reveal"><span class="flow-label">APP 畫面</span><span class="flow-note">預約、健康秘書與量測紀錄</span></div>
-    <span class="showcase-hint">🔍 滑過手機查看規格重點，點擊手機螢幕可放大檢視</span>
+    <span class="showcase-hint"><span aria-hidden="true">🔍</span><span>點擊圖片可放大查看</span></span>
     <div class="phone-strip">
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/lr_booking.jpg" alt="蘭瑞診所 APP 立即預約"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>預約欄位依序向診所系統取得診間、人員排班與可預約時段。綠框是規格標註：人員預設帶入前一頁的醫師，查無所選醫師時，改為「不指定」。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_booking.jpg" alt="蘭瑞診所 APP 立即預約"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">立即預約</span>
+        <p class="phone-desc">預約欄位依序向診所系統取得診間、人員排班與可預約時段。綠框是規格標註：人員預設帶入前一頁的醫師，查無所選醫師時，改為「不指定」。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/lr_secretary.jpg" alt="蘭瑞診所 APP 健康秘書"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>健康秘書集中血壓與情緒壓力兩項量測，顯示最近一次結果；第一次使用可以先看儀器操作教學。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_secretary.jpg" alt="蘭瑞診所 APP 健康秘書"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">健康秘書</span>
+        <p class="phone-desc">健康秘書集中血壓與情緒壓力兩項量測，顯示最近一次結果；第一次使用可以先看儀器操作教學。</p>
       </div>
       <div class="phone-item reveal">
         <div class="phone-with-anno">
           <div class="phone-frame">
-            <div class="phone-screen fit"><img decoding="async" src="img/lr_bp.jpg" alt="蘭瑞診所 APP 血壓紀錄"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>血壓紀錄可切換天、週、月、3 個月，以圖表呈現收縮壓與舒張壓，下方列出歷史量測紀錄。</p></div></div>
+            <div class="phone-screen fit"><img decoding="async" src="img/lr_bp.jpg" alt="蘭瑞診所 APP 血壓紀錄"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
           </div>
         </div>
         <span class="phone-caption">血壓紀錄</span>
+        <p class="phone-desc">血壓紀錄可切換天、週、月、3 個月，以圖表呈現收縮壓與舒張壓，下方列出歷史量測紀錄。</p>
       </div>
     </div>
     <div class="phone-dots" aria-hidden="true"></div>
@@ -1301,34 +1346,38 @@
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/tk_home.jpg" alt="時光守護者 首頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>上方統計已過期、即將到期與安全的數量；可依類別篩選，每筆顯示到期日與剩餘天數，左滑即可編輯或刪除。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_home.jpg" alt="時光守護者 首頁"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">首頁</span>
+          <p class="phone-desc">上方統計已過期、即將到期與安全的數量；可依類別篩選，每筆顯示到期日與剩餘天數，左滑即可編輯或刪除。</p>
         </div>
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/tk_add.jpg" alt="時光守護者 新增品項"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>品名、類別、到期日、庫存數量與存放位置一次填完；類別和存放位置都能在設定頁自訂。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_add.jpg" alt="時光守護者 新增品項"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">新增品項</span>
+          <p class="phone-desc">品名、類別、到期日、庫存數量與存放位置一次填完；類別和存放位置都能在設定頁自訂。</p>
         </div>
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/tk_category.jpg" alt="時光守護者 類別管理"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>系統類別固定為使用中、食品、美妝、藥品；自訂類別可設定名稱、排序與代表色，並顯示各類別的品項數。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_category.jpg" alt="時光守護者 類別管理"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">類別管理</span>
+          <p class="phone-desc">系統類別固定為使用中、食品、美妝、藥品；自訂類別可設定名稱、排序與代表色，並顯示各類別的品項數。</p>
         </div>
         <div class="phone-item reveal">
           <div class="phone-with-anno">
             <div class="phone-frame">
-              <div class="phone-screen fit"><img decoding="async" src="img/tk_telegram.jpg" alt="時光守護者 Telegram 到期通知"><span class="phone-zoom-icon" aria-hidden="true">⤢</span><div class="phone-anno"><p>綁定 Telegram 後，系統每週一上午 9:00 自動檢查即將到期的物品並推播提醒；已綁定時可一鍵關閉或重新綁定。</p></div></div>
+              <div class="phone-screen fit"><img decoding="async" src="img/tk_telegram.jpg" alt="時光守護者 Telegram 到期通知"><span class="phone-zoom-icon" aria-hidden="true">⤢</span></div>
             </div>
           </div>
           <span class="phone-caption">Telegram 到期通知</span>
+          <p class="phone-desc">綁定 Telegram 後，系統每週一上午 9:00 自動檢查即將到期的物品並推播提醒；已綁定時可一鍵關閉或重新綁定。</p>
         </div>
       </div>
       <div class="phone-dots" aria-hidden="true"></div>
